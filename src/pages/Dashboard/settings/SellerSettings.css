@@ -1,0 +1,63 @@
+.seller-profile-card{
+display: grid;
+grid-template-columns: 0.1fr 1fr;
+}
+
+
+.seller-profile-pic img{
+	width: 100%;
+	height: auto;
+}
+.seller-setting-form{
+border: 1px solid rgb(16, 100, 164);
+margin: 30px 0;
+}
+.seller-setting-formgroup{
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-gap: 100px;
+
+}
+.form-group-right,.form-group-left{
+	padding:0 10px;
+}
+.seller-setting-form .form-group{
+	margin: 20px 0;
+}
+.seller-setting-form input{
+	padding: 0px 10px;
+	width: 100%;
+}
+.seller-seting-submit{
+	display: flex;
+
+}
+.seller-seting-submit button{
+	margin-right:20px;
+
+}
+.savechabnges-btn{
+	border: 1px solid rgb(25, 25, 85);
+	background: #fff;
+}
+.seller-seting-joindate{
+	display: flex;
+	padding: 20px;
+	justify-content: space-around;
+}
+.seller-seting-joindate p{
+	font-size: 18px !important;
+	font-weight: bolder !important;
+}
+ @media only screen and (max-width: 1024px) {
+		.seller-profile-card{
+display: grid;
+grid-template-columns: 1fr;
+}
+.seller-setting-formgroup{
+	display: grid;
+	grid-template-columns: 1fr;
+	grid-gap: 50px;
+
+}
+	}

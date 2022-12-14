@@ -1,0 +1,23 @@
+.rfq-details{
+    display: flex !important;
+    gap: 20px;
+
+}
+
+.buyer-details{
+    height: 585px;
+    padding: 15px 10px;
+    background-color: #ffffff;
+    border-radius: 4px;
+    box-shadow: 0px 4px 20px rgb(11 34 57 / 12%);
+}
+
+p{
+    font-family: Mulish !important;
+        font-size: 13px !important;
+        font-weight: 500 !important;
+        line-height: 20px !important;
+        letter-spacing: 0em !important;
+        text-align: left !important;
+        color: #282828 !important;
+}

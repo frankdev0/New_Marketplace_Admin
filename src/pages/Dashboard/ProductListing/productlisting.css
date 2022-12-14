@@ -1,0 +1,42 @@
+.rectangle{
+    height: 250px;
+    width: 250px;
+    background-color: rgb(110, 130, 130);
+    margin: auto;
+}
+
+.box{
+height: 40px;
+    width: 40px;
+    background-color: rgb(110, 130, 130);
+    margin: auto;
+}
+
+.other-images{
+    display: flex;
+    align-content: center;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.product-info{
+    border: 1px solid #DDDDDD;
+    border-radius: 10px;
+}
+
+.description-border{
+    width: 155px;
+
+    border-bottom: 2px solid #0064E5;
+        border-radius: 3px 3px 0px 0px;
+}
+
+.description-value{
+    font-family: 'Mulish' !important;
+        font-style: normal !important;
+        font-weight: 600 !important;
+        font-size: 15px !important;
+        line-height: 19px !important;
+        color: #000000 !important;
+}

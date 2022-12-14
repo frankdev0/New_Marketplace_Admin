@@ -1,0 +1,30 @@
+h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, p {
+  color: #282828; 
+}
+
+* {
+  font-family: 'Mulish', sans-serif; 
+  scroll-behavior: smooth;
+}
+
+a {
+  text-decoration: none;
+}
+
+input, select, textarea {
+  box-shadow: none !important;
+  outline: 0px !important;
+}
+
+button {
+  box-shadow: none !important;
+  outline: 0px !important;
+}
+
+input {
+  height: 45px;
+}
+
+select {
+  height: 45px;
+}
