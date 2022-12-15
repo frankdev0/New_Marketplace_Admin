@@ -1,10 +1,31 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Iconly } from "react-iconly";
 import { Link } from "react-router-dom";
+import { axios } from "../../../components/baseUrl";
 import SellersSidebar from "../dashboardComponents/SideBar";
 import "./productlisting.css";
 
 const ProductListing = () => {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const getProducts = async () => {
+    try {
+      axios.get("/productlisting").then((response) => {
+        setProducts(response.data.data);
+        console.log(response.data.data);
+        setLoading(true);
+      });
+    } catch (error) {
+      console.log(error);
+      setLoading(true);
+    }
+  };
+
+  useEffect(() => {
+    getProducts();
+  }, []);
+
   return (
     <>
       <div>

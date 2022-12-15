@@ -26,6 +26,7 @@ import ViewOrders from "./pages/Dashboard/transaction/ViewOrders";
 import ViewProduct from "./pages/Dashboard/ProductListing/ViewProduct";
 import ViewRfq from "./pages/Dashboard/rfq/ViewRfq";
 import CreateCategories from "./pages/Dashboard/categories/CreateCategories";
+import Overview from "./pages/Dashboard/overview/Overview";
 
 function App() {
   return (
@@ -70,6 +71,7 @@ function App() {
           <Route path="/view-product" element={<ViewProduct />} />
           <Route path="/view-rfq" element={<ViewRfq />} />
           <Route path="/create-category" element={<CreateCategories />} />
+          <Route path="/overview" element={<Overview />} />
         </Routes>
       </Router>
     </>

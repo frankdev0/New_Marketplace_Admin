@@ -1,9 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Iconly } from "react-iconly";
 import SellersSidebar from "../dashboardComponents/SideBar";
+import { axios } from "../../../components/baseUrl";
 
 const SellersOrder = () => {
+  const [transactions, setTransactions] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const getTransactions = async () => {
+    try {
+      axios.get("/transactions").then((response) => {
+        setTransactions(response.data.data);
+        console.log(response.data.data);
+        setLoading(false);
+      });
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getTransactions();
+  }, []);
+
   return (
     <>
       <div className="grid-container">

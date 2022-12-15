@@ -1,9 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Iconly } from "react-iconly";
 import { Link } from "react-router-dom";
+import { axios } from "../../../components/baseUrl";
 import SellersSidebar from "../dashboardComponents/SideBar";
 
 const SellersRfqs = () => {
+  const [rfqs, setRfqs] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const getRfqs = async () => {
+    try {
+      axios.get("/rfqs").then((response) => {
+        setRfqs(response.data.data);
+        console.log(response.data.data);
+        setLoading(false);
+      });
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getRfqs();
+  }, []);
+
   return (
     <>
       <div>

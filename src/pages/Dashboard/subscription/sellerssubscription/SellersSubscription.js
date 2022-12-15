@@ -1,9 +1,29 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import { Iconly } from "react-iconly";
 import SellersSidebar from "../../dashboardComponents/SideBar";
+import { axios } from "../../../../components/baseUrl";
 
 const SellersSubscription = () => {
+  const [subscription, setSubscriptions] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const getSubscriptions = async () => {
+    try {
+      axios.get("/productlisting").then((response) => {
+        setSubscriptions(response.data.data);
+        console.log(response.data.data);
+        setLoading(true);
+      });
+    } catch (error) {
+      console.log(error);
+      setLoading(true);
+    }
+  };
+
+  useEffect(() => {
+    getSubscriptions();
+  }, []);
+
   return (
     <>
       <div className="grid-container">

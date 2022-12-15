@@ -1,8 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Iconly } from "react-iconly";
+import { axios } from "../../../components/baseUrl";
 import SellersSidebar from "../dashboardComponents/SideBar";
 
 const Sellers = () => {
+  const [sellers, setSellers] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const getSellers = async () => {
+    try {
+      axios.get("/sellers").then((response) => {
+        setSellers(response.data.data);
+        console.log(response.data.data);
+        setLoading(true);
+      });
+    } catch (error) {
+      console.log(error);
+      setLoading(true);
+    }
+  };
+  useEffect(() => {
+    getSellers();
+  }, []);
   return (
     <>
       <div className="grid-container">

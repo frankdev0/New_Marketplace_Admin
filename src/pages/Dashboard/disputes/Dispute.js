@@ -1,9 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Iconly } from "react-iconly";
 import { Link } from "react-router-dom";
+import { axios } from "../../../components/baseUrl";
 import SellersSidebar from "../dashboardComponents/SideBar";
 
 const Dispute = () => {
+  const [disputes, setDisputes] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const getDisputes = async () => {
+    try {
+      axios.get("/disputes").then((response) => {
+        setDisputes(response.data.data);
+        console.log(response.data.data);
+        setLoading(true);
+      });
+    } catch (error) {
+      console.log(error);
+      setLoading(true);
+    }
+  };
+
+  useEffect(() => {
+    getDisputes();
+  }, []);
+
   return (
     <>
       <div>

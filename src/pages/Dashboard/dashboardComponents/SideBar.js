@@ -37,7 +37,7 @@ const SellersSidebar = () => {
         </div> */}
 
         <ul className="sidenav__list">
-          <Link className="sidenav-link" to="/dashboard">
+          <Link className="sidenav-link" to="/overview">
             <li className="sidenav__list-item">
               <Iconly className="list_icon" name="Home" size="small" />
               Overview

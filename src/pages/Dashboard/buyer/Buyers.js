@@ -6,22 +6,25 @@ import Search from "../dashboardComponents/Search";
 import { axios } from "../../../components/baseUrl";
 
 const Buyers = () => {
-  const [newData, setNewData] = useState([]);
+  const [buyers, setBuyers] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState();
   const ITEMS_PER_PAGE = 50;
 
-  const getData = async () => {
+  const getBuyers = async () => {
     try {
-      axios.get("/category").then((response) => {
-        setNewData(response.data.data);
+      axios.get("/buyers").then((response) => {
+        setBuyers(response.data.data);
+        console.log(response.data.data);
+        setLoading(true);
       });
     } catch (error) {
       console.log(error);
     }
   };
   useEffect(() => {
-    getData();
+    getBuyers();
   }, []);
 
   return (
