@@ -88,6 +88,7 @@ const SellersRfqs = () => {
                         <th scope="col">Shipping Terms</th>
                         <th scope="col">Payment Terms</th>
                         <th scope="col">Status</th>
+                        <th scope="col">Action</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -113,6 +114,9 @@ const SellersRfqs = () => {
                         <td>
                           <div className="text-warning">Pending</div>
                         </td>
+                        <td>
+                          <Link to="/view-rfq">view</Link>
+                        </td>
                       </tr>
                       <tr>
                         <td>0123456543</td>
@@ -135,6 +139,9 @@ const SellersRfqs = () => {
                         <td>Letter of Credit</td>
                         <td>
                           <div className="text-primary">Processing</div>
+                        </td>
+                        <td>
+                          <Link to="/view-rfq">view</Link>
                         </td>
                       </tr>
                       <tr>
@@ -159,28 +166,8 @@ const SellersRfqs = () => {
                         <td>
                           <div className="text-success">Shipped</div>
                         </td>
-                      </tr>
-                      <tr>
-                        <td>0123456543</td>
                         <td>
-                          <div className="d-flex">
-                            <div className="flex-shrink-0">
-                              <img
-                                className="table-product-img"
-                                src=""
-                                alt="..."
-                              />
-                            </div>
-                            <div className="flex-grow-1 ms-3">
-                              <p>Dried Hibiscus</p>
-                            </div>
-                          </div>
-                        </td>
-                        <td>USD 40,000</td>
-                        <td>CFR</td>
-                        <td>Letter of Credit</td>
-                        <td>
-                          <div className="text-success">Delivered</div>
+                          <Link to="/view-rfq">view</Link>
                         </td>
                       </tr>
                       <tr>
@@ -205,6 +192,9 @@ const SellersRfqs = () => {
                         <td>
                           <div className="text-success">Delivered</div>
                         </td>
+                        <td>
+                          <Link to="/view-rfq">view</Link>
+                        </td>
                       </tr>
                       <tr>
                         <td>0123456543</td>
@@ -227,6 +217,35 @@ const SellersRfqs = () => {
                         <td>Letter of Credit</td>
                         <td>
                           <div className="text-success">Delivered</div>
+                        </td>
+                        <td>
+                          <Link to="/view-rfq">view</Link>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>0123456543</td>
+                        <td>
+                          <div className="d-flex">
+                            <div className="flex-shrink-0">
+                              <img
+                                className="table-product-img"
+                                src=""
+                                alt="..."
+                              />
+                            </div>
+                            <div className="flex-grow-1 ms-3">
+                              <p>Dried Hibiscus</p>
+                            </div>
+                          </div>
+                        </td>
+                        <td>USD 40,000</td>
+                        <td>CFR</td>
+                        <td>Letter of Credit</td>
+                        <td>
+                          <div className="text-success">Delivered</div>
+                        </td>
+                        <td>
+                          <Link to="/view-rfq">view</Link>
                         </td>
                       </tr>
                     </tbody>
