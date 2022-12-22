@@ -62,19 +62,21 @@ const Login = () => {
         email: loginDetail.email,
         password: loginDetail.password,
       };
+      console.log("my login details", loginDetails);
       const {
         data: { data },
       } = await axios.post("/auth/signin-user", loginDetails);
+
       // setUser(data);
       console.log("data", data);
       localStorage.setItem("user", true);
-      // navigate("/buy-commodities");
+      navigate("/");
     } catch (err) {
       setLoading(false);
       localStorage.setItem("user", false);
       if (err.response.data.errors[0].field) {
         setError(
-          err.response.data.errors.reduce(function(obj, err) {
+          err.response.data.errors.reduce(function (obj, err) {
             obj[err.field] = err.message;
             return obj;
           }, {})
@@ -110,8 +112,11 @@ const Login = () => {
                 <h2 className="mb-4">Login to continue</h2>
                 <div className="auth-account-wrap">
                   <form className="auth-form" onSubmit={handleSubmit}>
-                    <div class="mb-3">
-                      <label for="exampleInputEmail1" className="form-label">
+                    <div className="mb-3">
+                      <label
+                        htmlFor="exampleInputEmail1"
+                        className="form-label"
+                      >
                         Email address
                       </label>
                       <input
@@ -125,8 +130,11 @@ const Login = () => {
                       />
                       <p className="errors">{error.email}</p>
                     </div>
-                    <div class="mb-3">
-                      <label for="exampleInputPassword1" className="form-label">
+                    <div className="mb-3">
+                      <label
+                        htmlFor="exampleInputPassword1"
+                        className="form-label"
+                      >
                         Password
                       </label>
                       <div className="form-control passwordToggle">
@@ -163,14 +171,17 @@ const Login = () => {
                       <p className="errors">{error.password}</p>
                       <p className="errors">{error.message}</p>
                     </div>
-                    <div class="mb-3 form-check">
+                    <div className="mb-3 form-check">
                       <input
                         type="checkbox"
                         className="form-check-input"
                         id="exampleCheck1"
                       />
                       <div className="d-flex justify-content-between">
-                        <label className="form-check-label" for="exampleCheck1">
+                        <label
+                          className="form-check-label"
+                          htmlFor="exampleCheck1"
+                        >
                           Remember me
                         </label>
                         <span className="forgot-pwd">
@@ -183,7 +194,7 @@ const Login = () => {
                     {loading ? (
                       <button type="submit" className="btn btn-danger">
                         <span
-                          class="spinner-border spinner-border-sm"
+                          className="spinner-border spinner-border-sm"
                           role="status"
                           aria-hidden="true"
                         ></span>

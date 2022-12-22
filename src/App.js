@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import "./App.css";
 
 import Authentication from "./pages/Authentication/Authentication";
@@ -27,54 +27,47 @@ import ViewProduct from "./pages/Dashboard/ProductListing/ViewProduct";
 import ViewRfq from "./pages/Dashboard/rfq/ViewRfq";
 import CreateCategories from "./pages/Dashboard/categories/CreateCategories";
 import Overview from "./pages/Dashboard/overview/Overview";
+import AppState from "./components/AppState";
 
 function App() {
   return (
-    <>
-      <Router>
-        <Routes>
-          {/* <Route path="/" element={<Home />} /> */}
-          <Route path="/authentication" element={<Authentication />} />
-          <Route path="/buyers-registration" element={<BuyersRegistration />} />
-          <Route
-            path="/sellers-registration"
-            element={<SellersRegistration />}
-          />
+    <AppState>
+      <Routes>
+        {/* <Route path="/" element={<Home />} /> */}
+        <Route path="/authentication" element={<Authentication />} />
+        <Route path="/buyers-registration" element={<BuyersRegistration />} />
+        <Route path="/sellers-registration" element={<SellersRegistration />} />
 
-          <Route exact path="product-listing" element={<ProductListing />} />
-          <Route path="/phone-verification" element={<PhoneVerification />} />
-          <Route path="/verify-email/:email" element={<EmailVerification />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route
-            path="/reset-password/:resetToken"
-            element={<ResetPassword />}
-          />
-          <Route path="/login" element={<Login />} />
-          <Route path="/login/:userId/:token" element={<Login />} />
+        <Route exact path="product-listing" element={<ProductListing />} />
+        <Route path="/phone-verification" element={<PhoneVerification />} />
+        <Route path="/verify-email/:email" element={<EmailVerification />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password/:resetToken" element={<ResetPassword />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/login/:userId/:token" element={<Login />} />
 
-          <Route path="/" element={<SellersDashboard />} />
+        <Route path="/" element={<SellersDashboard />} />
 
-          <Route
-            exact
-            path="/sellers-subscription"
-            element={<SellersSubscription />}
-          />
-          <Route path="/buyers" element={<Buyers />} />
-          <Route path="/sellers" element={<Sellers />} />
-          <Route path="/transactions" element={<SellersOrder />} />
-          <Route path="/categories" element={<Categories />} />
-          <Route exact path="/rfqs" element={<SellersRfqs />} />
-          <Route exact path="settings" element={<Settings />} />
-          <Route path="/sellers-disputes" element={<SellersDispute />} />
-          <Route path="/disputes" element={<Dispute />} />
-          <Route path="/view-orders" element={<ViewOrders />} />
-          <Route path="/view-product" element={<ViewProduct />} />
-          <Route path="/view-rfq" element={<ViewRfq />} />
-          <Route path="/create-category" element={<CreateCategories />} />
-          <Route path="/overview" element={<Overview />} />
-        </Routes>
-      </Router>
-    </>
+        <Route
+          exact
+          path="/sellers-subscription"
+          element={<SellersSubscription />}
+        />
+        <Route path="/buyers" element={<Buyers />} />
+        <Route path="/sellers" element={<Sellers />} />
+        <Route path="/transactions" element={<SellersOrder />} />
+        <Route path="/categories" element={<Categories />} />
+        <Route exact path="/rfqs" element={<SellersRfqs />} />
+        <Route exact path="settings" element={<Settings />} />
+        <Route path="/sellers-disputes" element={<SellersDispute />} />
+        <Route path="/disputes" element={<Dispute />} />
+        <Route path="/view-orders" element={<ViewOrders />} />
+        <Route path="/view-product" element={<ViewProduct />} />
+        <Route path="/view-rfq" element={<ViewRfq />} />
+        <Route path="/create-category" element={<CreateCategories />} />
+        <Route path="/overview" element={<Overview />} />
+      </Routes>
+    </AppState>
   );
 }
 

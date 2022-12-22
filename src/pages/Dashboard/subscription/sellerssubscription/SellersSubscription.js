@@ -9,7 +9,7 @@ const SellersSubscription = () => {
 
   const getSubscriptions = async () => {
     try {
-      axios.get("/productlisting").then((response) => {
+      axios.get("/subscription").then((response) => {
         setSubscriptions(response.data.data);
         console.log(response.data.data);
         setLoading(true);
@@ -70,7 +70,7 @@ const SellersSubscription = () => {
               <div>
                 <h2>Total Basic</h2>
                 {/* <p>Detailed transaction history is on the order page</p> */}
-                <div class="d-flex justify-content-between mt-4">
+                <div className="d-flex justify-content-between mt-4">
                   <h3>10</h3>
                 </div>
               </div>
@@ -79,7 +79,7 @@ const SellersSubscription = () => {
               <div>
                 <h2>Total Premium</h2>
                 {/* <p>Detailed transaction history is on the order page</p> */}
-                <div class="d-flex justify-content-between mt-4">
+                <div className="d-flex justify-content-between mt-4">
                   <h3>22</h3>
                 </div>
               </div>
@@ -89,8 +89,8 @@ const SellersSubscription = () => {
           <h1 className="section-title">Sellers Subscription</h1>
           <div className="main-overview">
             <div className="overview-card no-padding">
-              <div class="table-responsive">
-                <table class="table table-striped">
+              <div className="table-responsive">
+                <table className="table table-striped">
                   <thead>
                     <tr>
                       <th scope="col">S/N</th>

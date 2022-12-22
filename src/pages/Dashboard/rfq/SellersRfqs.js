@@ -2,15 +2,17 @@ import React, { useEffect, useState } from "react";
 import { Iconly } from "react-iconly";
 import { Link } from "react-router-dom";
 import { axios } from "../../../components/baseUrl";
+import { ProtectedRoutes } from "../../../components/ProtectedRoutes";
 import SellersSidebar from "../dashboardComponents/SideBar";
 
 const SellersRfqs = () => {
   const [rfqs, setRfqs] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [viewRfq, setViewRfq] = useState([]);
 
   const getRfqs = async () => {
     try {
-      axios.get("/rfqs").then((response) => {
+      axios.get("/rfq").then((response) => {
         setRfqs(response.data.data);
         console.log(response.data.data);
         setLoading(false);
@@ -24,6 +26,15 @@ const SellersRfqs = () => {
   useEffect(() => {
     getRfqs();
   }, []);
+
+  const showRfqDetails = (rfqID) => {
+    setLoading(true);
+    axios.get(`/rfq/${rfqID}`).then((response) => {
+      setViewRfq(response.data.data);
+      console.log(response.data.data);
+      setLoading(false);
+    });
+  };
 
   return (
     <>
@@ -72,7 +83,7 @@ const SellersRfqs = () => {
                 <div>
                   <h2>Total RFQ</h2>
                   {/* <p>Detailed transaction history is on the order page</p> */}
-                  <div class="d-flex justify-content-between mt-4">
+                  <div className="d-flex justify-content-between mt-4">
                     <h3>10</h3>
                   </div>
                 </div>
@@ -81,7 +92,7 @@ const SellersRfqs = () => {
                 <div>
                   <h2>Open RFQ</h2>
                   {/* <p>Detailed transaction history is on the order page</p> */}
-                  <div class="d-flex justify-content-between mt-4">
+                  <div className="d-flex justify-content-between mt-4">
                     <h3>22</h3>
                   </div>
                 </div>
@@ -90,7 +101,7 @@ const SellersRfqs = () => {
                 <div>
                   <h2>Processing RFQ</h2>
                   {/* <p>Detailed transaction history is on the order page</p> */}
-                  <div class="d-flex justify-content-between mt-4">
+                  <div className="d-flex justify-content-between mt-4">
                     <h3>5</h3>
                   </div>
                 </div>
@@ -113,162 +124,42 @@ const SellersRfqs = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>0123456543</td>
-                        <td>
-                          <div className="d-flex">
-                            <div className="flex-shrink-0">
-                              <img
-                                className="table-product-img"
-                                src=""
-                                alt="..."
-                              />
-                            </div>
-                            <div className="flex-grow-1 ms-3">
-                              <p>Dried Hibiscus</p>
-                            </div>
-                          </div>
-                        </td>
-                        <td>USD 40,000</td>
-                        <td>FOB</td>
-                        <td>Letter of Credit</td>
-                        <td>
-                          <div className="text-warning">Pending</div>
-                        </td>
-                        <td>
-                          <Link to="/view-rfq">view</Link>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>0123456543</td>
-                        <td>
-                          <div className="d-flex">
-                            <div className="flex-shrink-0">
-                              <img
-                                className="table-product-img"
-                                src=""
-                                alt="..."
-                              />
-                            </div>
-                            <div className="flex-grow-1 ms-3">
-                              <p>Dried Hibiscus</p>
-                            </div>
-                          </div>
-                        </td>
-                        <td>USD 40,000</td>
-                        <td>CIF</td>
-                        <td>Letter of Credit</td>
-                        <td>
-                          <div className="text-primary">Processing</div>
-                        </td>
-                        <td>
-                          <Link to="/view-rfq">view</Link>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>0123456543</td>
-                        <td>
-                          <div className="d-flex">
-                            <div className="flex-shrink-0">
-                              <img
-                                className="table-product-img"
-                                src=""
-                                alt="..."
-                              />
-                            </div>
-                            <div className="flex-grow-1 ms-3">
-                              <p>Dried Hibiscus</p>
-                            </div>
-                          </div>
-                        </td>
-                        <td>XAF 20,000,000</td>
-                        <td>Local Delivery</td>
-                        <td>Letter of Credit</td>
-                        <td>
-                          <div className="text-success">Shipped</div>
-                        </td>
-                        <td>
-                          <Link to="/view-rfq">view</Link>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>0123456543</td>
-                        <td>
-                          <div className="d-flex">
-                            <div className="flex-shrink-0">
-                              <img
-                                className="table-product-img"
-                                src=""
-                                alt="..."
-                              />
-                            </div>
-                            <div className="flex-grow-1 ms-3">
-                              <p>Dried Hibiscus</p>
-                            </div>
-                          </div>
-                        </td>
-                        <td>USD 40,000</td>
-                        <td>CFR</td>
-                        <td>Letter of Credit</td>
-                        <td>
-                          <div className="text-success">Delivered</div>
-                        </td>
-                        <td>
-                          <Link to="/view-rfq">view</Link>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>0123456543</td>
-                        <td>
-                          <div className="d-flex">
-                            <div className="flex-shrink-0">
-                              <img
-                                className="table-product-img"
-                                src=""
-                                alt="..."
-                              />
-                            </div>
-                            <div className="flex-grow-1 ms-3">
-                              <p>Dried Hibiscus</p>
-                            </div>
-                          </div>
-                        </td>
-                        <td>USD 40,000</td>
-                        <td>CFR</td>
-                        <td>Letter of Credit</td>
-                        <td>
-                          <div className="text-success">Delivered</div>
-                        </td>
-                        <td>
-                          <Link to="/view-rfq">view</Link>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>0123456543</td>
-                        <td>
-                          <div className="d-flex">
-                            <div className="flex-shrink-0">
-                              <img
-                                className="table-product-img"
-                                src=""
-                                alt="..."
-                              />
-                            </div>
-                            <div className="flex-grow-1 ms-3">
-                              <p>Dried Hibiscus</p>
-                            </div>
-                          </div>
-                        </td>
-                        <td>USD 40,000</td>
-                        <td>CFR</td>
-                        <td>Letter of Credit</td>
-                        <td>
-                          <div className="text-success">Delivered</div>
-                        </td>
-                        <td>
-                          <Link to="/view-rfq">view</Link>
-                        </td>
-                      </tr>
+                      {rfqs &&
+                        rfqs.map((rfq, index) => {
+                          return (
+                            <tr key={rfq.id}>
+                              <td scope="row">{index + 1}</td>
+                              <td>
+                                <div className="d-flex">
+                                  <div className="flex-shrink-0">
+                                    <img
+                                      className="table-product-img"
+                                      src=""
+                                      alt="..."
+                                    />
+                                  </div>
+                                  <div className="flex-grow-1 ms-3">
+                                    <p>{rfq.productName}</p>
+                                  </div>
+                                </div>
+                              </td>
+                              <td>USD {rfq.targetPrice}</td>
+                              <td>{rfq.termsOfTrade}</td>
+                              <td>{rfq.paymentTerms}</td>
+                              <td>
+                                <div className="text-primary">{rfq.status}</div>
+                              </td>
+                              <td>
+                                <Link
+                                  to="/view-rfq"
+                                  onClick={(e) => showRfqDetails(rfq.id)}
+                                >
+                                  view
+                                </Link>
+                              </td>
+                            </tr>
+                          );
+                        })}
                     </tbody>
                   </table>
                 </div>
@@ -281,4 +172,4 @@ const SellersRfqs = () => {
   );
 };
 
-export default SellersRfqs;
+export default ProtectedRoutes(SellersRfqs, ["BUYER"]);

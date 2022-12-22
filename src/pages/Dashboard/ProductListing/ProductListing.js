@@ -2,18 +2,20 @@ import React, { useEffect, useState } from "react";
 import { Iconly } from "react-iconly";
 import { Link } from "react-router-dom";
 import { axios } from "../../../components/baseUrl";
+import LeftNavBar from "../../../components/LeftNavBar";
+import { ProtectedRoutes } from "../../../components/ProtectedRoutes";
 import SellersSidebar from "../dashboardComponents/SideBar";
 import "./productlisting.css";
 
-const ProductListing = () => {
+const ProductListing = ({ handleLogout }) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const getProducts = async () => {
     try {
-      axios.get("/productlisting").then((response) => {
+      axios.get("/product").then((response) => {
         setProducts(response.data.data);
-        console.log(response.data.data);
+        console.log(response.data);
         setLoading(true);
       });
     } catch (error) {
@@ -26,6 +28,16 @@ const ProductListing = () => {
     getProducts();
   }, []);
 
+  // const handleLogout = async () => {
+  //   try {
+  //     axios.get("/auth/signout").then((response) => {
+  //       console.log(response.data.data);
+  //     });
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
   return (
     <>
       <div>
@@ -34,34 +46,7 @@ const ProductListing = () => {
             <div className="header__message">
               <h2>All Products</h2>
             </div>
-            <div className="header__search">
-              <form>
-                <div className="custom__search">
-                  <Iconly
-                    name="Search"
-                    set="light"
-                    primaryColor="#5C5C5C"
-                    size="medium"
-                  />
-                  <input
-                    type="text"
-                    className="form-control custom-style"
-                    id=""
-                    placeholder="Search for orders, inquiries and more"
-                  />
-                </div>
-              </form>
-
-              <div className="notify-wrap position-relative">
-                <Iconly
-                  name="Notification"
-                  set="bulk"
-                  primaryColor="#282828"
-                  size="medium"
-                />
-                <span className="seller icon-notification position-absolute"></span>
-              </div>
-            </div>
+            <LeftNavBar handleLogout={handleLogout} />
           </header>
 
           <SellersSidebar />
@@ -73,7 +58,7 @@ const ProductListing = () => {
                 <div>
                   <h2>Total Products</h2>
                   {/* <p>Detailed transaction history is on the order page</p> */}
-                  <div class="d-flex justify-content-between mt-4">
+                  <div className="d-flex justify-content-between mt-4">
                     <h3>10</h3>
                   </div>
                 </div>
@@ -82,7 +67,7 @@ const ProductListing = () => {
                 <div>
                   <h2>Total Approved Products</h2>
                   {/* <p>Detailed transaction history is on the order page</p> */}
-                  <div class="d-flex justify-content-between mt-4">
+                  <div className="d-flex justify-content-between mt-4">
                     <h3>22</h3>
                   </div>
                 </div>
@@ -91,7 +76,7 @@ const ProductListing = () => {
                 <div>
                   <h2>Total Pending Products</h2>
                   {/* <p>Detailed transaction history is on the order page</p> */}
-                  <div class="d-flex justify-content-between mt-4">
+                  <div className="d-flex justify-content-between mt-4">
                     <h3>5</h3>
                   </div>
                 </div>
@@ -275,4 +260,4 @@ const ProductListing = () => {
   );
 };
 
-export default ProductListing;
+export default ProtectedRoutes(ProductListing, ["SUPER_ADMIN"]);

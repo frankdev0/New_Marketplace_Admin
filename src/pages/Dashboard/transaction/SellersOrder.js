@@ -10,9 +10,9 @@ const SellersOrder = () => {
 
   const getTransactions = async () => {
     try {
-      axios.get("/transactions").then((response) => {
+      axios.get("/order").then((response) => {
         setTransactions(response.data.data);
-        console.log(response.data.data);
+        console.log(response);
         setLoading(false);
       });
     } catch (error) {
@@ -71,7 +71,7 @@ const SellersOrder = () => {
               <div>
                 <h2>Total Orders</h2>
                 {/* <p>Detailed transaction history is on the order page</p> */}
-                <div class="d-flex justify-content-between mt-4">
+                <div className="d-flex justify-content-between mt-4">
                   <h3>10</h3>
                 </div>
               </div>
@@ -80,7 +80,7 @@ const SellersOrder = () => {
               <div>
                 <h2>Ongoing Orders</h2>
                 {/* <p>Detailed transaction history is on the order page</p> */}
-                <div class="d-flex justify-content-between mt-4">
+                <div className="d-flex justify-content-between mt-4">
                   <h3>22</h3>
                 </div>
               </div>
@@ -89,7 +89,7 @@ const SellersOrder = () => {
               <div>
                 <h2>Completed Orders</h2>
                 {/* <p>Detailed transaction history is on the order page</p> */}
-                <div class="d-flex justify-content-between mt-4">
+                <div className="d-flex justify-content-between mt-4">
                   <h3>5</h3>
                 </div>
               </div>
@@ -99,7 +99,7 @@ const SellersOrder = () => {
           <h1 className="section-title">All Orders</h1>
           <div className="main-overview">
             <div className="overview-card no-padding">
-              <div class="table-responsive">
+              <div className="table-responsive">
                 <table className="table table-striped">
                   <thead>
                     <tr>

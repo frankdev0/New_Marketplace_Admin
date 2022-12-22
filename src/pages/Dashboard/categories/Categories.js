@@ -12,7 +12,7 @@ const Categories = () => {
   const getCategory = async () => {
     try {
       axios.get("/category").then((response) => {
-        console.log(response.data);
+        console.log(response.data.data);
         setCategories(response.data.data);
         // setLoading(true);
       });
@@ -22,7 +22,7 @@ const Categories = () => {
   };
   const getUsers = async () => {
     try {
-      axios.get("/auth/users").then((response) => {
+      axios.get("/auth/current-user").then((response) => {
         console.log(response.data);
         setUsers(response.data.data);
         // setLoading(true);
@@ -71,54 +71,21 @@ const Categories = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>0123456543</td>
+                    {categories &&
+                      categories.map((category, index) => {
+                        return (
+                          <tr key={category.id}>
+                            <td scope="row">{index + 1}</td>
 
-                      <td>
-                        <div className="text-warning">Pending</div>
-                      </td>
-                      <td>view</td>
-                    </tr>
-                    <tr>
-                      <td>0123456543</td>
-
-                      <td>
-                        <div className="text-primary">Processing</div>
-                      </td>
-                      <td>view</td>
-                    </tr>
-                    <tr>
-                      <td>0123456543</td>
-
-                      <td>
-                        <div className="text-success">Shipped</div>
-                      </td>
-                      <td>view</td>
-                    </tr>
-                    <tr>
-                      <td>0123456543</td>
-
-                      <td>
-                        <div className="text-success">Delivered</div>
-                      </td>
-                      <td>view</td>
-                    </tr>
-                    <tr>
-                      <td>0123456543</td>
-
-                      <td>
-                        <div className="text-success">Delivered</div>
-                      </td>
-                      <td>view</td>
-                    </tr>
-                    <tr>
-                      <td>0123456543</td>
-
-                      <td>
-                        <div className="text-success">Delivered</div>
-                      </td>
-                      <td>view</td>
-                    </tr>
+                            <td>
+                              <div className="text-warning">
+                                {category.category}
+                              </div>
+                            </td>
+                            <td>view</td>
+                          </tr>
+                        );
+                      })}
                   </tbody>
                 </table>
               </div>

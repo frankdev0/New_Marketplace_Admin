@@ -6,11 +6,12 @@ import SellersSidebar from "../dashboardComponents/SideBar";
 
 const Dispute = () => {
   const [disputes, setDisputes] = useState([]);
+  const [viewDispute, setViewDispute] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const getDisputes = async () => {
     try {
-      axios.get("/disputes").then((response) => {
+      axios.get("/dispute").then((response) => {
         setDisputes(response.data.data);
         console.log(response.data.data);
         setLoading(true);
@@ -24,6 +25,15 @@ const Dispute = () => {
   useEffect(() => {
     getDisputes();
   }, []);
+
+  const showDispute = (disputeID) => {
+    setLoading(true);
+    axios.get(`/dispute/${disputeID}`).then((response) => {
+      setViewDispute(response.data.data);
+      console.log(response.data.data);
+      setLoading(false);
+    });
+  };
 
   return (
     <>
@@ -104,170 +114,162 @@ const Dispute = () => {
                     <thead>
                       <tr>
                         <th scope="col">S/N</th>
-                        <th scope="col">Buyers Name</th>
+                        {/* <th scope="col">Buyers Name</th> */}
                         <th scope="col">Subject</th>
                         <th scope="col">Status</th>
                         <th scope="col">Action</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>0123456543</td>
-                        <td>
-                          <div className="d-flex">
-                            <div className="flex-shrink-0">
-                              <img
-                                className="table-product-img"
-                                src=""
-                                alt="..."
-                              />
-                            </div>
-                            <div className="flex-grow-1 ms-3">
-                              <p>Dried Hibiscus</p>
-                            </div>
-                          </div>
-                        </td>
-                        <td>USD 40,000</td>
-                        <td>
-                          <div className="text-warning">Pending</div>
-                        </td>
-                        <td>
-                          <Link
-                            to="/n"
-                            type="button"
-                            data-bs-toggle="modal"
-                            data-bs-target="#exampleModal"
-                          >
-                            view
-                          </Link>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>0123456543</td>
-                        <td>
-                          <div className="d-flex">
-                            <div className="flex-shrink-0">
-                              <img
-                                className="table-product-img"
-                                src=""
-                                alt="..."
-                              />
-                            </div>
-                            <div className="flex-grow-1 ms-3">
-                              <p>Dried Hibiscus</p>
-                            </div>
-                          </div>
-                        </td>
-                        <td>USD 40,000</td>
-                        <td>
-                          <div className="text-success">Resolved</div>
-                        </td>
-                        <td>
-                          <Link
-                            to="/n"
-                            type="button"
-                            data-bs-toggle="modal"
-                            data-bs-target="#exampleModal"
-                          >
-                            view
-                          </Link>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>0123456543</td>
-                        <td>
-                          <div className="d-flex">
-                            <div className="flex-shrink-0">
-                              <img
-                                className="table-product-img"
-                                src=""
-                                alt="..."
-                              />
-                            </div>
-                            <div className="flex-grow-1 ms-3">
-                              <p>Dried Hibiscus</p>
-                            </div>
-                          </div>
-                        </td>
-                        <td>XAF 20,000,000</td>
-                        <td>
-                          <div className="text-danger">Open</div>
-                        </td>
-                        <td>
-                          <Link
-                            to="/n"
-                            type="button"
-                            data-bs-toggle="modal"
-                            data-bs-target="#exampleModal"
-                          >
-                            view
-                          </Link>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>0123456543</td>
-                        <td>
-                          <div className="d-flex">
-                            <div className="flex-shrink-0">
-                              <img
-                                className="table-product-img"
-                                src=""
-                                alt="..."
-                              />
-                            </div>
-                            <div className="flex-grow-1 ms-3">
-                              <p>Dried Hibiscus</p>
-                            </div>
-                          </div>
-                        </td>
-                        <td>USD 40,000</td>
-                        <td>
-                          <div className="text-success">Resolved</div>
-                        </td>
-                        <td>
-                          <Link
-                            to="/n"
-                            type="button"
-                            data-bs-toggle="modal"
-                            data-bs-target="#exampleModal"
-                          >
-                            view
-                          </Link>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>0123456543</td>
-                        <td>
-                          <div className="d-flex">
-                            <div className="flex-shrink-0">
-                              <img
-                                className="table-product-img"
-                                src=""
-                                alt="..."
-                              />
-                            </div>
-                            <div className="flex-grow-1 ms-3">
-                              <p>Dried Hibiscus</p>
-                            </div>
-                          </div>
-                        </td>
-                        <td>USD 40,000</td>
-                        <td>
-                          <div className="text-danger">Open</div>
-                        </td>
-                        <td>
-                          <Link
-                            to="/n"
-                            type="button"
-                            data-bs-toggle="modal"
-                            data-bs-target="#exampleModal"
-                          >
-                            view
-                          </Link>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>0123456543</td>
+                      {/* {disputes && disputes.map((dispute) => { 
+                      return (
+                        <div> */}
+                      {disputes &&
+                        disputes.map((dispute, index) => {
+                          return (
+                            <tr key={dispute.id}>
+                              <th scope="row">{index + 1}</th>
+                              <td>
+                                <div className="d-flex">
+                                  <div className="flex-shrink-0">
+                                    <img
+                                      className="table-product-img"
+                                      src=""
+                                      alt="..."
+                                    />
+                                  </div>
+                                  <div className="flex-grow-1 ms-3">
+                                    <p>{dispute.subject}</p>
+                                  </div>
+                                </div>
+                              </td>
+                              <td>
+                                <div className="text-warning">
+                                  {dispute.status}
+                                </div>
+                              </td>
+                              <td>
+                                <Link
+                                  to="/n"
+                                  type="button"
+                                  onClick={(e) => showDispute(dispute.id)}
+                                  data-bs-toggle="modal"
+                                  data-bs-target="#exampleModal"
+                                >
+                                  view
+                                </Link>
+                              </td>
+                              <td>
+                                <div
+                                  className="modal fade"
+                                  id="exampleModal"
+                                  tabIndex="-1"
+                                  aria-labelledby="exampleModalLabel"
+                                  aria-hidden="true"
+                                >
+                                  <div className="modal-dialog modal-lg">
+                                    <div className="modal-content">
+                                      <div className="modal-header">
+                                        <h5
+                                          className="modal-title"
+                                          id="exampleModalLabel"
+                                        >
+                                          Disputes
+                                        </h5>
+                                        <button
+                                          type="button"
+                                          className="btn-close"
+                                          data-bs-dismiss="modal"
+                                          aria-label="Close"
+                                        ></button>
+                                      </div>
+
+                                      <main className="main">
+                                        <div className="modal-body overview-card">
+                                          <div className="my-5">
+                                            <h5 className="heading">
+                                              Subject:
+                                            </h5>
+                                            <span>
+                                              Supply of Susbstandard Goods
+                                            </span>
+                                          </div>
+
+                                          <p>
+                                            ToFa has developed partnerships with
+                                            Vietnam’s top suppliers to provide
+                                            high-quality cashew nuts to markets
+                                            worldwide. Vietnam has been
+                                            producing cashews throughout the
+                                            country since the early 1980s.
+                                            Cashew nuts are grown in various
+                                            regions in Vietnam, including Binh
+                                            Phuoc, Dak Nong, Dong Nai, Binh
+                                            Duong provinces. Particularly, Binh
+                                            Phuoc province is known as the
+                                            leading region for the growth of
+                                            cashew nuts, constituting over 50%
+                                            of the entire cashew nuts production
+                                            in Vietnam. Tridge can provide two
+                                            types of cashew nuts for export:
+                                            kernel and processed nuts. With
+                                            kernel cashew nuts, there are
+                                            various sizes ranging from W180 to
+                                            W500. For processed nuts,
+                                            salt-roasted cashew is most popular.
+                                            Moreover, Tridge can provide organic
+                                            cashew kernel, which is gaining
+                                            popularity in the market. he cashew
+                                            nuts in Vietnam are based on size,
+                                            color, and degree of rupture..
+                                            Tridge can provide two types of
+                                            cashew nuts for export: kernel and
+                                            processed nuts. With kernel cashew
+                                            nuts, there are various sizes
+                                            ranging from W180 to W500. For
+                                            processed nuts, salt-roasted cashew
+                                            is most popular. Moreover, Tridge
+                                            can provide organic cashew kernel,
+                                            which is gaining popularity in the
+                                            market. he cashew nuts in Vietnam
+                                            are based on size, color, and degree
+                                            of rupture. Cashew nuts are grown in
+                                            various regions in Vietnam,
+                                            including Binh Phuoc, Dak Nong, Dong
+                                            Nai, Binh Duong provinces.
+                                            Particularly, Binh Phuoc province is
+                                            known as the leading region for the
+                                            growth of cashew nuts, constituting
+                                            over 50% of the entire cashew nuts
+                                            production in Vietnam.{" "}
+                                          </p>
+                                        </div>
+                                      </main>
+
+                                      <div className="modal-footer">
+                                        <button
+                                          type="button"
+                                          className="btn btn-secondary"
+                                          data-bs-dismiss="modal"
+                                        >
+                                          Close
+                                        </button>
+                                        <button
+                                          type="button"
+                                          className="btn btn-success"
+                                        >
+                                          Mark as Resolved
+                                        </button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </td>
+                            </tr>
+                          );
+                        })}
+
+                      {/* <td>0123456543</td>
                         <td>
                           <div className="d-flex">
                             <div className="flex-shrink-0">
@@ -387,8 +389,10 @@ const Dispute = () => {
                               </div>
                             </div>
                           </div>
-                        </div>
-                      </tr>
+                        </div> */}
+
+                      {/* }     
+                       ))} */}
                     </tbody>
                   </table>
                 </div>

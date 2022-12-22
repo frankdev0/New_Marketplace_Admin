@@ -1,6 +1,6 @@
 {
   "name": "marketplace",
-  "proxy": "https://new-tofa-markeplace-production.up.railway.app/api/v2",
+  "proxy": "http://ec2-18-221-181-52.us-east-2.compute.amazonaws.com:8082/api/v2",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

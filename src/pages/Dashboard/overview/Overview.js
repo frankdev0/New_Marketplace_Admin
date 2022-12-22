@@ -51,7 +51,7 @@ const Overview = () => {
                 <div>
                   <h2>Total Products</h2>
                   <p>Detailed history is on the Product page</p>
-                  <div class="d-flex justify-content-between mt-4">
+                  <div className="d-flex justify-content-between mt-4">
                     <h3>10</h3>
                   </div>
                 </div>
@@ -60,7 +60,7 @@ const Overview = () => {
                 <div>
                   <h2>All RFQ's</h2>
                   <p>Detailed history is on the RFQ page</p>
-                  <div class="d-flex justify-content-between mt-4">
+                  <div className="d-flex justify-content-between mt-4">
                     <h3>22</h3>
                   </div>
                 </div>
@@ -69,7 +69,7 @@ const Overview = () => {
                 <div>
                   <h2>Total Orders</h2>
                   <p>Detailed history is on the Order page</p>
-                  <div class="d-flex justify-content-between mt-4">
+                  <div className="d-flex justify-content-between mt-4">
                     <h3>5</h3>
                   </div>
                 </div>
@@ -78,7 +78,7 @@ const Overview = () => {
 
             <div className="main-overview">
               <div className="overview-card">
-                <div class="table-responsive">
+                <div className="table-responsive">
                   <table className="table table-striped">
                     <thead>
                       <tr>
