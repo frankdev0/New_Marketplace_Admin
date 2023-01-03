@@ -1,18 +1,100 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Iconly } from "react-iconly";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import SellersSidebar from "../dashboardComponents/SideBar";
 import peer from "../../../assets/img/pear.png";
 import box1 from "../../../assets/img/box1.png";
 import box2 from "../../../assets/img/box2.png";
 import box3 from "../../../assets/img/box3.png";
+import { axios } from "../../../components/baseUrl";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ViewProduct = () => {
+  const [viewProduct, setViewProduct] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const { productId } = useParams();
+
+  const navigate = useNavigate();
+
+  const showProduct = () => {
+    setLoading(true);
+    axios.get(`/product/${productId}`).then((response) => {
+      setViewProduct(response.data.data);
+      console.log(response.data.data);
+      setLoading(false);
+    });
+  };
+
+  useEffect(() => {
+    showProduct();
+  }, []);
+
+  const UpdateProduct = async () => {
+    try {
+      const { data } = await axios.patch("/product/product-status", {
+        productStatus: "APPROVED",
+        productId,
+      });
+      setViewProduct(data.data);
+      setTimeout(() => {
+        navigate("/product-listing");
+      }, 2000);
+      toast.success("PRODUCT UPDATED SUCCESSFULLY", {
+        position: "top-right",
+        autoClose: 2000,
+        pauseHover: true,
+        draggable: true,
+      });
+    } catch (error) {
+      if (error) {
+        toast.error("FAILED TRY AGAIN", {
+          position: "top-right",
+          autoClose: 4000,
+          pauseHover: true,
+          draggable: true,
+        });
+        console.log(error);
+      }
+    }
+  };
+  const DeclineProduct = async () => {
+    try {
+      const { data } = await axios.patch("/product/product-status", {
+        productStatus: "DISAPPROVED",
+        productId,
+      });
+      setViewProduct(data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div
+        className="spinner mx-auto"
+        align="center"
+        id="spinner"
+        style={{
+          position: "absolute",
+          top: "calc(50% - 60px)",
+          left: "calc(50% - 60px)",
+          justifyContent: "center",
+          alignItems: "center",
+          textAlign: "center",
+          margin: "auto",
+        }}
+      ></div>
+    );
+  }
+
   return (
     <>
       <div>
         <div className="grid-container">
           <header className="header">
+            <ToastContainer />
             <div className="header__message">
               <h2>Product Details</h2>
             </div>
@@ -45,16 +127,21 @@ const ViewProduct = () => {
               </div>
             </div>
           </header>
-
           <SellersSidebar />
-
           <main className="main">
             <div
               className="d-flex flex-end my-3"
               style={{ justifyContent: "right" }}
             >
-              <button className="btn btn-success mx-3 px-5">Approve</button>
-              <button className="btn btn-danger px-5">Decline</button>
+              <button
+                className="btn btn-success mx-3 px-5"
+                onClick={UpdateProduct}
+              >
+                Approve
+              </button>
+              <button className="btn btn-danger px-5" onClick={DeclineProduct}>
+                Decline
+              </button>
             </div>
             <div className="main-overview">
               <div className="overview-card">
@@ -105,15 +192,21 @@ const ViewProduct = () => {
                       </div>
                       <div className="d-flex">
                         <p className="mx-3">Country of Origin</p>
-                        <p className="description-value">Uganda</p>
+                        <p className="description-value">
+                          {viewProduct.countryOfOrigin}
+                        </p>
                       </div>
                       <div className="d-flex">
                         <p className="mx-3">Lead Time [Min]</p>
-                        <p className="description-value">2 weeks</p>
+                        <p className="description-value">
+                          {viewProduct.minDuration}
+                        </p>
                       </div>
                       <div className="d-flex">
                         <p className="mx-3">Lead Time [Max]</p>
-                        <p className="description-value">4 weeks</p>
+                        <p className="description-value">
+                          {viewProduct.maxDuration}
+                        </p>
                       </div>
                       <div className="d-flex">
                         <p className="mx-3">Supply Capacity</p>
@@ -200,6 +293,7 @@ const ViewProduct = () => {
               </div>
             </div>
           </main>
+          );
         </div>
       </div>
     </>

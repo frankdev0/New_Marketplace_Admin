@@ -92,21 +92,34 @@ const ForgotPassword = () => {
             </div>
             <div className="auth-rhs-content d-flex align-items-center">
               <div className="rhs-inner">
-                <h2>Forgot Password</h2>
-                <p>Enter registered email address to reset your password</p>
+                <h2>Create Password</h2>
                 <div className="auth-account-wrap">
                   <form className="auth-form" onSubmit={handleSubmit}>
                     <div class="mb-3">
                       <label for="exampleInputEmail1" className="form-label">
-                        Email address
+                        Password
                       </label>
                       <input
-                        type="email"
+                        type="password"
                         className="form-control"
                         id="exampleInputEmail1"
                         aria-describedby="emailHelp"
                         value={email}
-                        name="email"
+                        name="password"
+                        onChange={handleEmail}
+                      />
+                    </div>
+                    <div class="mb-3">
+                      <label for="exampleInputEmail1" className="form-label">
+                        Confirm Password
+                      </label>
+                      <input
+                        type="password"
+                        className="form-control"
+                        id="exampleInputEmail1"
+                        aria-describedby="emailHelp"
+                        value={email}
+                        name="password"
                         onChange={handleEmail}
                       />
                     </div>

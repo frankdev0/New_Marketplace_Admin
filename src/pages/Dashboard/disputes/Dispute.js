@@ -1,24 +1,65 @@
 import React, { useEffect, useState } from "react";
 import { Iconly } from "react-iconly";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { axios } from "../../../components/baseUrl";
 import SellersSidebar from "../dashboardComponents/SideBar";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Dispute = () => {
   const [disputes, setDisputes] = useState([]);
   const [viewDispute, setViewDispute] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  const navigate = useNavigate();
 
   const getDisputes = async () => {
     try {
       axios.get("/dispute").then((response) => {
         setDisputes(response.data.data);
         console.log(response.data.data);
-        setLoading(true);
+        setLoading(false);
       });
     } catch (error) {
-      console.log(error);
-      setLoading(true);
+      if (error) {
+        toast.error("FAILED TRY AGAIN", {
+          position: "top-right",
+          autoClose: 4000,
+          pauseHover: true,
+          draggable: true,
+        });
+        console.log(error);
+      }
+      setLoading(false);
+    }
+  };
+
+  const UpdateDispute = async (id) => {
+    try {
+      const { data } = await axios.patch("/dispute", {
+        status: "RESOLVED",
+        disputeID: id,
+      });
+      setViewDispute(data.data);
+      setTimeout(() => {
+        navigate("/dispute");
+      }, 2000);
+      toast.success("DISPUTE UPDATED SUCCESSFULLY", {
+        position: "top-right",
+        autoClose: 2000,
+        pauseHover: true,
+        draggable: true,
+      });
+    } catch (error) {
+      if (error) {
+        toast.error("FAILED TRY AGAIN", {
+          position: "top-right",
+          autoClose: 4000,
+          pauseHover: true,
+          draggable: true,
+        });
+        console.log(error);
+      }
     }
   };
 
@@ -35,10 +76,30 @@ const Dispute = () => {
     });
   };
 
+  if (loading) {
+    return (
+      <div
+        className="spinner mx-auto"
+        align="center"
+        id="spinner"
+        style={{
+          position: "absolute",
+          top: "calc(50% - 60px)",
+          left: "calc(50% - 60px)",
+          justifyContent: "center",
+          alignItems: "center",
+          textAlign: "center",
+          margin: "auto",
+        }}
+      ></div>
+    );
+  }
+
   return (
     <>
       <div>
         <div className="grid-container">
+          <ToastContainer />
           <header className="header">
             <div className="header__message">
               <h2>All Buyers Dispute</h2>
@@ -144,9 +205,16 @@ const Dispute = () => {
                                 </div>
                               </td>
                               <td>
-                                <div className="text-warning">
-                                  {dispute.status}
-                                </div>
+                                {dispute.status === "PENDING" && (
+                                  <div className="text-warning rounded-pill">
+                                    PENDING
+                                  </div>
+                                )}
+                                {dispute.status === "RESOLVED" && (
+                                  <div className="text-success rounded-pill">
+                                    RESOLVED
+                                  </div>
+                                )}
                               </td>
                               <td>
                                 <Link
@@ -257,6 +325,9 @@ const Dispute = () => {
                                         <button
                                           type="button"
                                           className="btn btn-success"
+                                          onClick={() =>
+                                            UpdateDispute(dispute.id)
+                                          }
                                         >
                                           Mark as Resolved
                                         </button>

@@ -1,14 +1,42 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Iconly } from "react-iconly";
 import { Link } from "react-router-dom";
 import { axios } from "../../../components/baseUrl";
+import PaginationComponent from "../../../components/PaginationComponent";
 import { ProtectedRoutes } from "../../../components/ProtectedRoutes";
+import Search from "../dashboardComponents/Search";
 import SellersSidebar from "../dashboardComponents/SideBar";
 
 const SellersRfqs = () => {
   const [rfqs, setRfqs] = useState([]);
   const [loading, setLoading] = useState(false);
   const [viewRfq, setViewRfq] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [search, setSearch] = useState("");
+  const ITEMS_PER_PAGE = 5;
+  const [totalItems, setTotalItems] = useState(0);
+
+  const rfqData = useMemo(() => {
+    let computedRfqs = rfqs;
+
+    if (search) {
+      computedRfqs = computedRfqs.filter(
+        (comment) =>
+          comment.status.toLowerCase().includes(search.toLowerCase()) ||
+          comment.productName.toLowerCase().includes(search.toLowerCase()) ||
+          comment.termsOfTrade.toLowerCase().includes(search.toLowerCase())
+      );
+    }
+
+    setTotalItems(computedRfqs.length);
+
+    //currentPage Slice
+
+    return computedRfqs.slice(
+      (currentPage - 1) * ITEMS_PER_PAGE,
+      (currentPage - 1) * ITEMS_PER_PAGE + ITEMS_PER_PAGE
+    );
+  }, [rfqs, currentPage, search]);
 
   const getRfqs = async () => {
     try {
@@ -36,6 +64,25 @@ const SellersRfqs = () => {
     });
   };
 
+  if (loading) {
+    return (
+      <div
+        className="spinner mx-auto"
+        align="center"
+        id="spinner"
+        style={{
+          position: "absolute",
+          top: "calc(50% - 60px)",
+          left: "calc(50% - 60px)",
+          justifyContent: "center",
+          alignItems: "center",
+          textAlign: "center",
+          margin: "auto",
+        }}
+      ></div>
+    );
+  }
+
   return (
     <>
       <div>
@@ -44,23 +91,14 @@ const SellersRfqs = () => {
             <div className="header__message">
               <h2>My RFQs</h2>
             </div>
+
             <div className="header__search">
-              <form>
-                <div className="custom__search">
-                  <Iconly
-                    name="Search"
-                    set="light"
-                    primaryColor="#5C5C5C"
-                    size="medium"
-                  />
-                  <input
-                    type="text"
-                    className="form-control custom-style"
-                    id=""
-                    placeholder="Search for orders, inquiries and more"
-                  />
-                </div>
-              </form>
+              <Search
+                onSearch={(value) => {
+                  setSearch(value);
+                  setCurrentPage(1);
+                }}
+              />
 
               <div className="notify-wrap position-relative">
                 <Iconly
@@ -124,8 +162,8 @@ const SellersRfqs = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {rfqs &&
-                        rfqs.map((rfq, index) => {
+                      {rfqData &&
+                        rfqData.map((rfq, index) => {
                           return (
                             <tr key={rfq.id}>
                               <td scope="row">{index + 1}</td>
@@ -165,6 +203,12 @@ const SellersRfqs = () => {
                 </div>
               </div>
             </div>
+            <PaginationComponent
+              total={totalItems}
+              itemsPerPage={ITEMS_PER_PAGE}
+              currentPage={currentPage}
+              onPageChange={(page) => setCurrentPage(page)}
+            />
           </main>
         </div>
       </div>
@@ -172,4 +216,4 @@ const SellersRfqs = () => {
   );
 };
 
-export default ProtectedRoutes(SellersRfqs, ["BUYER"]);
+export default ProtectedRoutes(SellersRfqs, ["SUPER_ADMIN"]);

@@ -1,18 +1,48 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { Iconly } from "react-iconly";
 import SellersSidebar from "../dashboardComponents/SideBar";
 import { axios } from "../../../components/baseUrl";
+import { ProtectedRoutes } from "../../../components/ProtectedRoutes";
+import Search from "../dashboardComponents/Search";
+import PaginationComponent from "../../../components/PaginationComponent";
 
 const SellersOrder = () => {
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [search, setSearch] = useState("");
+  const ITEMS_PER_PAGE = 5;
+  const [totalItems, setTotalItems] = useState(0);
+
+  const transactionData = useMemo(() => {
+    let computedTransactions = transactions;
+
+    if (search) {
+      computedTransactions = computedTransactions.filter(
+        (comment) =>
+          comment.status.toLowerCase().includes(search.toLowerCase()) ||
+          comment.product.productName
+            .toLowerCase()
+            .includes(search.toLowerCase())
+      );
+    }
+
+    setTotalItems(computedTransactions.length);
+
+    //currentPage Slice
+
+    return computedTransactions.slice(
+      (currentPage - 1) * ITEMS_PER_PAGE,
+      (currentPage - 1) * ITEMS_PER_PAGE + ITEMS_PER_PAGE
+    );
+  }, [transactions, currentPage, search]);
 
   const getTransactions = async () => {
     try {
       axios.get("/order").then((response) => {
         setTransactions(response.data.data);
-        console.log(response);
+        console.log(response.data.data);
         setLoading(false);
       });
     } catch (error) {
@@ -25,6 +55,25 @@ const SellersOrder = () => {
     getTransactions();
   }, []);
 
+  if (loading) {
+    return (
+      <div
+        className="spinner mx-auto"
+        align="center"
+        id="spinner"
+        style={{
+          position: "absolute",
+          top: "calc(50% - 60px)",
+          left: "calc(50% - 60px)",
+          justifyContent: "center",
+          alignItems: "center",
+          textAlign: "center",
+          margin: "auto",
+        }}
+      ></div>
+    );
+  }
+
   return (
     <>
       <div className="grid-container">
@@ -32,23 +81,14 @@ const SellersOrder = () => {
           <div className="header__message">
             <h2>Hello Erhun Abbe</h2>
           </div>
+
           <div className="header__search">
-            <form>
-              <div className="custom__search">
-                <Iconly
-                  name="Search"
-                  set="light"
-                  primaryColor="#5C5C5C"
-                  size="medium"
-                />
-                <input
-                  type="text"
-                  className="form-control custom-style"
-                  id=""
-                  placeholder="Search for orders, inquiries and more"
-                />
-              </div>
-            </form>
+            <Search
+              onSearch={(value) => {
+                setSearch(value);
+                setCurrentPage(1);
+              }}
+            />
 
             <div className="notify-wrap position-relative">
               <Iconly
@@ -103,8 +143,9 @@ const SellersOrder = () => {
                 <table className="table table-striped">
                   <thead>
                     <tr>
+                      <th scope="col">S/N</th>
+                      <th>Porduct Name</th>
                       <th scope="col">Order No</th>
-                      <th scope="col">Product Info</th>
                       <th scope="col">Product Cost</th>
                       <th scope="col">Shipping Terms</th>
 
@@ -113,165 +154,59 @@ const SellersOrder = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>0123456543</td>
-                      <td>
-                        <div className="d-flex">
-                          <div className="flex-shrink-0">
-                            <img
-                              className="table-product-img"
-                              src=""
-                              alt="..."
-                            />
-                          </div>
-                          <div className="flex-grow-1 ms-3">
-                            <p>Dried Hibiscus</p>
-                          </div>
-                        </div>
-                      </td>
-                      <td>USD 40,000</td>
-                      <td>FOB</td>
-                      <td>
-                        <div className="text-warning">Pending</div>
-                      </td>
-                      <td>
-                        <Link to="/view-orders">view</Link>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>0123456543</td>
-                      <td>
-                        <div className="d-flex">
-                          <div className="flex-shrink-0">
-                            <img
-                              className="table-product-img"
-                              src=""
-                              alt="..."
-                            />
-                          </div>
-                          <div className="flex-grow-1 ms-3">
-                            <p>Dried Hibiscus</p>
-                          </div>
-                        </div>
-                      </td>
-                      <td>USD 40,000</td>
-                      <td>CIF</td>
-                      <td>
-                        <div className="text-primary">Processing</div>
-                      </td>
-                      <td>
-                        <Link to="/view-orders">view</Link>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>0123456543</td>
-                      <td>
-                        <div className="d-flex">
-                          <div className="flex-shrink-0">
-                            <img
-                              className="table-product-img"
-                              src=""
-                              alt="..."
-                            />
-                          </div>
-                          <div className="flex-grow-1 ms-3">
-                            <p>Dried Hibiscus</p>
-                          </div>
-                        </div>
-                      </td>
-                      <td>XAF 20,000,000</td>
-                      <td>Local Delivery</td>
-                      <td>
-                        <div className="text-success">Shipped</div>
-                      </td>
-                      <td>
-                        <Link to="/view-orders">view</Link>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>0123456543</td>
-                      <td>
-                        <div className="d-flex">
-                          <div className="flex-shrink-0">
-                            <img
-                              className="table-product-img"
-                              src=""
-                              alt="..."
-                            />
-                          </div>
-                          <div className="flex-grow-1 ms-3">
-                            <p>Dried Hibiscus</p>
-                          </div>
-                        </div>
-                      </td>
-                      <td>USD 40,000</td>
-                      <td>CFR</td>
-                      <td>
-                        <div className="text-success">Delivered</div>
-                      </td>
-                      <td>
-                        <Link to="/view-orders">view</Link>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>0123456543</td>
-                      <td>
-                        <div className="d-flex">
-                          <div className="flex-shrink-0">
-                            <img
-                              className="table-product-img"
-                              src=""
-                              alt="..."
-                            />
-                          </div>
-                          <div className="flex-grow-1 ms-3">
-                            <p>Dried Hibiscus</p>
-                          </div>
-                        </div>
-                      </td>
-                      <td>USD 40,000</td>
-                      <td>CFR</td>
-                      <td>
-                        <div className="text-success">Delivered</div>
-                      </td>
-                      <td>
-                        <Link to="/view-orders">view</Link>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>0123456543</td>
-                      <td>
-                        <div className="d-flex">
-                          <div className="flex-shrink-0">
-                            <img
-                              className="table-product-img"
-                              src=""
-                              alt="..."
-                            />
-                          </div>
-                          <div className="flex-grow-1 ms-3">
-                            <p>Dried Hibiscus</p>
-                          </div>
-                        </div>
-                      </td>
-                      <td>USD 40,000</td>
-                      <td>CFR</td>
-                      <td>
-                        <div className="text-success">Delivered</div>
-                      </td>
-                      <td>
-                        <Link to="/view-orders">view</Link>
-                      </td>
-                    </tr>
+                    {transactionData &&
+                      transactionData.map((transaction, index) => {
+                        return (
+                          <tr key={transaction.id}>
+                            <th scope="row">{index + 1}</th>
+                            <td>
+                              <div className="d-flex">
+                                <div className="flex-shrink-0">
+                                  <img
+                                    className="table-product-img"
+                                    src=""
+                                    alt="..."
+                                  />
+                                </div>
+                                <div className="flex-grow-1 ms-3">
+                                  <p>
+                                    {transaction.product &&
+                                      transaction.product.productName}
+                                  </p>
+                                </div>
+                              </div>
+                            </td>
+                            <td>USD {transaction.orderNumber}</td>
+                            <td>USD {transaction.cost}</td>
+                            <td>{transaction.incoterm}</td>
+                            <td>
+                              <div className="text-warning">
+                                {transaction.status}
+                              </div>
+                            </td>
+                            <td>
+                              <Link to={`/view-order/${transaction.id}`}>
+                                view
+                              </Link>
+                            </td>
+                          </tr>
+                        );
+                      })}
                   </tbody>
                 </table>
               </div>
             </div>
           </div>
+          <PaginationComponent
+            total={totalItems}
+            itemsPerPage={ITEMS_PER_PAGE}
+            currentPage={currentPage}
+            onPageChange={(page) => setCurrentPage(page)}
+          />
         </main>
       </div>
     </>
   );
 };
 
-export default SellersOrder;
+export default ProtectedRoutes(SellersOrder);

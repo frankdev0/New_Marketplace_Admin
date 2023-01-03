@@ -1,12 +1,40 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Iconly } from "react-iconly";
 import "../../Dashboard/Dashboard.css";
 import "./Sidebar.css";
+import { axios } from "../../../components/baseUrl";
+import { ProtectedRoutes } from "../../../components/ProtectedRoutes";
+import swal from "sweetalert";
+import { AppContext } from "../../../components/AppState";
 
 const SellersSidebar = () => {
-  const [open, setOpen] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
+  // const [isOpen, setIsOpen] = useState(false);
+
+  const navigate = useNavigate();
+
+  const { user } = useContext(AppContext);
+
+  const handleLogout = async () => {
+    try {
+      axios.get("/auth/signout").then((response) => {
+        console.log(response.data.data);
+        if (response.data.data) {
+          swal({
+            title: "Logout",
+            text: "You've Logged Out Successfully",
+            icon: "success",
+            button: "ok",
+          });
+          navigate("/login");
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <aside id="seller" className="sidenav">
@@ -16,7 +44,9 @@ const SellersSidebar = () => {
 
         <div className="user-area">
           <div className="d-flex align-items-center">
-            <div className="flex-shrink-0 user-area-art">E</div>
+            <div className="flex-shrink-0 user-area-art">
+              {user.firstName && user.firstName.charAt(0).toUpperCase()}
+            </div>
             <div className="flex-grow-1 ms-2">
               <p>Erhun Abbe</p>
             </div>
@@ -44,7 +74,21 @@ const SellersSidebar = () => {
             </li>
           </Link>
 
-          <div className={open ? "sidebar-item open" : "sidebar-item"}>
+          <Link className="sidenav-link" to="/buyers">
+            <li className="sidenav__list-item">
+              <Iconly className="list_icon" name="People" size="small" />
+              Buyers
+            </li>
+          </Link>
+
+          <Link className="sidenav-link" to="/sellers">
+            <li className="sidenav__list-item">
+              <Iconly className="list_icon" name="People" size="small" />
+              Sellers
+            </li>
+          </Link>
+
+          {/* <div className={open ? "sidebar-item open" : "sidebar-item"}>
             <div className="sidenav-link">
               <li className="sidenav__list-item" onClick={() => setOpen(!open)}>
                 <Iconly className="list_icon" name="People" size="small" />
@@ -81,9 +125,9 @@ const SellersSidebar = () => {
                 </li>
               </ul>
             </div>
-          </div>
+          </div> */}
 
-          <div className={isOpen ? "sidebar-item open" : "sidebar-item"}>
+          {/* <div className={isOpen ? "sidebar-item open" : "sidebar-item"}>
             <div className="sidenav-link">
               <li
                 className="sidenav__list-item"
@@ -123,7 +167,7 @@ const SellersSidebar = () => {
                 </li>
               </ul>
             </div>
-          </div>
+          </div> */}
 
           {/* <Link className="sidenav-link" to="/buyers">
             <li className="sidenav__list-item">
@@ -197,7 +241,7 @@ const SellersSidebar = () => {
             </li>
           </Link>
 
-          <Link className="sidenav-link" to="/">
+          <Link to="/login" className="sidenav-link" onClick={handleLogout}>
             <li className="sidenav__list-item">
               <Iconly
                 className="nav-icon"
@@ -223,4 +267,4 @@ const SellersSidebar = () => {
   );
 };
 
-export default SellersSidebar;
+export default ProtectedRoutes(SellersSidebar);

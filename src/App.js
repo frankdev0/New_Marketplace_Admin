@@ -61,8 +61,8 @@ function App() {
         <Route exact path="settings" element={<Settings />} />
         <Route path="/sellers-disputes" element={<SellersDispute />} />
         <Route path="/disputes" element={<Dispute />} />
-        <Route path="/view-orders" element={<ViewOrders />} />
-        <Route path="/view-product" element={<ViewProduct />} />
+        <Route path="/view-order/:orderId" element={<ViewOrders />} />
+        <Route path="/view-product/:productId" element={<ViewProduct />} />
         <Route path="/view-rfq" element={<ViewRfq />} />
         <Route path="/create-category" element={<CreateCategories />} />
         <Route path="/overview" element={<Overview />} />

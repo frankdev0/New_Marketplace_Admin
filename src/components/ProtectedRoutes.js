@@ -25,7 +25,7 @@ export const ProtectedRoutes = (WrappedComponent, roles) => {
           }
 
           const filterRoles = roles.filter((role) => {
-            return role === user.type;
+            return role === user.role;
           });
 
           if (filterRoles.length > 0) {

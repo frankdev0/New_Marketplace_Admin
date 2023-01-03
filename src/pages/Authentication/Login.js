@@ -7,6 +7,7 @@ import SiteLogo from "../../assets/img/logo.png";
 import { ReactNotifications } from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
 import { Store } from "react-notifications-component";
+import swal from "sweetalert";
 
 const Login = () => {
   const [inputType, setInputType] = useState("password");
@@ -70,7 +71,17 @@ const Login = () => {
       // setUser(data);
       console.log("data", data);
       localStorage.setItem("user", true);
-      navigate("/");
+      if (data) {
+        swal({
+          title: "Login Successful",
+          text: "You've Successfully Logged In",
+          icon: "success",
+          button: "ok",
+        });
+        navigate("/");
+      }
+
+      // navigate("/");
     } catch (err) {
       setLoading(false);
       localStorage.setItem("user", false);

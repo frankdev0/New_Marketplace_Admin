@@ -1,16 +1,60 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Iconly } from "react-iconly";
 import { Link } from "react-router-dom";
+import { AppContext } from "../../../components/AppState";
+import { axios } from "../../../components/baseUrl";
 import SellersSidebar from "../dashboardComponents/SideBar";
 
 const Overview = () => {
+  const [activitySummaty, setActivitySummary] = useState();
+  const [loading, setLoading] = useState(true);
+
+  const { user } = useContext(AppContext);
+
+  const getActivitySummary = async () => {
+    try {
+      axios.get("/dashboard/admin/activity-summary").then((response) => {
+        setActivitySummary(response.data.data);
+        console.log(response.data);
+        setLoading(false);
+      });
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    getActivitySummary();
+  }, []);
+
+  if (loading) {
+    return (
+      <div
+        className="spinner mx-auto"
+        align="center"
+        id="spinner"
+        style={{
+          position: "absolute",
+          top: "calc(50% - 60px)",
+          left: "calc(50% - 60px)",
+          justifyContent: "center",
+          alignItems: "center",
+          textAlign: "center",
+          margin: "auto",
+        }}
+      ></div>
+    );
+  }
+
   return (
     <>
       <div>
         <div className="grid-container">
           <header className="header">
             <div className="header__message">
-              <h2>Create New Products</h2>
+              <h2>
+                Hello {user.firstName} {user.LastName}
+              </h2>
             </div>
             <div className="header__search">
               <form>
@@ -52,7 +96,7 @@ const Overview = () => {
                   <h2>Total Products</h2>
                   <p>Detailed history is on the Product page</p>
                   <div className="d-flex justify-content-between mt-4">
-                    <h3>10</h3>
+                    <h3>{activitySummaty.total_number_of_products}</h3>
                   </div>
                 </div>
               </div>
@@ -61,7 +105,7 @@ const Overview = () => {
                   <h2>All RFQ's</h2>
                   <p>Detailed history is on the RFQ page</p>
                   <div className="d-flex justify-content-between mt-4">
-                    <h3>22</h3>
+                    <h3>{activitySummaty.total_number_of_enquiries}</h3>
                   </div>
                 </div>
               </div>
@@ -70,7 +114,12 @@ const Overview = () => {
                   <h2>Total Orders</h2>
                   <p>Detailed history is on the Order page</p>
                   <div className="d-flex justify-content-between mt-4">
-                    <h3>5</h3>
+                    <h3>
+                      {activitySummaty.total_confirmed_orders +
+                        activitySummaty.total_delivered_orders +
+                        activitySummaty.total_pending_orders +
+                        activitySummaty.total_shipped_orders}
+                    </h3>
                   </div>
                 </div>
               </div>

@@ -52,7 +52,7 @@ const SellersDashboard = () => {
               <div>
                 <h2>Total Transactions</h2>
                 {/* <p>Detailed transaction history is on the order page</p> */}
-                <div class="d-flex justify-content-between mt-4">
+                <div className="d-flex justify-content-between mt-4">
                   <h3>$125,000</h3>
                 </div>
               </div>
@@ -61,7 +61,7 @@ const SellersDashboard = () => {
               <div>
                 <h2>Total Orders</h2>
                 {/* <p>Detailed transaction history is on the order page</p> */}
-                <div class="d-flex justify-content-between mt-4">
+                <div className="d-flex justify-content-between mt-4">
                   <h3>22</h3>
                 </div>
               </div>
@@ -70,7 +70,7 @@ const SellersDashboard = () => {
               <div>
                 <h2>Total Quotes</h2>
                 {/* <p>Detailed transaction history is on the order page</p> */}
-                <div class="d-flex justify-content-between mt-4">
+                <div className="d-flex justify-content-between mt-4">
                   <h3>5</h3>
                 </div>
               </div>
@@ -80,8 +80,8 @@ const SellersDashboard = () => {
           <h1 className="section-title">Latest Orders</h1>
           <div className="main-overview">
             <div className="overview-card no-padding">
-              <div class="table-responsive">
-                <table class="table table-striped">
+              <div className="table-responsive">
+                <table className="table table-striped">
                   <thead>
                     <tr>
                       <th scope="col">Order No</th>

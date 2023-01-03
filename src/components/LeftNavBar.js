@@ -1,7 +1,8 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { axios } from "./baseUrl";
 import { Iconly } from "react-iconly";
 import { AppContext } from "./AppState";
+import Search from "../pages/Dashboard/dashboardComponents/Search";
 
 const LeftNavBar = () => {
   const handleLogout = async () => {
@@ -13,6 +14,10 @@ const LeftNavBar = () => {
       console.log(error);
     }
   };
+
+  const [search, setSearch] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 50;
 
   const { user } = useContext(AppContext);
   console.log("this is my user", user);
@@ -27,12 +32,18 @@ const LeftNavBar = () => {
               primaryColor="#5C5C5C"
               size="medium"
             />
-            <input
+            <Search
+              onSearch={(value) => {
+                setSearch(value);
+                setCurrentPage(1);
+              }}
+            />
+            {/* <input
               type="text"
               className="form-control custom-style"
               id=""
               placeholder="Search for orders, inquiries and more"
-            />
+            /> */}
           </div>
         </form>
 

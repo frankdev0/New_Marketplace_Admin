@@ -14,3 +14,25 @@ code {
 
 @import url(../src/pages/Dashboard/settings/SellerSettings.css);
 
+.spinner {
+  border: 10px solid #f3f3f3;
+  border-top: 10px solid #333;
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  animation: spin 1s linear infinite;
+}
+
+
+
+@keyframes spin {
+  from {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+
+  to {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}

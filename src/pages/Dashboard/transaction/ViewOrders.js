@@ -1,10 +1,47 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Iconly } from "react-iconly";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { axios } from "../../../components/baseUrl";
 import SellersSidebar from "../dashboardComponents/SideBar";
 import "./sellersorder.css";
 
 const ViewOrders = () => {
+  const [viewOrder, setViewOrder] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const { orderId } = useParams();
+
+  const showOrder = () => {
+    setLoading(true);
+    axios.get(`/order/${orderId}`).then((response) => {
+      setViewOrder(response.data.data);
+      console.log(response.data.data);
+      setLoading(false);
+    });
+  };
+
+  useEffect(() => {
+    showOrder();
+  }, []);
+
+  if (loading) {
+    return (
+      <div
+        className="spinner mx-auto"
+        align="center"
+        id="spinner"
+        style={{
+          position: "absolute",
+          top: "calc(50% - 60px)",
+          left: "calc(50% - 60px)",
+          justifyContent: "center",
+          alignItems: "center",
+          textAlign: "center",
+          margin: "auto",
+        }}
+      ></div>
+    );
+  }
+
   return (
     <>
       <div>
@@ -94,7 +131,7 @@ const ViewOrders = () => {
                     </tr>
                     <tr>
                       <td>Destination</td>
-                      <td>Nigeria</td>
+                      <td>{viewOrder.countryOfOrigin}</td>
                       <td></td>
                     </tr>
                     <tr>

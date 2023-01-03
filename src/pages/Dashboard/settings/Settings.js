@@ -1,12 +1,38 @@
-import React from "react";
+import React, { useState } from "react";
 import { Iconly } from "react-iconly";
 import { Link } from "react-router-dom";
 
 import Avatar from "@mui/material/Avatar";
 import passport from "../../../assets/img/passport.jpg";
 import SellersSidebar from "../dashboardComponents/SideBar";
+import { axios } from "../../../components/baseUrl";
+import PaginationComponent from "../../../components/PaginationComponent";
+import Search from "../../../components/Search";
 
 const Settings = () => {
+  const [info, setInfo] = useState([]);
+  const [user, setUser] = useState({
+    firstName: "",
+    LastName: "",
+    password: "",
+    role: "",
+    phoneNumber: "",
+    email: "",
+  });
+
+  const handleChange = (e) => {
+    setUser({ ...user, [e.target.name]: e.target.value });
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log(user);
+    try {
+      const { data } = await axios.post("/auth/admin-register-user", user);
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <>
       <div>
@@ -16,7 +42,7 @@ const Settings = () => {
               <h2>My Account</h2>
             </div>
             <div className="header__search">
-              <form>
+              <form onSubmit={handleSubmit}>
                 <div className="custom__search">
                   <Iconly
                     name="Search"
@@ -66,23 +92,27 @@ const Settings = () => {
                 </div>
 
                 <div className="seller-setting-form">
-                  <form>
+                  <form onSubmit={handleSubmit}>
                     <div className="seller-setting-formgroup">
                       <div className="form-group-right">
                         <div className="form-group">
-                          <label>Full Name</label>
+                          <label>FirstName</label>
                           <input
                             className="form-control"
+                            name="firstName"
                             type="text"
                             id="fullname"
+                            onChange={handleChange}
                             placeholder="Erhuan Abhe"
                           />
                         </div>
                         <div className="form-group">
-                          <label>Business Name</label>
+                          <label>Email</label>
                           <input
                             className="form-control"
                             type="text"
+                            name="email"
+                            onChange={handleChange}
                             id="businessname"
                             placeholder="Fushion & co"
                           />
@@ -92,25 +122,29 @@ const Settings = () => {
                           <input
                             className="form-control"
                             type="password"
+                            name="password"
+                            onChange={handleChange}
                             id="text"
                             placeholder="********"
                           />
                         </div>
                         <div className="seller-seting-submit">
-                          <button type="submit" className="btn btn-primary">
+                          <button type="submit" className="btn btn-dark mx-4">
+                            Create User
+                          </button>
+                          {/* <button type="submit" className="btn btn-primary">
                             Change Password
-                          </button>
-                          <button type="submit" className="savechabnges-btn">
-                            Save Changes
-                          </button>
+                          </button> */}
                         </div>
                       </div>
                       <div className="form-group-left">
                         <div className="form-group">
-                          <label>Country</label>
+                          <label>LastName</label>
                           <input
                             className="form-control"
                             type="text"
+                            name="LastName"
+                            onChange={handleChange}
                             id="country"
                             placeholder="Nigeria"
                           />
@@ -121,22 +155,40 @@ const Settings = () => {
                             className="form-control"
                             type="number"
                             id="phonenumber"
+                            name="phoneNumber"
+                            onChange={handleChange}
                             placeholder="+234-567-890-123"
                           />
                         </div>
                         <div className="form-group">
-                          <label>Subscription Info</label>
-                          <textarea
+                          <label>Employee Role</label>
+                          <select
+                            className="form-control bg-light user-input"
+                            onChange={handleChange}
+                            name="role"
+                          >
+                            <option>....Please Select a Role</option>
+                            <option>SUPER_ADMIN</option>
+                            <option>SOURCE_PRO_ADMIN</option>
+                            <option>MARKETPLACE_ADMINN</option>
+                            <option>FINANCE</option>
+                            <option>WEBSITE_ADMIN</option>
+                            <option>SOURCE_PRO_AGENT</option>
+                          </select>
+                          {/* <input
                             className="form-control"
                             type="text"
                             id="subscription"
-                          />
+                          /> */}
                         </div>
-                        <div className="seller-seting-joindate">
+                        {/* <div className="seller-seting-joindate">
                           <p>Joined Since</p>
                           <p>March 15th 2019</p>
-                        </div>
+                        </div> */}
                       </div>
+                      {/* <button type="submit" className="btn btn-dark">
+                        Create User
+                      </button> */}
                     </div>
                   </form>
                 </div>
