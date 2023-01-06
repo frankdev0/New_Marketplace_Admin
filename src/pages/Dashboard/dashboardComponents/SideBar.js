@@ -20,6 +20,7 @@ const SellersSidebar = () => {
     try {
       axios.get("/auth/signout").then((response) => {
         console.log(response.data.data);
+
         if (response.data.data) {
           swal({
             title: "Logout",
@@ -250,15 +251,6 @@ const SellersSidebar = () => {
                 style={{ marginRight: "15px" }}
               />
               Logout
-            </li>
-          </Link>
-        </ul>
-
-        <ul className="sidenav__list mt-auto">
-          <Link className="sidenav-link" to="/">
-            <li className="sidenav__list-item">
-              <Iconly className="list_icon" name="ArrowLeft" size="small" />
-              Marketplace
             </li>
           </Link>
         </ul>

@@ -1,6 +1,7 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import { Iconly } from "react-iconly";
 import { Link } from "react-router-dom";
+import { AppContext } from "../../../components/AppState";
 import { axios } from "../../../components/baseUrl";
 import PaginationComponent from "../../../components/PaginationComponent";
 import Search from "../dashboardComponents/Search";
@@ -15,6 +16,10 @@ const Sellers = () => {
   const [search, setSearch] = useState("");
   const ITEMS_PER_PAGE = 5;
   const [totalItems, setTotalItems] = useState(0);
+  const [summary, setSummary] = useState("");
+  const [viewSummary, setViewSummary] = useState("");
+
+  const { user } = useContext(AppContext);
 
   const commentsData = useMemo(() => {
     let computedSellers = sellers;
@@ -55,8 +60,9 @@ const Sellers = () => {
 
   const getSummary = async () => {
     try {
-      axios.get("/dashboard/admin/buyer-activity-summary").then((response) => {
-        console.log("summary", response.data.data);
+      await axios.get("/dashboard/admin/activity-summary").then((response) => {
+        setSummary(response.data.data);
+        console.log("all sellers summary", response.data.data);
         setLoading(false);
       });
     } catch (error) {
@@ -68,36 +74,61 @@ const Sellers = () => {
     getSummary();
   }, []);
 
-  const handleSellers = (e) => {
-    if (e.target.value === "buyers") {
-      axios.get("/auth/users?role=SELLER").then((response) => {
+  const handleSellers = async (e) => {
+    if (e.target.value === "sellers") {
+      await axios.get("/auth/users?role=SELLER").then((response) => {
         setSellers(response.data.data);
         console.log("buyers", response.data.data);
       });
-    } else if (e.target.value === "after-buyers") {
+    } else if (e.target.value === "after-sellers") {
       axios
         .get("/auth/users?role=SELLER&hearAboutUs=AFCTCA")
         .then((response) => {
           setSellers(response.data.data);
-          console.log("after-buyers", response.data.data);
+          console.log("after-Sellers", response.data.data);
         });
-    } else if (e.target.value === "oldMutual-buyers") {
+      await axios
+        .post("/dashboard/admin/seller-activity-summary", {
+          hearAboutUs: "AFCTCA",
+        })
+        .then((response) => {
+          setSummary(response.data.data);
+          console.log("AFCTCA summary", response.data.data);
+          setLoading(false);
+        });
+    } else if (e.target.value === "oldMutual-sellers") {
       axios
         .get("/auth/users?role=SELLER&hearAboutUs=OLD_MUTUAL")
         .then((response) => {
           setSellers(response.data.data);
-          console.log("oldMutual-buyers", response.data.data);
+          console.log("oldMutual-Sellers", response.data.data);
+        });
+      await axios
+        .post("/dashboard/admin/seller-activity-summary", {
+          hearAboutUs: "OLD_MUTUAL",
+        })
+        .then((response) => {
+          setSummary(response.data.data);
+          console.log("AFCTCA summary", response.data.data);
+          setLoading(false);
         });
     }
   };
 
-  const showSeller = (sellerID) => {
-    setViewLoader(true);
-    axios.get(`/auth/users/user/${sellerID}`).then((response) => {
-      setViewSeller(response.data.data);
-      console.log(response.data.data);
-      setViewLoader(false);
-    });
+  const showSeller = async (sellerID) => {
+    try {
+      setViewLoader(true);
+      await axios.get(`/auth/users/user/${sellerID}`).then((response) => {
+        setViewSeller(response.data.data);
+        console.log(response.data.data);
+        setViewLoader(false);
+      });
+      await axios.get(`/dashboard/seller/${sellerID}`).then((response) => {
+        console.log("from view seller", response.data.data);
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   if (loading) {
@@ -124,7 +155,9 @@ const Sellers = () => {
       <div className="grid-container">
         <header className="header">
           <div className="header__message">
-            <h2>Hello Erhun Abbe</h2>
+            <h2>
+              Hello {user.firstName} {user.LastName}
+            </h2>
           </div>
 
           <div className="header__search">
@@ -150,13 +183,30 @@ const Sellers = () => {
 
         <main className="main">
           <h1 className="section-title">Activity Summary</h1>
-          <div className="row main-overview">
-            <div className="col-4 overview-card">
+          <div className="main-overview">
+            <div className="overview-card">
               <div>
-                <h2>Total Sellers</h2>
-                {/* <p>Detailed transaction history is on the order page</p> */}
+                <h2>Total Confirmed Orders</h2>
+
                 <div className="d-flex justify-content-between mt-4">
-                  <h3>10,000</h3>
+                  <h3>{summary.total_confirmed_orders}</h3>
+                </div>
+              </div>
+            </div>
+            <div className="overview-card">
+              <div>
+                <h2>Total Pending Orders</h2>
+
+                <div className="d-flex justify-content-between mt-4">
+                  <h3>{summary.total_pending_orders}</h3>
+                </div>
+              </div>
+            </div>
+            <div className="overview-card">
+              <div>
+                <h2>Total Shipped Orders</h2>
+                <div className="d-flex justify-content-between mt-4">
+                  <h3>{summary.total_shipped_orders}</h3>
                 </div>
               </div>
             </div>
@@ -168,9 +218,9 @@ const Sellers = () => {
               style={{ width: "10rem", borderRadius: "10px" }}
             >
               <option>Select Seller</option>
-              <option value="buyers">All Sellers</option>
-              <option value="oldMutual-buyers">OldMutual Sellers</option>
-              <option value="after-buyers">After Sellers</option>
+              <option value="sellers">All Sellers</option>
+              <option value="oldMutual-sellers">OldMutual Sellers</option>
+              <option value="after-sellers">After Sellers</option>
             </select>
           </div>
 
@@ -243,8 +293,18 @@ const Sellers = () => {
                                     }}
                                   ></div>
                                 ) : (
-                                  <div className="modal-dialog">
-                                    <div className="modal-content">
+                                  <div
+                                    className="modal-dialog modal-lg"
+                                    style={{
+                                      backgroundColor: "#F5F5F5",
+                                    }}
+                                  >
+                                    <div
+                                      className="modal-content"
+                                      style={{
+                                        backgroundColor: "#F5F5F5",
+                                      }}
+                                    >
                                       <div className="modal-header">
                                         <h5
                                           className="modal-title"
@@ -259,14 +319,115 @@ const Sellers = () => {
                                           aria-label="Close"
                                         ></button>
                                       </div>
-                                      <div className="modal-body">
-                                        Name:{viewSeller.firstName}{" "}
-                                        {viewSeller.LastName}
+                                      <div className="modal-body d-flex">
+                                        <div
+                                          className="information-box-left"
+                                          style={{ padding: "15px" }}
+                                        >
+                                          <div className="d-flex">
+                                            <h6>
+                                              Name: {viewSeller.firstName}{" "}
+                                              {viewSeller.LastName}
+                                            </h6>
+                                          </div>
+                                          <div className="d-flex my-3">
+                                            <i
+                                              className="fa fa-building-o mt-1 px-1"
+                                              aria-hidden="true"
+                                            ></i>
+                                            <p>{viewSeller.businessName}</p>
+                                          </div>
+                                          <div className="d-flex my-3">
+                                            <i
+                                              className="fa fa-envelope-o mt-1 px-1"
+                                              aria-hidden="true"
+                                            ></i>
+                                            <div>{viewSeller.email}</div>
+                                          </div>
+                                          <div className="d-flex my-3">
+                                            <i
+                                              className="fa fa-phone mt-1 px-1"
+                                              aria-hidden="true"
+                                            ></i>
+                                            <div>{viewSeller.phoneNumber}</div>
+                                          </div>
+                                          <div className="d-flex my-3">
+                                            <i
+                                              className="fa fa-map-marker mt-1 px-1"
+                                              aria-hidden="true"
+                                            ></i>
+                                            <p>{viewSeller.address}</p>
+                                          </div>
+                                        </div>
+
+                                        <div
+                                          className="information-box-right"
+                                          style={{ padding: "15px" }}
+                                        >
+                                          <div className="d-flex">
+                                            <h6>Buyer's Summary:</h6>
+                                          </div>
+                                          <div className="d-flex my-3">
+                                            <i
+                                              className="fa fa-question-circle mt-1 px-1"
+                                              aria-hidden="true"
+                                            ></i>
+                                            <p>
+                                              Total Enquiries:{" "}
+                                              {/* {
+                                                viewSummary.total_number_of_enquiries
+                                              } */}
+                                            </p>
+                                          </div>
+                                          <div className="d-flex my-3">
+                                            <i
+                                              className="fa fa-shopping-cart mt-1 px-1"
+                                              aria-hidden="true"
+                                            ></i>
+                                            <div>
+                                              Total Orders:{" "}
+                                              {/* {
+                                                viewSummary.total_number_of_orders
+                                              } */}
+                                            </div>
+                                          </div>
+                                          <div className="d-flex my-3">
+                                            <i
+                                              className="fa fa-pencil-square-o mt-1 px-1"
+                                              aria-hidden="true"
+                                            ></i>
+                                            <div>
+                                              Total Responded Quotes:
+                                              {/* {
+                                                viewSummary.total_responded_quote
+                                              } */}
+                                            </div>
+                                          </div>
+                                        </div>
                                       </div>
                                       <div className="modal-body">
-                                        phoneNumber: {viewSeller.phoneNumber}
+                                        Business Decription:{" "}
+                                        {viewSeller.businessDescription}
                                       </div>
-                                      <div className="modal-body">Address:</div>
+                                      <div className="modal-body">
+                                        Hear about Us: {viewSeller.hearAboutUs}
+                                      </div>
+                                      <div className="modal-body">
+                                        Country: {viewSeller.country}
+                                      </div>
+                                      <div className="modal-body">
+                                        Supply Capacity:{" "}
+                                        {viewSeller.supplyCapacity}
+                                      </div>
+                                      <div className="modal-body">
+                                        Year Established:
+                                        {viewSeller.yearEstablished}
+                                      </div>
+                                      <div className="modal-body">
+                                        Total Annual Revenue:{" "}
+                                        {viewSeller.totalAnnualRevenue}
+                                      </div>
+
                                       <div className="modal-footer">
                                         <button
                                           type="button"
@@ -274,12 +435,6 @@ const Sellers = () => {
                                           data-bs-dismiss="modal"
                                         >
                                           Close
-                                        </button>
-                                        <button
-                                          type="button"
-                                          className="btn btn-primary"
-                                        >
-                                          Save changes
                                         </button>
                                       </div>
                                     </div>

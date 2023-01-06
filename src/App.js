@@ -28,6 +28,8 @@ import ViewRfq from "./pages/Dashboard/rfq/ViewRfq";
 import CreateCategories from "./pages/Dashboard/categories/CreateCategories";
 import Overview from "./pages/Dashboard/overview/Overview";
 import AppState from "./components/AppState";
+import SubCategory from "./pages/Dashboard/categories/SubCategory";
+import EditCategory from "./pages/Dashboard/categories/EditCategory";
 
 function App() {
   return (
@@ -57,6 +59,9 @@ function App() {
         <Route path="/sellers" element={<Sellers />} />
         <Route path="/transactions" element={<SellersOrder />} />
         <Route path="/categories" element={<Categories />} />
+        <Route path="/create-category" element={<CreateCategories />} />
+        <Route path="/edit-category/:categoryId" element={<EditCategory />} />
+        <Route path="/sub-category" element={<SubCategory />} />
         <Route exact path="/rfqs" element={<SellersRfqs />} />
         <Route exact path="settings" element={<Settings />} />
         <Route path="/sellers-disputes" element={<SellersDispute />} />
@@ -64,7 +69,7 @@ function App() {
         <Route path="/view-order/:orderId" element={<ViewOrders />} />
         <Route path="/view-product/:productId" element={<ViewProduct />} />
         <Route path="/view-rfq" element={<ViewRfq />} />
-        <Route path="/create-category" element={<CreateCategories />} />
+
         <Route path="/overview" element={<Overview />} />
       </Routes>
     </AppState>

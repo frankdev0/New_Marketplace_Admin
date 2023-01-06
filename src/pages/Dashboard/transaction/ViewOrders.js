@@ -8,6 +8,7 @@ import "./sellersorder.css";
 const ViewOrders = () => {
   const [viewOrder, setViewOrder] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [status, setStatus] = useState("");
   const { orderId } = useParams();
 
   const showOrder = () => {
@@ -17,6 +18,22 @@ const ViewOrders = () => {
       console.log(response.data.data);
       setLoading(false);
     });
+  };
+
+  const handleStatusChange = (e) => {
+    setStatus(e.target.value);
+  };
+
+  const updateOrder = async (orderId) => {
+    try {
+      const { data } = await axios.patch("/order", {
+        status: status,
+        orderID: orderId,
+      });
+      setViewOrder(data.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -83,6 +100,8 @@ const ViewOrders = () => {
           <SellersSidebar />
 
           <main className="main">
+            <div className="order-status">{viewOrder.status}</div>
+
             <div className="main-overview">
               <div className="overview-card d-flex mx-3">
                 <table
@@ -92,106 +111,292 @@ const ViewOrders = () => {
                   <thead>
                     <tr>
                       <th>Buyer</th>
-                      <th>Erhun Abbe</th>
                       <th>
-                        <Link>view info</Link>
+                        {viewOrder.User && viewOrder.User.firstName}{" "}
+                        {viewOrder.User && viewOrder.User.LastName}
+                      </th>
+                      <th>
+                        <div
+                          style={{
+                            color: "rgba(0, 0, 0, 0.62)",
+                          }}
+                        >
+                          Update Order Status
+                        </div>
+                        <select
+                          style={{ width: "10rem", borderRadius: "10px" }}
+                          className="form-control"
+                          onChange={handleStatusChange}
+                          name="status"
+                          aria-describedby="Default select example"
+                          placeholder="select status"
+                        >
+                          <option>
+                            {" "}
+                            {viewOrder.status === "PENDING"
+                              ? "...Select Status"
+                              : viewOrder.status}
+                          </option>
+                          <option value="PENDING">PENDING</option>
+                          <option value="PROCESSING">CONFIRMED PAYMENT</option>
+                          <option value="SHIPPED">ORDER SHIPPED</option>
+                          <option value="DELIVERED">DELIVERED</option>
+                          <option value="CANCELLED">CANCEL</option>
+                        </select>
                       </th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
                       <td>Product Name</td>
-                      <td>Dried Hibiscus</td>
+                      <td>
+                        {viewOrder.product && viewOrder.product.productName}
+                      </td>
                       <td></td>
                     </tr>
                     <tr>
                       <td>Order Number</td>
-                      <td>No. 123445</td>
+                      <td>{viewOrder.orderNumber}</td>
                       <td></td>
                     </tr>
                     <tr>
                       <td>Amount Spent</td>
-                      <td>USD 12,000</td>
+                      <td>USD {viewOrder.cost}</td>
                       <td></td>
                     </tr>
                     <tr>
-                      <td>Date sent</td>
-                      <td>12/09/2022</td>
+                      <td>Order Status</td>
+                      <td>
+                        <div className="m">
+                          <div style={{ width: "100px" }}>
+                            {viewOrder.status === "PENDING" && (
+                              <div className="bg-warning rounded-pill text-center mx-2">
+                                PENDING
+                              </div>
+                            )}
+                            {viewOrder.status === "PROCESSING" && (
+                              <div className="bg-primary rounded-pill mx-2">
+                                PROCESSING
+                              </div>
+                            )}
+                            {viewOrder.status === "SHIPPED" && (
+                              <div className="bg-info rounded-pill  text-center mx-2">
+                                SHIPPED
+                              </div>
+                            )}
+                            {viewOrder.status === "DELIVERED" && (
+                              <div className="bg-success rounded-pill text-center mx-2">
+                                DELIVERED
+                              </div>
+                            )}
+
+                            {viewOrder.status === "CANCELLED" && (
+                              <div className="bg-danger rounded-pill text-center mx-2">
+                                CANCELLED
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Shipping Type</td>
+                      <td>{viewOrder.shippingType}</td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td>Quantity Ordered</td>
+                      <td>{viewOrder.quantityOrdered}</td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td>Date Created</td>
+                      <td>{viewOrder.createdAt}</td>
                       <td></td>
                     </tr>
                     <tr>
                       <td>Payment Type</td>
-                      <td>Deposit Against Payment</td>
+                      <td>{viewOrder.paymentTerm}</td>
                       <td></td>
                     </tr>
                     <tr>
-                      <td>Origin</td>
-                      <td>Cameroon</td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td>Destination</td>
+                      <td>Country Origin</td>
                       <td>{viewOrder.countryOfOrigin}</td>
                       <td></td>
                     </tr>
                     <tr>
+                      <td>Destination</td>
+                      <td>{viewOrder.destination}</td>
+                      <td></td>
+                    </tr>
+                    <tr>
                       <td>Port of Discharge</td>
-                      <td>Port of Novia</td>
+                      <td>{viewOrder.port}</td>
                       <td></td>
                     </tr>
                     <tr>
                       <td>Notes</td>
-                      <td>I need the hibiscus to be truly of top quality</td>
+                      <td>{viewOrder.note}</td>
                       <td></td>
                     </tr>
+                    <button
+                      className="btn btn-dark"
+                      onClick={() => updateOrder(viewOrder.id)}
+                    >
+                      Update
+                    </button>
                   </tbody>
                 </table>
               </div>
+
               <div className="overv">
                 <div className="tracker" style={{ width: "100%" }}>
                   <div>
-                    <h6 className="main-heading py-3">Order Completed</h6>
+                    <h6 className="main-heading py-3">
+                      {viewOrder.status === "DELIVERED" ? (
+                        <div>Order Completed</div>
+                      ) : null}
+                    </h6>
                   </div>
-                  <div style={{ width: "60%" }}>
-                    <div className="d-flex">
-                      <div className="indicator"></div>
-                      <h6 className="heading">Order Received</h6>
+                  {viewOrder.status && viewOrder.status === "PENDING" ? (
+                    <div style={{ width: "60%" }}>
+                      <div className="d-flex">
+                        <div className="indicator"></div>
+                        <h6 className="heading">Order Placed</h6>
+                      </div>
+                      <div className="side-tracker">
+                        <p className="texts">
+                          Placed order for 50MT of Dried Hibiscus to be
+                          delivered to Port de Naiva in Cameroon
+                        </p>
+                      </div>
                     </div>
-                    <div className="side-tracker">
-                      <p className="texts">
-                        Placed order for 50MT of Dried Hibiscus to be delivered
-                        to Port de Naiva in Cameroon
-                      </p>
+                  ) : null}
+                  {viewOrder.status === "PROCESSING" && (
+                    <div>
+                      <div style={{ width: "60%" }}>
+                        <div className="d-flex">
+                          <div className="indicator"></div>
+                          <h6 className="heading">Order Placed</h6>
+                        </div>
+                        <div className="side-tracker">
+                          <p className="texts">
+                            Placed order for 50MT of Dried Hibiscus to be
+                            delivered to Port de Naiva in Cameroon
+                          </p>
+                        </div>
+                      </div>
+                      <div style={{ width: "60%" }}>
+                        <div className="d-flex">
+                          <div className="indicator"></div>
+                          <h6 className="heading">Payment Successful</h6>
+                        </div>
+                        <div className="side-tracker">
+                          <p className="texts">
+                            Uploaded and processed requirements in the payment
+                            type of Deposit against Payment with the supplier
+                            and it has been confirmed
+                          </p>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                  <div style={{ width: "60%" }}>
-                    <div className="d-flex">
-                      <div className="indicator"></div>
-                      <h6 className="heading">Response Sent to Buyer</h6>
+                  )}
+
+                  {viewOrder.status === "SHIPPED" && (
+                    <div>
+                      <div style={{ width: "60%" }}>
+                        <div className="d-flex">
+                          <div className="indicator"></div>
+                          <h6 className="heading">Order Placed</h6>
+                        </div>
+                        <div className="side-tracker">
+                          <p className="texts">
+                            Placed order for 50MT of Dried Hibiscus to be
+                            delivered to Port de Naiva in Cameroon
+                          </p>
+                        </div>
+                      </div>
+                      <div style={{ width: "60%" }}>
+                        <div className="d-flex">
+                          <div className="indicator"></div>
+                          <h6 className="heading">Payment Successful</h6>
+                        </div>
+                        <div className="side-tracker">
+                          <p className="texts">
+                            Uploaded and processed requirements in the payment
+                            type of Deposit against Payment with the supplier
+                            and it has been confirmed
+                          </p>
+                        </div>
+                      </div>
+                      <div style={{ width: "60%" }}>
+                        <div className="d-flex">
+                          <div className="indicator"></div>
+                          <h6 className="heading">Order Shipped</h6>
+                        </div>
+                        <div className="side-tracker">
+                          <p className="texts">
+                            Order for 50MT of Dried Hibicus has been shipped
+                          </p>
+                        </div>
+                      </div>
                     </div>
-                    <div className="side-tracker">
-                      <p className="texts">
-                        A response was sent and further conversation about the
-                        transaction was carried out between the buyer and the
-                        supllier on the message center. Terms were agreed to on
-                        both sides.
-                      </p>
+                  )}
+
+                  {viewOrder.status && viewOrder.status === "DELIVERED" && (
+                    <div>
+                      <div style={{ width: "60%" }}>
+                        <div className="d-flex">
+                          <div className="indicator"></div>
+                          <h6 className="heading">Order Placed</h6>
+                        </div>
+                        <div className="side-tracker">
+                          <p className="texts">
+                            Placed order for 50MT of Dried Hibiscus to be
+                            delivered to Port de Naiva in Cameroon
+                          </p>
+                        </div>
+                      </div>
+                      <div style={{ width: "60%" }}>
+                        <div className="d-flex">
+                          <div className="indicator"></div>
+                          <h6 className="heading">Payment Successful</h6>
+                        </div>
+                        <div className="side-tracker">
+                          <p className="texts">
+                            Uploaded and processed requirements in the payment
+                            type of Deposit against Payment with the supplier
+                            and it has been confirmed
+                          </p>
+                        </div>
+                      </div>
+                      <div style={{ width: "60%" }}>
+                        <div className="d-flex">
+                          <div className="indicator"></div>
+                          <h6 className="heading">Order Shipped</h6>
+                        </div>
+                        <div className="side-tracker">
+                          <p className="texts">
+                            Order for 50MT of Dried Hibicus has been shipped
+                          </p>
+                        </div>
+                      </div>
+                      <div style={{ width: "60%" }}>
+                        <div className="d-flex">
+                          <div className="indicator"></div>
+                          <h6 className="heading">Order Delivered</h6>
+                        </div>
+                        <div className="side-tracker">
+                          <p className="texts">
+                            Order for 50MT of Dried Hibicus has been delivered
+                            to Port de Naiva in Cameroon
+                          </p>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                  <div style={{ width: "60%" }}>
-                    <div className="d-flex">
-                      <div className="indicator"></div>
-                      <h6 className="heading">Payment Successful</h6>
-                    </div>
-                    <div className="side-tracker">
-                      <p className="texts">
-                        Uploaded and processed requirements in the payment type
-                        of Deposit Against Payment with the supplier and it has
-                        been confirmed
-                      </p>
-                    </div>
-                  </div>
-                  <div style={{ width: "60%" }}>
+                  )}
+
+                  {/* <div style={{ width: "60%" }}>
                     <div className="d-flex">
                       <div className="red-indicator"></div>
                       <h6 className="heading">Order Shipped</h6>
@@ -202,8 +407,8 @@ const ViewOrders = () => {
                         to buyer
                       </p>
                     </div>
-                  </div>
-                  <div style={{ width: "60%" }}>
+                  </div> */}
+                  {/* <div style={{ width: "60%" }}>
                     <div className="d-flex">
                       <div className="red-indicator"></div>
                       <h6 className="heading">Order Delivered</h6>
@@ -214,7 +419,7 @@ const ViewOrders = () => {
                         to Port de Novia in Cameroon and confirmed by Buyer
                       </p>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>

@@ -180,9 +180,34 @@ const SellersOrder = () => {
                             <td>USD {transaction.cost}</td>
                             <td>{transaction.incoterm}</td>
                             <td>
-                              <div className="text-warning">
+                              {transaction.status === "PENDING" && (
+                                <div className="text-warning rounded-pill ">
+                                  PENDING
+                                </div>
+                              )}
+                              {transaction.status === "PROCESSING" && (
+                                <div className="text-primary rounded-pill ">
+                                  CONFIRMED
+                                </div>
+                              )}
+                              {transaction.status === "SHIPPED" && (
+                                <div className="text-info rounded-pill ">
+                                  SHIPPED
+                                </div>
+                              )}
+                              {transaction.status === "DELIVERED" && (
+                                <div className="text-success rounded-pill ">
+                                  DELIVERED
+                                </div>
+                              )}
+                              {transaction.status === "CANCELLED" && (
+                                <div className="text-gray rounded-pill ">
+                                  CANCELLED
+                                </div>
+                              )}
+                              {/* <div className="text-warning">
                                 {transaction.status}
-                              </div>
+                              </div> */}
                             </td>
                             <td>
                               <Link to={`/view-order/${transaction.id}`}>

@@ -90,6 +90,7 @@ const Overview = () => {
 
           <main className="main">
             <h1 className="section-title">Activity Summary</h1>
+
             <div className="main-overview">
               <div className="overview-card">
                 <div>

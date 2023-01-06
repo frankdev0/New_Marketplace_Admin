@@ -7,38 +7,44 @@ import { axios } from "../../../components/baseUrl";
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);
-  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const getCategory = async () => {
     try {
       axios.get("/category").then((response) => {
         console.log(response.data.data);
         setCategories(response.data.data);
+        setLoading(true);
         // setLoading(true);
       });
     } catch (error) {
       console.log(error.response.data.erros);
+      setLoading(true);
     }
   };
-  const getUsers = async () => {
-    try {
-      axios.get("/auth/current-user").then((response) => {
-        console.log(response.data);
-        setUsers(response.data.data);
-        // setLoading(true);
-      });
-    } catch (error) {
-      console.log(error.response.data.erros);
-    }
-  };
-
-  useEffect(() => {
-    getUsers();
-  }, []);
 
   useEffect(() => {
     getCategory();
   }, []);
+
+  if (!loading) {
+    return (
+      <div
+        className="spinner mx-auto"
+        align="center"
+        id="spinner"
+        style={{
+          position: "absolute",
+          top: "calc(50% - 60px)",
+          left: "calc(50% - 60px)",
+          justifyContent: "center",
+          alignItems: "center",
+          textAlign: "center",
+          margin: "auto",
+        }}
+      ></div>
+    );
+  }
 
   return (
     <div>
@@ -65,9 +71,13 @@ const Categories = () => {
                   <thead>
                     <tr>
                       <th scope="col">S/N</th>
-                      <th scope="col">Category Name</th>
+                      <th scope="col" className="text-center">
+                        Category Name
+                      </th>
 
-                      <th scope="col">Action</th>
+                      <th scope="col" className="text-center">
+                        Action
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -77,12 +87,20 @@ const Categories = () => {
                           <tr key={category.id}>
                             <td scope="row">{index + 1}</td>
 
+                            <td className="text-center">{category.category}</td>
                             <td>
-                              <div className="text-warning">
-                                {category.category}
+                              <div className="text-center">
+                                <button className="btn btn-danger">
+                                  Delete
+                                </button>
+                                <Link
+                                  to={`/edit-category/${category.id}`}
+                                  className="btn btn-primary mx-2 px-4"
+                                >
+                                  Edit
+                                </Link>
                               </div>
                             </td>
-                            <td>view</td>
                           </tr>
                         );
                       })}

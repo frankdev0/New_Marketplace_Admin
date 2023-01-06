@@ -1,29 +1,44 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Iconly } from "react-iconly";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { axios } from "../../../components/baseUrl";
 import SellersSidebar from "../dashboardComponents/SideBar";
 import "react-toastify/dist/ReactToastify.css";
 import { toast, ToastContainer } from "react-toastify";
 
-const CreateCategories = () => {
-  const [category, setCategory] = useState("");
+const EditCategory = () => {
+  const [category, setCategory] = useState(null);
+  const [id, setId] = useState("");
 
   const navigate = useNavigate();
 
-  const handleChange = (e) => {
-    setCategory({ ...category, [e.target.name]: e.target.value });
+  const { categoryId } = useParams();
+  console.log(categoryId);
+
+  const getCategory = async () => {
+    try {
+      const response = await axios.get(`/category/${categoryId}`);
+      setCategory(response.data.data.category);
+      setId(response.data.data.id);
+      console.log(response.data.data.category);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  const handleSubmit = async (e) => {
+  useEffect(() => {
+    getCategory();
+  }, []);
+
+  const handleUpdate = async (e) => {
     try {
       e.preventDefault();
-      const { data } = await axios.post("/category", category);
+      const { data } = await axios.patch(`/category/${id}`, category);
       console.log("category created", data);
       setTimeout(() => {
         navigate(-1);
       }, 2000);
-      toast.success("SUCCESSFULLY CREATED CATEGORY", {
+      toast.success("UPDATED SUCCESSFULLY", {
         position: "top-right",
         autoClose: 4000,
         pauseHover: true,
@@ -43,23 +58,6 @@ const CreateCategories = () => {
               <h2>Create New Category</h2>
             </div>
             <div className="header__search">
-              {/* <form>
-                <div className="custom__search">
-                  <Iconly
-                    name="Search"
-                    set="light"
-                    primaryColor="#5C5C5C"
-                    size="medium"
-                  />
-                  <input
-                    type="text"
-                    className="form-control custom-style"
-                    id=""
-                    placeholder="Search for orders, inquiries and more"
-                  />
-                </div>
-              </form> */}
-
               <div className="notify-wrap position-relative">
                 <Iconly
                   name="Notification"
@@ -75,25 +73,25 @@ const CreateCategories = () => {
           <SellersSidebar />
 
           <main className="main">
-            <div style={{ display: "flex", justifyContent: "right" }}>
+            {/* <div style={{ display: "flex", justifyContent: "right" }}>
               <Link to="/sub-category" className="my-3">
                 {" "}
                 <small>
                   <u>Create Sub-Category </u>
                 </small>
               </Link>
-            </div>
+            </div> */}
             <div className="main-overview">
               <div className="overview-card">
                 <div>
-                  <form onSubmit={handleSubmit}>
+                  <form onSubmit={handleUpdate}>
                     <div>
                       <label>Category Name</label>
                       <input
                         className="form-control my-4"
-                        placeholder="Category Name"
-                        name="category"
-                        onChange={handleChange}
+                        type="text"
+                        onChange={(e) => setCategory(e.target.value)}
+                        value={category}
                       />
 
                       <button className="btn btn-dark">Submit</button>
@@ -109,4 +107,4 @@ const CreateCategories = () => {
   );
 };
 
-export default CreateCategories;
+export default EditCategory;

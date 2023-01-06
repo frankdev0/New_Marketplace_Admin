@@ -92,9 +92,9 @@ const ViewProduct = () => {
   return (
     <>
       <div>
+        <ToastContainer />
         <div className="grid-container">
           <header className="header">
-            <ToastContainer />
             <div className="header__message">
               <h2>Product Details</h2>
             </div>
@@ -134,12 +134,12 @@ const ViewProduct = () => {
               style={{ justifyContent: "right" }}
             >
               <button
-                className="btn btn-success mx-3 px-5"
+                className="btn btn-dark mx-3 px-5"
                 onClick={UpdateProduct}
               >
                 Approve
               </button>
-              <button className="btn btn-danger px-5" onClick={DeclineProduct}>
+              <button className="btn btn-warning px-5" onClick={DeclineProduct}>
                 Decline
               </button>
             </div>
@@ -157,13 +157,20 @@ const ViewProduct = () => {
                       style={{ width: "100%" }}
                     />
                     <div className="d-flex mt-2 mx-auto other-images">
-                      <div className="box">
-                        <img src={box1} alt="box1" className="box" />
-                      </div>
-                      <div className="box mx-1">
-                        <img src={box2} alt="box1" className="box mx-1" />
-                      </div>
-                      <div className="box">
+                      {viewProduct.productImages &&
+                        viewProduct.productImages.map((image) => {
+                          return (
+                            <div className="box mx-1" key={image.id}>
+                              <img
+                                src={image.image}
+                                alt="box1"
+                                className="box mx-1"
+                              />
+                            </div>
+                          );
+                        })}
+
+                      {/* <div className="box">
                         <img src={box1} alt="box1" className="box" />
                       </div>
                       <div className="box mx-1">
@@ -171,7 +178,7 @@ const ViewProduct = () => {
                       </div>
                       <div className="box">
                         <img src={box1} alt="box1" className="box" />
-                      </div>
+                      </div> */}
                     </div>
                     Product Pic
                   </div>
@@ -183,8 +190,10 @@ const ViewProduct = () => {
                     <h6>Product Information</h6>
                     <div className="product-info">
                       <div className="d-flex">
-                        <p className="mx-3">Price</p>
-                        <p className="description-value">USD 500</p>
+                        <p className="mx-3">Product Name</p>
+                        <p className="description-value">
+                          {viewProduct.productName}
+                        </p>
                       </div>
                       <div className="d-flex">
                         <p className="mx-3">MOQ</p>
@@ -210,7 +219,10 @@ const ViewProduct = () => {
                       </div>
                       <div className="d-flex">
                         <p className="mx-3">Supply Capacity</p>
-                        <p className="description-value">10,000 MT/ Monthly</p>
+                        <p className="description-value">
+                          {viewProduct.supplyCapacity}{" "}
+                          {viewProduct.unitForSupplyCapacity}
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -222,32 +234,58 @@ const ViewProduct = () => {
                     <h6>Available Specification</h6>
                     <div className="product-info" style={{ textAlign: "left" }}>
                       <div className="d-flex">
-                        <p className="mx-3">Type</p>
+                        <p className="mx-3">Size</p>
                         <p className="description-value">
-                          Scorched, Sun Scorched
+                          {viewProduct.productSpecification &&
+                            viewProduct.productSpecification.size}
                         </p>
                       </div>
                       <div className="d-flex">
                         <p className="mx-3">Color</p>
                         <p className="description-value">
-                          Creamy-white, Light yellow
+                          {viewProduct.productSpecification &&
+                            viewProduct.productSpecification.color}
                         </p>
                       </div>
                       <div className="d-flex">
-                        <p className="mx-3">Grade</p>
-                        <p className="description-value">W180, 240, 320, 450</p>
+                        <p className="mx-3">Created At</p>
+                        <p className="description-value">
+                          {viewProduct.createdAt}
+                        </p>
                       </div>
                       <div className="d-flex">
-                        <p className="mx-3">Moisture</p>
-                        <p className="description-value">10%</p>
+                        <p className="mx-3">Product Status</p>
+                        <p className="description-value">
+                          {viewProduct.productStatus === "PENDING" && (
+                            <div className="text-warning rounded-pill">
+                              PENDING
+                            </div>
+                          )}
+                          {viewProduct.productStatus === "APPROVED" && (
+                            <div className="text-success rounded-pill">
+                              APPROVED
+                            </div>
+                          )}
+                          {viewProduct.productStatus === "DISAPPROVED" && (
+                            <div className="text-danger rounded-pill">
+                              DECLINED
+                            </div>
+                          )}
+                        </p>
                       </div>
                       <div className="d-flex">
                         <p className="mx-3">Category</p>
-                        <p className="description-value">Food & Beverage</p>
+                        <p className="description-value">
+                          {viewProduct.parentCategory &&
+                            viewProduct.parentCategory.category}
+                        </p>
                       </div>
                       <div className="d-flex">
                         <p className="mx-3">Sub-Category</p>
-                        <p className="description-value">Fresh Fruits</p>
+                        <p className="description-value">
+                          {viewProduct.subCategory &&
+                            viewProduct.subCategory.subCategory}
+                        </p>
                       </div>
                     </div>
                   </div>

@@ -109,7 +109,7 @@ const Login = () => {
             </div>
           </div>
           <div className="auth-rhs">
-            <div className="auth-rhs-header d-flex justify-content-between">
+            {/* <div className="auth-rhs-header d-flex justify-content-between">
               <img className="site-logo mobile-only" src={SiteLogo} />
               <p>
                 Don't have an account?{" "}
@@ -117,7 +117,7 @@ const Login = () => {
                   Register
                 </Link>
               </p>
-            </div>
+            </div> */}
             <div className="auth-rhs-content d-flex align-items-center">
               <div className="rhs-inner">
                 <h2 className="mb-4">Login to continue</h2>
