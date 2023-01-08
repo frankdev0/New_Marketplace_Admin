@@ -199,7 +199,7 @@ const SellersSidebar = () => {
           <Link className="sidenav-link" to="/product-listing">
             <li className="sidenav__list-item">
               <Iconly className="list_icon" name="Category" size="small" />
-              Product Listings
+              Products
             </li>
           </Link>
           <Link className="sidenav-link" to="/sellers-subscription">

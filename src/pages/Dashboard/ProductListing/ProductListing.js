@@ -18,11 +18,7 @@ const ProductListing = () => {
   const [totalItems, setTotalItems] = useState(0);
   const ITEMS_PER_PAGE = 5;
 
-  // const [itemOffset, setItemOffset] = useState(0);
-
-  // const [pageCount, setPageCount] = useState(0);
-
-  const { user } = useContext(AppContext);
+  const { user, activitySummary } = useContext(AppContext);
   console.log("this is my user", user);
 
   const getProducts = async () => {
@@ -51,7 +47,8 @@ const ProductListing = () => {
           comment.productName.toLowerCase().includes(search.toLowerCase()) ||
           comment.createdBy.firstName
             .toLowerCase()
-            .includes(search.toLowerCase())
+            .includes(search.toLowerCase()) ||
+          comment.status.toLowerCase().includes(search.toLowerCase())
       );
     }
 
@@ -146,7 +143,7 @@ const ProductListing = () => {
                   <h2>Total Products</h2>
                   {/* <p>Detailed transaction history is on the order page</p> */}
                   <div className="d-flex justify-content-between mt-4">
-                    <h3>10</h3>
+                    <h3>{activitySummary.total_number_of_products}</h3>
                   </div>
                 </div>
               </div>
@@ -156,7 +153,7 @@ const ProductListing = () => {
                   <h2>Total Approved Products</h2>
                   {/* <p>Detailed transaction history is on the order page</p> */}
                   <div className="d-flex justify-content-between mt-4">
-                    <h3>22</h3>
+                    <h3>{activitySummary.total_number_of_approved_products}</h3>
                   </div>
                 </div>
               </div>
@@ -165,7 +162,7 @@ const ProductListing = () => {
                   <h2>Total Pending Products</h2>
                   {/* <p>Detailed transaction history is on the order page</p> */}
                   <div className="d-flex justify-content-between mt-4">
-                    <h3>5</h3>
+                    <h3>{activitySummary.total_number_of_pending_products}</h3>
                   </div>
                 </div>
               </div>

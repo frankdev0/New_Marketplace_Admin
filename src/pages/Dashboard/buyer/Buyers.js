@@ -84,14 +84,10 @@ const Buyers = () => {
         console.log(response.data.data);
         setViewLoader(false);
       });
-      await axios
-        .get("/dashboard/admin/buyer-activity-summary", {
-          buyerId: buyerID,
-        })
-        .then((response) => {
-          setViewSummary(response.data.data);
-          console.log("for each buyer", response.data.data);
-        });
+      await axios.get(`/dashboard/buyer/${buyerID}`).then((response) => {
+        setViewSummary(response.data.data);
+        console.log("for each buyer", response.data.data);
+      });
     } catch (error) {
       console.log(error);
     }
@@ -337,9 +333,10 @@ const Buyers = () => {
                                             ></i>
                                             <div>
                                               Total Orders:{" "}
-                                              {
-                                                viewSummary.total_number_of_orders
-                                              }
+                                              {viewSummary.total_pending_orders +
+                                                viewSummary.total_shipped_orders +
+                                                viewSummary.total_delivered_orders +
+                                                viewSummary.total_confirmed_orders}
                                             </div>
                                           </div>
                                           <div className="d-flex my-3">
@@ -348,9 +345,9 @@ const Buyers = () => {
                                               aria-hidden="true"
                                             ></i>
                                             <div>
-                                              Total Responded Quotes:{" "}
+                                              Total Confirmed Order:{" "}
                                               {
-                                                viewSummary.total_responded_quote
+                                                viewSummary.total_confirmed_orders
                                               }{" "}
                                             </div>
                                           </div>
@@ -364,16 +361,16 @@ const Buyers = () => {
                                         phoneNumber: {viewBuyer.phoneNumber}
                                       </div>
                                       <div className="modal-body">
-                                        Total Enquiries:{" "}
-                                        {viewSummary.total_number_of_enquiries}
+                                        Total Delivered Order:{" "}
+                                        {viewSummary.total_delivered_orders}
                                       </div>
                                       <div className="modal-body">
-                                        Total Orders:{" "}
-                                        {viewSummary.total_number_of_orders}
+                                        Total Pending Orders:{" "}
+                                        {viewSummary.total_pending_orders}
                                       </div>
                                       <div className="modal-body">
-                                        Total Responded Quotes:{" "}
-                                        {viewSummary.total_responded_quote}
+                                        Total Shipped Orders:{" "}
+                                        {viewSummary.total_shipped_orders}
                                       </div>
 
                                       <div className="modal-footer">

@@ -9,7 +9,6 @@ import "react-notifications-component/dist/theme.css";
 import { Store } from "react-notifications-component";
 
 const ForgotPassword = () => {
-  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const handleEmail = (e) => {
@@ -92,48 +91,38 @@ const ForgotPassword = () => {
             </div>
             <div className="auth-rhs-content d-flex align-items-center">
               <div className="rhs-inner">
-                <h2>Create Password</h2>
+                <h2>Forgot Password</h2>
                 <div className="auth-account-wrap">
                   <form className="auth-form" onSubmit={handleSubmit}>
-                    <div class="mb-3">
-                      <label for="exampleInputEmail1" className="form-label">
-                        Password
+                    <div className="mb-3">
+                      <label
+                        htmlFor="exampleInputEmail1"
+                        className="form-label"
+                      >
+                        Input Email Address
                       </label>
                       <input
-                        type="password"
+                        type="email"
                         className="form-control"
                         id="exampleInputEmail1"
                         aria-describedby="emailHelp"
                         value={email}
-                        name="password"
+                        name="email"
                         onChange={handleEmail}
                       />
                     </div>
-                    <div class="mb-3">
-                      <label for="exampleInputEmail1" className="form-label">
-                        Confirm Password
-                      </label>
-                      <input
-                        type="password"
-                        className="form-control"
-                        id="exampleInputEmail1"
-                        aria-describedby="emailHelp"
-                        value={email}
-                        name="password"
-                        onChange={handleEmail}
-                      />
-                    </div>
+
                     {loading ? (
                       <button type="submit" className="btn btn-danger">
                         <span
-                          class="spinner-border spinner-border-sm"
+                          className="spinner-border spinner-border-sm"
                           role="status"
                           aria-hidden="true"
                         ></span>
                       </button>
                     ) : (
                       <button type="submit" className="btn btn-danger">
-                        Reset Password
+                        Submit
                       </button>
                     )}
 

@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Iconly } from "react-iconly";
+// import { Iconly } from "react-iconly";
 import "../Dashboard.css";
 import SellersSidebar from "../dashboardComponents/SideBar";
 import { axios } from "../../../components/baseUrl";
+import { confirmAlert } from "react-confirm-alert"; // Import
+import "react-confirm-alert/src/react-confirm-alert.css";
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [viewLoader, setViewLoader] = useState(false);
+  const [viewCategory, setViewCategory] = useState([]);
 
   const getCategory = async () => {
     try {
@@ -21,6 +25,38 @@ const Categories = () => {
       console.log(error.response.data.erros);
       setLoading(true);
     }
+  };
+
+  const handleDelete = (categoryId) => {
+    axios.delete(`/category/${categoryId}`).then(() => {
+      getCategory();
+    });
+  };
+
+  const showCategory = (categoryId) => {
+    setViewLoader(true);
+    axios.get(`/category/${categoryId}`).then((response) => {
+      setViewCategory(response.data.data);
+      console.log(response.data.data);
+      setViewLoader(false);
+    });
+  };
+
+  const submit = (categoryId) => {
+    confirmAlert({
+      title: "Confirm Delete",
+      message: "Are you sure to do this.",
+      buttons: [
+        {
+          label: "Yes",
+          onClick: (e) => handleDelete(categoryId),
+        },
+        {
+          label: "No",
+          //onClick: () => alert('Click No')
+        },
+      ],
+    });
   };
 
   useEffect(() => {
@@ -90,15 +126,97 @@ const Categories = () => {
                             <td className="text-center">{category.category}</td>
                             <td>
                               <div className="text-center">
-                                <button className="btn btn-danger">
+                                <button
+                                  className="btn btn-danger"
+                                  onClick={(e) => submit(category.id)}
+                                >
                                   Delete
                                 </button>
                                 <Link
                                   to={`/edit-category/${category.id}`}
-                                  className="btn btn-primary mx-2 px-4"
+                                  className="btn btn-secondary mx-2 px-4"
                                 >
                                   Edit
                                 </Link>
+                                <button
+                                  onClick={(e) => showCategory(category.id)}
+                                  className="btn btn-dark px-4"
+                                  data-bs-toggle="modal"
+                                  data-bs-target="#exampleModal"
+                                >
+                                  View
+                                </button>
+                              </div>
+                              <div
+                                className="modal fade p-relative"
+                                id="exampleModal"
+                                tabIndex="-1"
+                                aria-labelledby="exampleModalLabel"
+                                aria-hidden="true"
+                              >
+                                {viewLoader ? (
+                                  <div
+                                    className="spinner mx-auto"
+                                    align="center"
+                                    id="spinner"
+                                    style={{
+                                      position: "absolute",
+                                      top: "calc(50% - 60px)",
+                                      left: "calc(50% - 60px)",
+                                      justifyContent: "center",
+                                      alignItems: "center",
+                                      textAlign: "center",
+                                      margin: "auto",
+                                    }}
+                                  ></div>
+                                ) : (
+                                  <div className="modal-dialog">
+                                    <div className="modal-content">
+                                      <div className="modal-header">
+                                        <h5
+                                          className="modal-title"
+                                          id="exampleModalLabel"
+                                        >
+                                          Category
+                                        </h5>
+                                        <button
+                                          type="button"
+                                          className="btn-close"
+                                          data-bs-dismiss="modal"
+                                          aria-label="Close"
+                                        ></button>
+                                      </div>
+                                      <div className="modal-body">
+                                        Category: {viewCategory.category}
+                                      </div>
+                                      <div className="modal-body d-flex mx-2">
+                                        Sub Categories:
+                                        <div className="mx-2">
+                                          {viewCategory.subCategories &&
+                                            viewCategory.subCategories.map(
+                                              (category, index) => {
+                                                return (
+                                                  <div key={category.id}>
+                                                    {index + 1}{" "}
+                                                    {category.subCategory}
+                                                  </div>
+                                                );
+                                              }
+                                            )}
+                                        </div>
+                                      </div>
+                                      <div className="modal-footer">
+                                        <button
+                                          type="button"
+                                          className="btn btn-secondary"
+                                          data-bs-dismiss="modal"
+                                        >
+                                          Close
+                                        </button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                )}
                               </div>
                             </td>
                           </tr>

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useMemo, useState } from "react";
-import { Iconly } from "react-iconly";
+import { Iconly, User } from "react-iconly";
 import { Link } from "react-router-dom";
 import { AppContext } from "../../../components/AppState";
 import { axios } from "../../../components/baseUrl";
@@ -17,7 +17,6 @@ const Sellers = () => {
   const ITEMS_PER_PAGE = 5;
   const [totalItems, setTotalItems] = useState(0);
   const [summary, setSummary] = useState("");
-  const [viewSummary, setViewSummary] = useState("");
 
   const { user } = useContext(AppContext);
 
@@ -42,36 +41,55 @@ const Sellers = () => {
     );
   }, [sellers, currentPage, search]);
 
-  const getSellers = async () => {
-    try {
-      axios.get("/auth/users?role=SELLER").then((response) => {
-        setSellers(response.data.data);
-        console.log(response.data.data);
-        setLoading(false);
-      });
-    } catch (error) {
-      console.log(error);
-      // setLoading(false);
-    }
-  };
   useEffect(() => {
-    getSellers();
-  }, []);
-
-  const getSummary = async () => {
-    try {
-      await axios.get("/dashboard/admin/activity-summary").then((response) => {
-        setSummary(response.data.data);
-        console.log("all sellers summary", response.data.data);
-        setLoading(false);
-      });
-    } catch (error) {
-      console.log(error);
-      // setLoading(false);
-    }
-  };
-  useEffect(() => {
-    getSummary();
+    axios.get("/auth/current-user").then((res) => {
+      const user = res.data.currentUser;
+      console.log("my first user", user.role);
+      if (user.role === "SUPER_ADMIN") {
+        console.log("my second user", user.role);
+        axios.get("/auth/users?role=SELLER").then((res) => {
+          setSellers(res.data.data);
+        });
+        axios.get("/dashboard/admin/activity-summary").then((response) => {
+          setSummary(response.data.data);
+          console.log("all sellers summary", response.data.data);
+          setLoading(false);
+        });
+      }
+      if (user.role === "AFCTCA") {
+        axios
+          .get("/auth/users?role=SELLER&hearAboutUs=AFCTCA")
+          .then((response) => {
+            setSellers(response.data.data);
+            console.log("after-Sellers", response.data.data);
+          });
+        axios
+          .post("/dashboard/admin/seller-activity-summary", {
+            hearAboutUs: "AFCTCA",
+          })
+          .then((response) => {
+            setSummary(response.data.data);
+            console.log("AFCTCA summary", response.data.data);
+            setLoading(false);
+          });
+      } else if (user.role === "OLD_MUTUAL") {
+        axios
+          .get("/auth/users?role=SELLER&hearAboutUs=OLD_MUTUAL")
+          .then((response) => {
+            setSellers(response.data.data);
+            console.log("after-Sellers", response.data.data);
+          });
+        axios
+          .post("/dashboard/admin/seller-activity-summary", {
+            hearAboutUs: "OLD_MUTUAL",
+          })
+          .then((response) => {
+            setSummary(response.data.data);
+            console.log("OLD_MUTUAL summary", response.data.data);
+            setLoading(false);
+          });
+      }
+    });
   }, []);
 
   const handleSellers = async (e) => {
@@ -212,16 +230,43 @@ const Sellers = () => {
             </div>
           </div>
           <div className="my-2">
-            <select
-              className="form-control"
-              onChange={handleSellers}
-              style={{ width: "10rem", borderRadius: "10px" }}
-            >
-              <option>Select Seller</option>
-              <option value="sellers">All Sellers</option>
-              <option value="oldMutual-sellers">OldMutual Sellers</option>
-              <option value="after-sellers">After Sellers</option>
-            </select>
+            {user.role === "AFCTCA" && (
+              <select
+                className="form-control"
+                onChange={handleSellers}
+                style={{ width: "10rem", borderRadius: "10px" }}
+              >
+                <option>Select Seller</option>
+                <option value="sellers">All Sellers</option>
+                <option value="oldMutual-sellers">OldMutual Sellers</option>
+                <option value="after-sellers">After Sellers</option>
+              </select>
+            )}
+
+            {user.role === "AFCTCA" && (
+              <select
+                className="form-control"
+                onChange={handleSellers}
+                style={{ width: "10rem", borderRadius: "10px" }}
+              >
+                <option>Select Seller</option>
+
+                <option value="after-sellers">After Sellers</option>
+              </select>
+            )}
+
+            {user.role === "SUPER_ADMIN" && (
+              <select
+                className="form-control"
+                onChange={handleSellers}
+                style={{ width: "10rem", borderRadius: "10px" }}
+              >
+                <option>Select Seller</option>
+                <option value="sellers">All Sellers</option>
+                <option value="oldMutual-sellers">OldMutual Sellers</option>
+                <option value="after-sellers">After Sellers</option>
+              </select>
+            )}
           </div>
 
           <h1 className="section-title">All Sellers</h1>

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { Iconly } from "react-iconly";
 import SellersSidebar from "../dashboardComponents/SideBar";
@@ -6,6 +6,7 @@ import { axios } from "../../../components/baseUrl";
 import { ProtectedRoutes } from "../../../components/ProtectedRoutes";
 import Search from "../dashboardComponents/Search";
 import PaginationComponent from "../../../components/PaginationComponent";
+import { AppContext } from "../../../components/AppState";
 
 const SellersOrder = () => {
   const [transactions, setTransactions] = useState([]);
@@ -14,6 +15,8 @@ const SellersOrder = () => {
   const [search, setSearch] = useState("");
   const ITEMS_PER_PAGE = 5;
   const [totalItems, setTotalItems] = useState(0);
+
+  const { activitySummary } = useContext(AppContext);
 
   const transactionData = useMemo(() => {
     let computedTransactions = transactions;
@@ -24,7 +27,8 @@ const SellersOrder = () => {
           comment.status.toLowerCase().includes(search.toLowerCase()) ||
           comment.product.productName
             .toLowerCase()
-            .includes(search.toLowerCase())
+            .includes(search.toLowerCase()) ||
+          comment.status.toLowerCase().includes(search.toLowerCase())
       );
     }
 
@@ -109,19 +113,23 @@ const SellersOrder = () => {
           <div className="main-overview">
             <div className="overview-card">
               <div>
-                <h2>Total Orders</h2>
+                <h2>Total Transaction Revenue</h2>
                 {/* <p>Detailed transaction history is on the order page</p> */}
                 <div className="d-flex justify-content-between mt-4">
-                  <h3>10</h3>
+                  <h3>{activitySummary.total_transactions_revenue}</h3>
                 </div>
               </div>
             </div>
             <div className="overview-card">
               <div>
-                <h2>Ongoing Orders</h2>
+                <h2>Total Orders</h2>
                 {/* <p>Detailed transaction history is on the order page</p> */}
                 <div className="d-flex justify-content-between mt-4">
-                  <h3>22</h3>
+                  <h3>
+                    {activitySummary.total_delivered_orders +
+                      activitySummary.total_pending_orders +
+                      activitySummary.total_shipped_orders}
+                  </h3>
                 </div>
               </div>
             </div>
@@ -130,7 +138,7 @@ const SellersOrder = () => {
                 <h2>Completed Orders</h2>
                 {/* <p>Detailed transaction history is on the order page</p> */}
                 <div className="d-flex justify-content-between mt-4">
-                  <h3>5</h3>
+                  <h3>{activitySummary.total_delivered_orders}</h3>
                 </div>
               </div>
             </div>

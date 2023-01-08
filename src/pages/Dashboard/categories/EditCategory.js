@@ -7,13 +7,12 @@ import "react-toastify/dist/ReactToastify.css";
 import { toast, ToastContainer } from "react-toastify";
 
 const EditCategory = () => {
-  const [category, setCategory] = useState(null);
-  const [id, setId] = useState("");
+  const [category, setCategory] = useState("");
+  const [id, setId] = useState(null);
 
   const navigate = useNavigate();
 
   const { categoryId } = useParams();
-  console.log(categoryId);
 
   const getCategory = async () => {
     try {
@@ -33,7 +32,10 @@ const EditCategory = () => {
   const handleUpdate = async (e) => {
     try {
       e.preventDefault();
-      const { data } = await axios.patch(`/category/${id}`, category);
+      console.log(category);
+      const { data } = await axios.patch(`/category/${id}`, {
+        category: category,
+      });
       console.log("category created", data);
       setTimeout(() => {
         navigate(-1);
@@ -73,14 +75,14 @@ const EditCategory = () => {
           <SellersSidebar />
 
           <main className="main">
-            {/* <div style={{ display: "flex", justifyContent: "right" }}>
+            <div style={{ display: "flex", justifyContent: "right" }}>
               <Link to="/sub-category" className="my-3">
                 {" "}
                 <small>
                   <u>Create Sub-Category </u>
                 </small>
               </Link>
-            </div> */}
+            </div>
             <div className="main-overview">
               <div className="overview-card">
                 <div>

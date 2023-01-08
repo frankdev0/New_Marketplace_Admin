@@ -26,7 +26,7 @@ export default function EmailVerification() {
                     set="light"
                     size="medium"
                   />
-                  Customer Support
+                  Customer Supports
                 </Link>
               </p>
             </div>

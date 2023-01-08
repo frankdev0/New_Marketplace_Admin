@@ -128,173 +128,37 @@ const Overview = () => {
 
             <div className="main-overview">
               <div className="overview-card">
-                <div className="table-responsive">
-                  <table className="table table-striped">
-                    <thead>
-                      <tr>
-                        <th scope="col">Order No</th>
-                        <th scope="col">Product Info</th>
-                        <th scope="col">Product Cost</th>
-                        <th scope="col">Shipping Terms</th>
-
-                        <th scope="col">Status</th>
-                        <th scope="col">Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>0123456543</td>
-                        <td>
-                          <div className="d-flex">
-                            <div className="flex-shrink-0">
-                              <img
-                                className="table-product-img"
-                                src=""
-                                alt="..."
-                              />
-                            </div>
-                            <div className="flex-grow-1 ms-3">
-                              <p>Dried Hibiscus</p>
-                            </div>
-                          </div>
-                        </td>
-                        <td>USD 40,000</td>
-                        <td>FOB</td>
-                        <td>
-                          <div className="text-warning">Pending</div>
-                        </td>
-                        <td>
-                          <Link to="/view-orders">view</Link>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>0123456543</td>
-                        <td>
-                          <div className="d-flex">
-                            <div className="flex-shrink-0">
-                              <img
-                                className="table-product-img"
-                                src=""
-                                alt="..."
-                              />
-                            </div>
-                            <div className="flex-grow-1 ms-3">
-                              <p>Dried Hibiscus</p>
-                            </div>
-                          </div>
-                        </td>
-                        <td>USD 40,000</td>
-                        <td>CIF</td>
-                        <td>
-                          <div className="text-primary">Processing</div>
-                        </td>
-                        <td>
-                          <Link to="/view-orders">view</Link>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>0123456543</td>
-                        <td>
-                          <div className="d-flex">
-                            <div className="flex-shrink-0">
-                              <img
-                                className="table-product-img"
-                                src=""
-                                alt="..."
-                              />
-                            </div>
-                            <div className="flex-grow-1 ms-3">
-                              <p>Dried Hibiscus</p>
-                            </div>
-                          </div>
-                        </td>
-                        <td>XAF 20,000,000</td>
-                        <td>Local Delivery</td>
-                        <td>
-                          <div className="text-success">Shipped</div>
-                        </td>
-                        <td>
-                          <Link to="/view-orders">view</Link>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>0123456543</td>
-                        <td>
-                          <div className="d-flex">
-                            <div className="flex-shrink-0">
-                              <img
-                                className="table-product-img"
-                                src=""
-                                alt="..."
-                              />
-                            </div>
-                            <div className="flex-grow-1 ms-3">
-                              <p>Dried Hibiscus</p>
-                            </div>
-                          </div>
-                        </td>
-                        <td>USD 40,000</td>
-                        <td>CFR</td>
-                        <td>
-                          <div className="text-success">Delivered</div>
-                        </td>
-                        <td>
-                          <Link to="/view-orders">view</Link>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>0123456543</td>
-                        <td>
-                          <div className="d-flex">
-                            <div className="flex-shrink-0">
-                              <img
-                                className="table-product-img"
-                                src=""
-                                alt="..."
-                              />
-                            </div>
-                            <div className="flex-grow-1 ms-3">
-                              <p>Dried Hibiscus</p>
-                            </div>
-                          </div>
-                        </td>
-                        <td>USD 40,000</td>
-                        <td>CFR</td>
-                        <td>
-                          <div className="text-success">Delivered</div>
-                        </td>
-                        <td>
-                          <Link to="/view-orders">view</Link>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>0123456543</td>
-                        <td>
-                          <div className="d-flex">
-                            <div className="flex-shrink-0">
-                              <img
-                                className="table-product-img"
-                                src=""
-                                alt="..."
-                              />
-                            </div>
-                            <div className="flex-grow-1 ms-3">
-                              <p>Dried Hibiscus</p>
-                            </div>
-                          </div>
-                        </td>
-                        <td>USD 40,000</td>
-                        <td>CFR</td>
-                        <td>
-                          <div className="text-success">Delivered</div>
-                        </td>
-                        <td>
-                          <Link to="/view-orders">view</Link>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
+                <div>
+                  <h2>Total Buyers</h2>
+                  <p>Detailed history is on the Buyer's page</p>
+                  <div className="d-flex justify-content-between mt-4">
+                    <h3>{activitySummaty.total_buyers}</h3>
+                  </div>
                 </div>
+              </div>
+              <div className="overview-card">
+                <div>
+                  <h2>Total Sellers</h2>
+                  <p>Detailed history is on the Seller's page</p>
+                  <div className="d-flex justify-content-between mt-4">
+                    <h3>{activitySummaty.total_sellers}</h3>
+                  </div>
+                </div>
+              </div>
+              <div className="overview-card">
+                <div>
+                  <h2>Total Transaction Revenue</h2>
+                  <p>Detailed history is on the Order page</p>
+                  <div className="d-flex justify-content-between mt-4">
+                    <h3>USD {activitySummaty.total_transactions_revenue}</h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="main-overview">
+              <div className="overview-card">
+                <div className="table-responsive"></div>
               </div>
             </div>
           </main>
