@@ -11,7 +11,7 @@ import { Store } from "react-notifications-component";
 
 const ResetPassword = () => {
   const [loading, setLoading] = useState(false);
-  const { resetToken } = useParams();
+  const { userId, resetToken } = useParams();
   console.log(resetToken);
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");

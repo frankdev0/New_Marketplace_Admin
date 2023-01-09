@@ -78,7 +78,7 @@ const Login = () => {
           icon: "success",
           button: "ok",
         });
-        navigate("/");
+        navigate("/overview");
       }
 
       // navigate("/");

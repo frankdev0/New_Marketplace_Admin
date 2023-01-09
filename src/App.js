@@ -44,7 +44,10 @@ function App() {
         <Route path="/phone-verification" element={<PhoneVerification />} />
         <Route path="/verify-email/:email" element={<EmailVerification />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/reset-password/:resetToken" element={<ResetPassword />} />
+        <Route
+          path="/reset-password/:userId/:resetToken"
+          element={<ResetPassword />}
+        />
         <Route path="/login" element={<Login />} />
         <Route path="/login/:userId/:token" element={<Login />} />
 
@@ -68,7 +71,7 @@ function App() {
         <Route path="/disputes" element={<Dispute />} />
         <Route path="/view-order/:orderId" element={<ViewOrders />} />
         <Route path="/view-product/:productId" element={<ViewProduct />} />
-        <Route path="/view-rfq" element={<ViewRfq />} />
+        <Route path="/view-rfq/:rfqId" element={<ViewRfq />} />
 
         <Route path="/overview" element={<Overview />} />
       </Routes>

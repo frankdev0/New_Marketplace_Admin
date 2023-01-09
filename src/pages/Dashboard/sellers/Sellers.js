@@ -27,7 +27,8 @@ const Sellers = () => {
       computedSellers = computedSellers.filter(
         (comment) =>
           comment.LastName.toLowerCase().includes(search.toLowerCase()) ||
-          comment.firstName.toLowerCase().includes(search.toLowerCase())
+          comment.firstName.toLowerCase().includes(search.toLowerCase()) ||
+          comment.hearAboutUs.toLowerCase().includes(search.toLowerCase())
       );
     }
 
@@ -49,6 +50,7 @@ const Sellers = () => {
         console.log("my second user", user.role);
         axios.get("/auth/users?role=SELLER").then((res) => {
           setSellers(res.data.data);
+          console.log("seller info", res.data.data);
         });
         axios.get("/dashboard/admin/activity-summary").then((response) => {
           setSummary(response.data.data);
@@ -279,7 +281,7 @@ const Sellers = () => {
                       <th scope="col">S/N</th>
                       <th scope="col">Full Name</th>
                       <th scope="col">Phone Number</th>
-                      <th scope="col">No of Products</th>
+                      <th scope="col">Hear About Us</th>
                       <th scope="col">Email</th>
                       <th scope="col">Action</th>
                     </tr>
@@ -301,10 +303,8 @@ const Sellers = () => {
                             </td>
                             <td>{seller.phoneNumber}</td>
 
-                            <td>25</td>
-                            <td>
-                              <div className="text-warning">{seller.email}</div>
-                            </td>
+                            <td>{seller.hearAboutUs}</td>
+                            <td>{seller.email}</td>
                             <td>
                               <Link
                                 to="/n"

@@ -1,11 +1,48 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Iconly } from "react-iconly";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import SellersSidebar from "../dashboardComponents/SideBar";
 import "./rfq.css";
 import roundLogo from "../../../assets/img/round-logo.png";
+import { axios } from "../../../components/baseUrl";
 
 const ViewRfq = () => {
+  const [viewRfq, setViewRfq] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const { rfqId } = useParams();
+
+  const showRfq = async () => {
+    setLoading(true);
+    await axios.get(`/rfq/${rfqId}`).then((response) => {
+      setViewRfq(response.data.data);
+      console.log(response.data.data);
+      setLoading(false);
+    });
+  };
+
+  useEffect(() => {
+    showRfq();
+  }, []);
+
+  if (loading) {
+    return (
+      <div
+        className="spinner mx-auto"
+        align="center"
+        id="spinner"
+        style={{
+          position: "absolute",
+          top: "calc(50% - 60px)",
+          left: "calc(50% - 60px)",
+          justifyContent: "center",
+          alignItems: "center",
+          textAlign: "center",
+          margin: "auto",
+        }}
+      ></div>
+    );
+  }
+
   return (
     <>
       <div>
@@ -64,14 +101,17 @@ const ViewRfq = () => {
                       className="fa fa-user-circle-o mt-1 px-1"
                       aria-hidden="true"
                     ></i>
-                    <p>Audrey Oluchi Oji</p>
+                    <p>
+                      {viewRfq.user && viewRfq.user.firstName}{" "}
+                      {viewRfq.user && viewRfq.user.LastName}
+                    </p>
                   </div>
                   <div className="d-flex">
                     <i
                       className="fa fa-envelope-o mt-1 px-1"
                       aria-hidden="true"
                     ></i>
-                    <p>nnaemeka@tradersofafrica.com</p>
+                    <p>{viewRfq.user && viewRfq.user.email}</p>
                   </div>
                   <div className="d-flex">
                     <i
@@ -79,6 +119,17 @@ const ViewRfq = () => {
                       aria-hidden="true"
                     ></i>
                     <p>Dory Enterprises</p>
+                  </div>
+                  <div className="d-flex">
+                    <i
+                      className="fa fa-check-square mt-1 px-1"
+                      aria-hidden="true"
+                    ></i>
+                    <p>
+                      {viewRfq.user && viewRfq.user.isEmailVerified === true
+                        ? "verified"
+                        : "Not verified"}
+                    </p>
                   </div>
 
                   <div className="d-flex">
@@ -106,26 +157,44 @@ const ViewRfq = () => {
                     <tbody>
                       <tr>
                         <td>Product Name</td>
-                        <td>Fresh Mint Leaves</td>
+                        <td>{viewRfq.productName}</td>
                         <td></td>
                       </tr>
                       <tr>
-                        <td>Shipping Terms</td>
-                        <td>FOB</td>
+                        <td>Target Price</td>
+                        <td>{viewRfq.targetPrice}</td>
+                        <td></td>
+                      </tr>
+
+                      <tr>
+                        <td>Payment Terms</td>
+                        <td>{viewRfq.paymentTerms}</td>
                         <td></td>
                       </tr>
                       <tr>
-                        <td>Destination</td>
-                        <td>Nigeria</td>
+                        <td>Destination Port</td>
+                        <td>{viewRfq.destinationPort}</td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <td>Status</td>
+                        <td>{viewRfq.status}</td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <td>Quantity Required</td>
+                        <td>{viewRfq.quantityRequired}</td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <td>Terms of Trade</td>
+                        <td>{viewRfq.termsOfTrade}</td>
                         <td></td>
                       </tr>
 
                       <tr>
                         <td>Product Requirement</td>
-                        <td>
-                          How much will 20 metric tonnes of fresh mint leaves
-                          cost? What’s your best price for that quantity
-                        </td>
+                        <td>{viewRfq.productDescription}</td>
                         <td></td>
                       </tr>
                     </tbody>

@@ -103,10 +103,11 @@ const Overview = () => {
               </div>
               <div className="overview-card">
                 <div>
-                  <h2>All RFQ's</h2>
-                  <p>Detailed history is on the RFQ page</p>
+                  <h2>Total Transaction Revenue</h2>
+                  <p>Detailed history is on the Order page</p>
+
                   <div className="d-flex justify-content-between mt-4">
-                    <h3>{activitySummaty.total_number_of_enquiries}</h3>
+                    <h3>USD {activitySummaty.total_transactions_revenue}</h3>
                   </div>
                 </div>
               </div>
@@ -147,10 +148,10 @@ const Overview = () => {
               </div>
               <div className="overview-card">
                 <div>
-                  <h2>Total Transaction Revenue</h2>
-                  <p>Detailed history is on the Order page</p>
+                  <h2>All RFQ's</h2>
+                  <p>Detailed history is on the RFQ page</p>
                   <div className="d-flex justify-content-between mt-4">
-                    <h3>USD {activitySummaty.total_transactions_revenue}</h3>
+                    <h3>{activitySummaty.total_number_of_enquiries}</h3>
                   </div>
                 </div>
               </div>

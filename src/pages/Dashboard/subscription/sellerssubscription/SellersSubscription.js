@@ -102,49 +102,37 @@ const SellersSubscription = () => {
                     <tr>
                       <td>0123456543</td>
 
-                      <td>
-                        <div className="text-warning">Pending</div>
-                      </td>
+                      <td>Paschal Ojinnaka</td>
                       <td>Basic</td>
                     </tr>
                     <tr>
                       <td>0123456543</td>
 
-                      <td>
-                        <div className="text-primary">Processing</div>
-                      </td>
+                      <td>Victor Seller</td>
                       <td>view</td>
                     </tr>
                     <tr>
                       <td>0123456543</td>
 
-                      <td>
-                        <div className="text-success">Shipped</div>
-                      </td>
+                      <td>Erhun Abbe</td>
                       <td>Premium</td>
                     </tr>
                     <tr>
                       <td>0123456543</td>
 
-                      <td>
-                        <div className="text-success">Delivered</div>
-                      </td>
+                      <td>Victor Seller</td>
                       <td>Basic</td>
                     </tr>
                     <tr>
                       <td>0123456543</td>
 
-                      <td>
-                        <div className="text-success">Delivered</div>
-                      </td>
+                      <td>Paschal Ojinnaka</td>
                       <td>Premium</td>
                     </tr>
                     <tr>
                       <td>0123456543</td>
 
-                      <td>
-                        <div className="text-success">Delivered</div>
-                      </td>
+                      <td>Damilola Anifowoshe</td>
                       <td>Basic</td>
                     </tr>
                   </tbody>

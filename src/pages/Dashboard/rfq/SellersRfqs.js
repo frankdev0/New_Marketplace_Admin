@@ -10,7 +10,6 @@ import SellersSidebar from "../dashboardComponents/SideBar";
 const SellersRfqs = () => {
   const [rfqs, setRfqs] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [viewRfq, setViewRfq] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState("");
   const ITEMS_PER_PAGE = 5;
@@ -54,15 +53,6 @@ const SellersRfqs = () => {
   useEffect(() => {
     getRfqs();
   }, []);
-
-  const showRfqDetails = (rfqID) => {
-    setLoading(true);
-    axios.get(`/rfq/${rfqID}`).then((response) => {
-      setViewRfq(response.data.data);
-      console.log(response.data.data);
-      setLoading(false);
-    });
-  };
 
   if (loading) {
     return (
@@ -188,12 +178,7 @@ const SellersRfqs = () => {
                                 <div className="text-primary">{rfq.status}</div>
                               </td>
                               <td>
-                                <Link
-                                  to="/view-rfq"
-                                  onClick={(e) => showRfqDetails(rfq.id)}
-                                >
-                                  view
-                                </Link>
+                                <Link to={`/view-rfq/${rfq.id}`}>view</Link>
                               </td>
                             </tr>
                           );
