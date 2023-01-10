@@ -129,7 +129,7 @@ const Settings = () => {
                             placeholder="********"
                           />
                         </div>
-                        <div className="form-group">
+                        {/* <div className="form-group">
                           <label>Hear About Us</label>
                           <select
                             className="form-control bg-light user-input"
@@ -141,7 +141,7 @@ const Settings = () => {
                             <option>AFCTCA</option>
                             <option>Others</option>
                           </select>
-                        </div>
+                        </div> */}
                         <div className="seller-seting-submit my-4">
                           <button type="submit" className="btn btn-dark mx-4">
                             Create User
