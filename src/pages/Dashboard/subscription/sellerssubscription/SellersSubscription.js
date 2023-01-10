@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Iconly } from "react-iconly";
 import SellersSidebar from "../../dashboardComponents/SideBar";
 import { axios } from "../../../../components/baseUrl";
+import { AppContext } from "../../../../components/AppState";
 
 const SellersSubscription = () => {
   const [subscription, setSubscriptions] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  const { user } = useContext(AppContext);
 
   const getSubscriptions = async () => {
     try {
@@ -29,7 +32,9 @@ const SellersSubscription = () => {
       <div className="grid-container">
         <header className="header">
           <div className="header__message">
-            <h2>Hello Erhun Abbe</h2>
+            <h2>
+              Hello {user.firstName} {user.LastName}
+            </h2>
           </div>
           <div className="header__search">
             <form>

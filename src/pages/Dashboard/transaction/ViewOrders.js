@@ -125,7 +125,7 @@ const ViewOrders = () => {
                         </div>
                         <select
                           style={{ width: "10rem", borderRadius: "10px" }}
-                          className="form-control"
+                          className="form-control text-center"
                           onChange={handleStatusChange}
                           name="status"
                           aria-describedby="Default select example"

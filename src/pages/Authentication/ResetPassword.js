@@ -11,8 +11,8 @@ import { Store } from "react-notifications-component";
 
 const ResetPassword = () => {
   const [loading, setLoading] = useState(false);
-  const { userId, resetToken } = useParams();
-  console.log(resetToken);
+  const { userId, token } = useParams();
+  console.log(token);
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
   const [linkExpire, setLinkExpire] = useState("");
@@ -99,10 +99,11 @@ const ResetPassword = () => {
       const changePassword = {
         password: passwordInput.password,
       };
-      const { data } = await axios.post(
-        `/auth/reset-password/${resetToken}`,
-        changePassword
-      );
+      const { data } = await axios.post("/auth/new-user-resetpassword", {
+        password: changePassword,
+        token,
+        userID: userId,
+      });
       console.log(data);
       setPasswordInput({
         password: "",

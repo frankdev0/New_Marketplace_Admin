@@ -100,7 +100,9 @@ const ProductListing = () => {
         <div className="grid-container">
           <header className="header">
             <div className="header__message">
-              <h2>All Products</h2>
+              <h2>
+                Hello {user.firstName} {user.LastName}
+              </h2>
             </div>
             <div className="header__search">
               <form>

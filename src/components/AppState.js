@@ -14,10 +14,12 @@ const AppState = ({ children }) => {
       .get("/dashboard/admin/activity-summary")
       .then((response) => {
         setActivitySummary(response.data.data);
+        setUserLoading(false);
         console.log(response.data);
       })
       .catch((error) => {
         console.log(error);
+        setUserLoading(false);
       });
   }, []);
 

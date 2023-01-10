@@ -149,9 +149,9 @@ const ViewRfq = () => {
                       <tr>
                         <th>RFQ ID</th>
                         <th>No.12345</th>
-                        <th>
+                        {/* <th>
                           <Link>view info</Link>
-                        </th>
+                        </th> */}
                       </tr>
                     </thead>
                     <tbody>

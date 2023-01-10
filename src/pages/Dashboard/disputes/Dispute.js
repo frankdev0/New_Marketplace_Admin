@@ -1,15 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Iconly } from "react-iconly";
 import { Link, useNavigate } from "react-router-dom";
 import { axios } from "../../../components/baseUrl";
 import SellersSidebar from "../dashboardComponents/SideBar";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { AppContext } from "../../../components/AppState";
 
 const Dispute = () => {
   const [disputes, setDisputes] = useState([]);
   const [viewDispute, setViewDispute] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const { user } = useContext(AppContext);
 
   const navigate = useNavigate();
 
@@ -101,8 +104,13 @@ const Dispute = () => {
         <div className="grid-container">
           <ToastContainer />
           <header className="header">
-            <div className="header__message">
+            {/* <div className="header__message">
               <h2>All Buyers Dispute</h2>
+            </div> */}
+            <div className="header__message">
+              <h2>
+                Hello {user.firstName} {user.LastName}
+              </h2>
             </div>
             <div className="header__search">
               <form>

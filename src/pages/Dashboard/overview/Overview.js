@@ -9,7 +9,7 @@ const Overview = () => {
   const [activitySummaty, setActivitySummary] = useState();
   const [loading, setLoading] = useState(true);
 
-  const { user } = useContext(AppContext);
+  const { user, userLoading } = useContext(AppContext);
 
   const getActivitySummary = async () => {
     try {
@@ -27,7 +27,7 @@ const Overview = () => {
     getActivitySummary();
   }, []);
 
-  if (loading) {
+  if (loading || userLoading) {
     return (
       <div
         className="spinner mx-auto"

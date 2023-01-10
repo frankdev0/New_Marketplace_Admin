@@ -16,7 +16,7 @@ const SellersOrder = () => {
   const ITEMS_PER_PAGE = 5;
   const [totalItems, setTotalItems] = useState(0);
 
-  const { activitySummary } = useContext(AppContext);
+  const { activitySummary, user } = useContext(AppContext);
 
   const transactionData = useMemo(() => {
     let computedTransactions = transactions;
@@ -83,7 +83,9 @@ const SellersOrder = () => {
       <div className="grid-container">
         <header className="header">
           <div className="header__message">
-            <h2>Hello Erhun Abbe</h2>
+            <h2>
+              Hello {user.firstName} {user.LastName}
+            </h2>
           </div>
 
           <div className="header__search">
@@ -116,7 +118,7 @@ const SellersOrder = () => {
                 <h2>Total Transaction Revenue</h2>
                 {/* <p>Detailed transaction history is on the order page</p> */}
                 <div className="d-flex justify-content-between mt-4">
-                  <h3>{activitySummary.total_transactions_revenue}</h3>
+                  <h3>USD {activitySummary.total_transactions_revenue}</h3>
                 </div>
               </div>
             </div>

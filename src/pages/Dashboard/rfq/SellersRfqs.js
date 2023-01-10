@@ -1,6 +1,7 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import { Iconly } from "react-iconly";
 import { Link } from "react-router-dom";
+import { AppContext } from "../../../components/AppState";
 import { axios } from "../../../components/baseUrl";
 import PaginationComponent from "../../../components/PaginationComponent";
 import { ProtectedRoutes } from "../../../components/ProtectedRoutes";
@@ -14,6 +15,8 @@ const SellersRfqs = () => {
   const [search, setSearch] = useState("");
   const ITEMS_PER_PAGE = 5;
   const [totalItems, setTotalItems] = useState(0);
+
+  const { user } = useContext(AppContext);
 
   const rfqData = useMemo(() => {
     let computedRfqs = rfqs;
@@ -79,7 +82,9 @@ const SellersRfqs = () => {
         <div className="grid-container">
           <header className="header">
             <div className="header__message">
-              <h2>My RFQs</h2>
+              <h2>
+                Hello {user.firstName} {user.LastName}
+              </h2>
             </div>
 
             <div className="header__search">

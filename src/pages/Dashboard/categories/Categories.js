@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 // import { Iconly } from "react-iconly";
 import "../Dashboard.css";
@@ -6,12 +6,15 @@ import SellersSidebar from "../dashboardComponents/SideBar";
 import { axios } from "../../../components/baseUrl";
 import { confirmAlert } from "react-confirm-alert"; // Import
 import "react-confirm-alert/src/react-confirm-alert.css";
+import { AppContext } from "../../../components/AppState";
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
   const [viewLoader, setViewLoader] = useState(false);
   const [viewCategory, setViewCategory] = useState([]);
+
+  const { user } = useContext(AppContext);
 
   const getCategory = async () => {
     try {
@@ -87,7 +90,9 @@ const Categories = () => {
       <div className="grid-container">
         <header className="header">
           <div className="header__message">
-            <h2>Hello Erhun Abbe</h2>
+            <h2>
+              Hello {user.firstName} {user.LastName}
+            </h2>
           </div>
           <div className="header__search">
             <Link to="/create-category">
