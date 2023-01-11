@@ -14,7 +14,7 @@ const SellersSidebar = () => {
 
   const navigate = useNavigate();
 
-  const { user } = useContext(AppContext);
+  // const { user, userLoading } = useContext(AppContext);
 
   const handleLogout = async () => {
     try {
@@ -36,6 +36,25 @@ const SellersSidebar = () => {
     }
   };
 
+  // if (userLoading) {
+  //   return (
+  //     <div
+  //       className="spinner mx-auto"
+  //       align="center"
+  //       id="spinner"
+  //       style={{
+  //         position: "absolute",
+  //         top: "calc(50% - 60px)",
+  //         left: "calc(50% - 60px)",
+  //         justifyContent: "center",
+  //         alignItems: "center",
+  //         textAlign: "center",
+  //         margin: "auto",
+  //       }}
+  //     ></div>
+  //   );
+  // }
+
   return (
     <>
       <aside id="seller" className="sidenav">
@@ -46,11 +65,9 @@ const SellersSidebar = () => {
         <div className="user-area">
           <div className="d-flex align-items-center">
             <div className="flex-shrink-0 user-area-art">
-              {user.firstName && user.firstName.charAt(0).toUpperCase()}
+              {/* {user.firstName && user.firstName.charAt(0).toUpperCase()} */}
             </div>
-            <div className="flex-grow-1 ms-2">
-              <p>Erhun Abbe</p>
-            </div>
+            <div className="flex-grow-1 ms-2">{/* <p>Erhun Abbe</p> */}</div>
           </div>
         </div>
 

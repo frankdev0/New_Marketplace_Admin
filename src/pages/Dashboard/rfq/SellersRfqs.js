@@ -10,7 +10,7 @@ import SellersSidebar from "../dashboardComponents/SideBar";
 
 const SellersRfqs = () => {
   const [rfqs, setRfqs] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState("");
   const ITEMS_PER_PAGE = 5;
@@ -206,4 +206,7 @@ const SellersRfqs = () => {
   );
 };
 
-export default ProtectedRoutes(SellersRfqs, ["SUPER_ADMIN"]);
+export default ProtectedRoutes(SellersRfqs, [
+  "SUPER_ADMIN",
+  "SOURCE_PRO_ADMIN",
+]);

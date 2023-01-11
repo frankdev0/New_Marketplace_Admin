@@ -1,33 +1,36 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Iconly } from "react-iconly";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { AppContext } from "../../../components/AppState";
 import { axios } from "../../../components/baseUrl";
+import { ProtectedRoutes } from "../../../components/ProtectedRoutes";
 import SellersSidebar from "../dashboardComponents/SideBar";
 
 const Overview = () => {
-  const [activitySummaty, setActivitySummary] = useState();
+  const [activitySummary, setActivitySummary] = useState();
   const [loading, setLoading] = useState(true);
 
   const { user, userLoading } = useContext(AppContext);
+  // const navigate = useNavigate();
 
   const getActivitySummary = async () => {
     try {
-      axios.get("/dashboard/admin/activity-summary").then((response) => {
+      await axios.get("/dashboard/admin/activity-summary").then((response) => {
         setActivitySummary(response.data.data);
         console.log(response.data);
         setLoading(false);
       });
     } catch (error) {
-      console.log(error);
       setLoading(false);
+      console.log(error);
+      // navigate("/unauthorized");
     }
   };
   useEffect(() => {
     getActivitySummary();
   }, []);
 
-  if (loading || userLoading) {
+  if (loading) {
     return (
       <div
         className="spinner mx-auto"
@@ -97,7 +100,12 @@ const Overview = () => {
                   <h2>Total Products</h2>
                   <p>Detailed history is on the Product page</p>
                   <div className="d-flex justify-content-between mt-4">
-                    <h3>{activitySummaty.total_number_of_products}</h3>
+                    <h3>
+                      {user.role === "SUPER_ADMIN" || "SOURCE_PRO_ADMIN"
+                        ? activitySummary &&
+                          activitySummary.total_number_of_products
+                        : "NaN"}
+                    </h3>
                   </div>
                 </div>
               </div>
@@ -107,7 +115,11 @@ const Overview = () => {
                   <p>Detailed history is on the Order page</p>
 
                   <div className="d-flex justify-content-between mt-4">
-                    <h3>USD {activitySummaty.total_transactions_revenue}</h3>
+                    <h3>
+                      USD{" "}
+                      {activitySummary &&
+                        activitySummary.total_transactions_revenue}
+                    </h3>
                   </div>
                 </div>
               </div>
@@ -117,10 +129,14 @@ const Overview = () => {
                   <p>Detailed history is on the Order page</p>
                   <div className="d-flex justify-content-between mt-4">
                     <h3>
-                      {activitySummaty.total_confirmed_orders +
-                        activitySummaty.total_delivered_orders +
-                        activitySummaty.total_pending_orders +
-                        activitySummaty.total_shipped_orders}
+                      {activitySummary &&
+                        activitySummary.total_confirmed_orders +
+                          activitySummary &&
+                        activitySummary.total_delivered_orders +
+                          activitySummary &&
+                        activitySummary.total_pending_orders +
+                          activitySummary &&
+                        activitySummary.total_shipped_orders}
                     </h3>
                   </div>
                 </div>
@@ -133,7 +149,7 @@ const Overview = () => {
                   <h2>Total Buyers</h2>
                   <p>Detailed history is on the Buyer's page</p>
                   <div className="d-flex justify-content-between mt-4">
-                    <h3>{activitySummaty.total_buyers}</h3>
+                    <h3>{activitySummary && activitySummary.total_buyers}</h3>
                   </div>
                 </div>
               </div>
@@ -142,7 +158,7 @@ const Overview = () => {
                   <h2>Total Sellers</h2>
                   <p>Detailed history is on the Seller's page</p>
                   <div className="d-flex justify-content-between mt-4">
-                    <h3>{activitySummaty.total_sellers}</h3>
+                    <h3>{activitySummary && activitySummary.total_sellers}</h3>
                   </div>
                 </div>
               </div>
@@ -151,7 +167,10 @@ const Overview = () => {
                   <h2>All RFQ's</h2>
                   <p>Detailed history is on the RFQ page</p>
                   <div className="d-flex justify-content-between mt-4">
-                    <h3>{activitySummaty.total_number_of_enquiries}</h3>
+                    <h3>
+                      {activitySummary &&
+                        activitySummary.total_number_of_enquiries}
+                    </h3>
                   </div>
                 </div>
               </div>
@@ -169,4 +188,4 @@ const Overview = () => {
   );
 };
 
-export default Overview;
+export default ProtectedRoutes(Overview, ["SOURCE_PRO_ADMIN", "SUPER_ADMIN"]);

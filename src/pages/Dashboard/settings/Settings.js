@@ -6,12 +6,13 @@ import Avatar from "@mui/material/Avatar";
 import passport from "../../../assets/img/passport.jpg";
 import SellersSidebar from "../dashboardComponents/SideBar";
 import { axios } from "../../../components/baseUrl";
-import PaginationComponent from "../../../components/PaginationComponent";
-import Search from "../../../components/Search";
+import { ReactNotifications } from "react-notifications-component";
+import "react-notifications-component/dist/theme.css";
+import { Store } from "react-notifications-component";
 
 const Settings = () => {
-  const [info, setInfo] = useState([]);
-  const [user, setUser] = useState({
+  const [loading, setLoading] = useState(false);
+  const [userRole, setUserRole] = useState({
     firstName: "",
     LastName: "",
     password: "",
@@ -22,22 +23,55 @@ const Settings = () => {
   });
 
   const handleChange = (e) => {
-    setUser({ ...user, [e.target.name]: e.target.value });
+    setUserRole({ ...userRole, [e.target.name]: e.target.value });
   };
   const handleSubmit = async (e) => {
+    setLoading(true);
     e.preventDefault();
-    console.log(user);
+    console.log(userRole);
     try {
-      const { data } = await axios.post("/auth/admin-register-user", user);
+      const { data } = await axios.post("/auth/admin-register-user", userRole);
+      Store.addNotification({
+        title: "Successful!",
+        message: `A user has been created successfully`,
+        type: "success",
+        insert: "top",
+        container: "top-right",
+        animationIn: ["animate__animated", "animate__fadeIn"],
+        animationOut: ["animate__animated", "animate__fadeOut"],
+        dismiss: {
+          duration: 3000,
+          onScreen: true,
+        },
+        isMobile: true,
+        breakpoint: 768,
+      });
       console.log(data);
     } catch (error) {
+      setLoading(false);
       console.log(error);
+      Store.addNotification({
+        title: "Failed",
+        message: `${error.response.data.errors[0].message}`,
+        type: "danger",
+        insert: "top",
+        container: "top-right",
+        animationIn: ["animate__animated", "animate__fadeIn"],
+        animationOut: ["animate__animated", "animate__fadeOut"],
+        dismiss: {
+          duration: 3000,
+          onScreen: true,
+        },
+        isMobile: true,
+        breakpoint: 768,
+      });
     }
   };
   return (
     <>
       <div>
         <div className="grid-container">
+          <ReactNotifications />
           <header className="header">
             <div className="header__message">
               <h2>My Account</h2>
@@ -97,14 +131,14 @@ const Settings = () => {
                     <div className="seller-setting-formgroup">
                       <div className="form-group-right">
                         <div className="form-group">
-                          <label>FirstName</label>
+                          <label>Firstname</label>
                           <input
                             className="form-control"
                             name="firstName"
                             type="text"
                             id="fullname"
                             onChange={handleChange}
-                            placeholder="Erhuan Abhe"
+                            placeholder="Firstname"
                           />
                         </div>
                         <div className="form-group">
@@ -142,25 +176,40 @@ const Settings = () => {
                             <option>Others</option>
                           </select>
                         </div> */}
-                        <div className="seller-seting-submit my-4">
-                          <button type="submit" className="btn btn-dark mx-4">
+                        {/* <div className="seller-seting-submit my-4"> */}
+                        {/* <button type="submit" className="btn btn-dark mx-4">
                             Create User
-                          </button>
-                          {/* <button type="submit" className="btn btn-primary">
+                          </button> */}
+                        {/* <button type="submit" className="btn btn-primary">
                             Change Password
                           </button> */}
+                        {/* </div> */}
+                        <div className="seller-seting-submit my-4">
+                          {loading ? (
+                            <button type="submit" className="btn btn-dark px-5">
+                              <span
+                                className="spinner-border spinner-border-sm"
+                                role="status"
+                                aria-hidden="true"
+                              ></span>
+                            </button>
+                          ) : (
+                            <button type="submit" className="btn btn-dark">
+                              Create User
+                            </button>
+                          )}
                         </div>
                       </div>
                       <div className="form-group-left">
                         <div className="form-group">
-                          <label>LastName</label>
+                          <label>Lastname</label>
                           <input
                             className="form-control"
                             type="text"
                             name="LastName"
                             onChange={handleChange}
                             id="country"
-                            placeholder="Nigeria"
+                            placeholder="Lastname"
                           />
                         </div>
                         <div className="form-group">

@@ -7,6 +7,7 @@ import { axios } from "../../../components/baseUrl";
 import PaginationComponent from "../../../components/PaginationComponent";
 import { AppContext } from "../../../components/AppState";
 import "./buyer.css";
+import { ProtectedRoutes } from "../../../components/ProtectedRoutes";
 
 const Buyers = () => {
   const [buyers, setBuyers] = useState([]);
@@ -407,4 +408,4 @@ const Buyers = () => {
   );
 };
 
-export default Buyers;
+export default ProtectedRoutes(Buyers, ["SOURCE_PRO_ADMIN", "SUPER_ADMIN"]);

@@ -1,4 +1,5 @@
 import React, { createContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { axios } from "./baseUrl";
 
 export const AppContext = createContext();
@@ -9,17 +10,20 @@ const AppState = ({ children }) => {
   const [metrics, setMetrics] = useState("");
   const [activitySummary, setActivitySummary] = useState("");
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     axios
       .get("/dashboard/admin/activity-summary")
       .then((response) => {
         setActivitySummary(response.data.data);
         setUserLoading(false);
-        console.log(response.data);
+        // console.log(response.data);
       })
       .catch((error) => {
         console.log(error);
         setUserLoading(false);
+        // navigate("/unauthorized");
       });
   }, []);
 

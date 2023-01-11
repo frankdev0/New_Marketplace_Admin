@@ -18,7 +18,7 @@ const Sellers = () => {
   const [totalItems, setTotalItems] = useState(0);
   const [summary, setSummary] = useState("");
 
-  const { user } = useContext(AppContext);
+  const { user, userLoading } = useContext(AppContext);
 
   const commentsData = useMemo(() => {
     let computedSellers = sellers;
@@ -151,7 +151,7 @@ const Sellers = () => {
     }
   };
 
-  if (loading) {
+  if (userLoading) {
     return (
       <div
         className="spinner mx-auto"

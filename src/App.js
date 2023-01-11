@@ -30,13 +30,15 @@ import Overview from "./pages/Dashboard/overview/Overview";
 import AppState from "./components/AppState";
 import SubCategory from "./pages/Dashboard/categories/SubCategory";
 import EditCategory from "./pages/Dashboard/categories/EditCategory";
+import Unauthorized from "./pages/Dashboard/unauthorized/Unauthorized";
 
 function App() {
   return (
     <AppState>
       <Routes>
         {/* <Route path="/" element={<Home />} /> */}
-        <Route path="/authentication" element={<Authentication />} />
+        <Route exact path="/authentication" element={<Authentication />} />
+        <Route path="/unauthorized" element={<Unauthorized />} />
         <Route path="/buyers-registration" element={<BuyersRegistration />} />
         <Route path="/sellers-registration" element={<SellersRegistration />} />
 
@@ -45,7 +47,7 @@ function App() {
         <Route path="/verify-email/:email" element={<EmailVerification />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route
-          path="/set-password/:userId/:token"
+          path="/set-password/:userID/:token"
           element={<ResetPassword />}
         />
         <Route path="/login" element={<Login />} />

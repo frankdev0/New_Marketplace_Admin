@@ -6,13 +6,15 @@ import SellersSidebar from "../dashboardComponents/SideBar";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AppContext } from "../../../components/AppState";
+import dayjs from "dayjs";
 
 const Dispute = () => {
   const [disputes, setDisputes] = useState([]);
   const [viewDispute, setViewDispute] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [viewLoader, setViewLoader] = useState(false);
 
-  const { user } = useContext(AppContext);
+  const { user, userLoading } = useContext(AppContext);
 
   const navigate = useNavigate();
 
@@ -45,7 +47,7 @@ const Dispute = () => {
       });
       setViewDispute(data.data);
       setTimeout(() => {
-        navigate("/dispute");
+        navigate("/disputes");
       }, 2000);
       toast.success("DISPUTE UPDATED SUCCESSFULLY", {
         position: "top-right",
@@ -71,15 +73,15 @@ const Dispute = () => {
   }, []);
 
   const showDispute = (disputeID) => {
-    setLoading(true);
+    setViewLoader(true);
     axios.get(`/dispute/${disputeID}`).then((response) => {
       setViewDispute(response.data.data);
       console.log(response.data.data);
-      setLoading(false);
+      setViewLoader(false);
     });
   };
 
-  if (loading) {
+  if (userLoading) {
     return (
       <div
         className="spinner mx-auto"
@@ -185,6 +187,7 @@ const Dispute = () => {
                         <th scope="col">S/N</th>
                         {/* <th scope="col">Buyers Name</th> */}
                         <th scope="col">Subject</th>
+                        <th scope="col">Date</th>
                         <th scope="col">Status</th>
                         <th scope="col">Action</th>
                       </tr>
@@ -198,19 +201,9 @@ const Dispute = () => {
                           return (
                             <tr key={dispute.id}>
                               <th scope="row">{index + 1}</th>
+                              <td>{dispute.subject}</td>
                               <td>
-                                <div className="d-flex">
-                                  <div className="flex-shrink-0">
-                                    <img
-                                      className="table-product-img"
-                                      src=""
-                                      alt="..."
-                                    />
-                                  </div>
-                                  <div className="flex-grow-1 ms-3">
-                                    <p>{dispute.subject}</p>
-                                  </div>
-                                </div>
+                                {dayjs(dispute.createdAt).format("D MMMM YYYY")}
                               </td>
                               <td>
                                 {dispute.status === "PENDING" && (
@@ -224,18 +217,17 @@ const Dispute = () => {
                                   </div>
                                 )}
                               </td>
+
                               <td>
+                                {" "}
                                 <Link
                                   to="/n"
-                                  type="button"
-                                  onClick={(e) => showDispute(dispute.id)}
                                   data-bs-toggle="modal"
                                   data-bs-target="#exampleModal"
+                                  onClick={(e) => showDispute(dispute.id)}
                                 >
                                   view
                                 </Link>
-                              </td>
-                              <td>
                                 <div
                                   className="modal fade"
                                   id="exampleModal"
@@ -243,105 +235,150 @@ const Dispute = () => {
                                   aria-labelledby="exampleModalLabel"
                                   aria-hidden="true"
                                 >
-                                  <div className="modal-dialog modal-lg">
-                                    <div className="modal-content">
-                                      <div className="modal-header">
-                                        <h5
-                                          className="modal-title"
-                                          id="exampleModalLabel"
-                                        >
-                                          Disputes
-                                        </h5>
-                                        <button
-                                          type="button"
-                                          className="btn-close"
-                                          data-bs-dismiss="modal"
-                                          aria-label="Close"
-                                        ></button>
-                                      </div>
-
-                                      <main className="main">
-                                        <div className="modal-body overview-card">
-                                          <div className="my-5">
-                                            <h5 className="heading">
-                                              Subject:
-                                            </h5>
-                                            <span>
-                                              Supply of Susbstandard Goods
-                                            </span>
+                                  {viewLoader ? (
+                                    <div
+                                      className="spinner mx-auto"
+                                      align="center"
+                                      id="spinner"
+                                      style={{
+                                        position: "absolute",
+                                        top: "calc(50% - 60px)",
+                                        left: "calc(50% - 60px)",
+                                        justifyContent: "center",
+                                        alignItems: "center",
+                                        textAlign: "center",
+                                        margin: "auto",
+                                      }}
+                                    ></div>
+                                  ) : (
+                                    <div
+                                      className="modal-dialog modal-lg"
+                                      style={{
+                                        backgroundColor: "#F5F5F5",
+                                      }}
+                                    >
+                                      <div
+                                        className="modal-content"
+                                        style={{
+                                          backgroundColor: "#F5F5F5",
+                                        }}
+                                      >
+                                        <div className="modal-header">
+                                          <h5
+                                            className="modal-title"
+                                            id="exampleModalLabel"
+                                          >
+                                            Dispute Details
+                                          </h5>
+                                          <button
+                                            type="button"
+                                            className="btn-close"
+                                            data-bs-dismiss="modal"
+                                            aria-label="Close"
+                                          ></button>
+                                        </div>
+                                        <div className="modal-body d-flex">
+                                          <div
+                                            className="information-box-left"
+                                            style={{ padding: "15px" }}
+                                          >
+                                            <div className="d-flex my-3">
+                                              <i
+                                                className="fa fa-user mt-1 px-1"
+                                                aria-hidden="true"
+                                              ></i>
+                                              <div>
+                                                {viewDispute.User &&
+                                                  viewDispute.User
+                                                    .firstName}{" "}
+                                                {viewDispute.User &&
+                                                  viewDispute.User.LastName}
+                                              </div>
+                                            </div>
+                                            <div className="d-flex my-3">
+                                              <i
+                                                className="fa fa-envelope-o mt-1 px-1"
+                                                aria-hidden="true"
+                                              ></i>
+                                              <div>
+                                                {viewDispute.User &&
+                                                  viewDispute.User.email}
+                                              </div>
+                                            </div>
+                                            <div className="d-flex my-3">
+                                              <i
+                                                className="fa fa-phone mt-1 px-1"
+                                                aria-hidden="true"
+                                              ></i>
+                                              <div>phoneNumber</div>
+                                            </div>
+                                            <div className="d-flex my-3">
+                                              <i
+                                                className="fa fa-calendar mt-1 px-1"
+                                                aria-hidden="true"
+                                              ></i>
+                                              <p>
+                                                Created At:
+                                                <span className="mx-2">
+                                                  {dayjs(
+                                                    viewDispute.createdAt
+                                                  ).format("D MMMM YYYY")}
+                                                </span>
+                                              </p>
+                                            </div>
                                           </div>
 
-                                          <p>
-                                            ToFa has developed partnerships with
-                                            Vietnam’s top suppliers to provide
-                                            high-quality cashew nuts to markets
-                                            worldwide. Vietnam has been
-                                            producing cashews throughout the
-                                            country since the early 1980s.
-                                            Cashew nuts are grown in various
-                                            regions in Vietnam, including Binh
-                                            Phuoc, Dak Nong, Dong Nai, Binh
-                                            Duong provinces. Particularly, Binh
-                                            Phuoc province is known as the
-                                            leading region for the growth of
-                                            cashew nuts, constituting over 50%
-                                            of the entire cashew nuts production
-                                            in Vietnam. Tridge can provide two
-                                            types of cashew nuts for export:
-                                            kernel and processed nuts. With
-                                            kernel cashew nuts, there are
-                                            various sizes ranging from W180 to
-                                            W500. For processed nuts,
-                                            salt-roasted cashew is most popular.
-                                            Moreover, Tridge can provide organic
-                                            cashew kernel, which is gaining
-                                            popularity in the market. he cashew
-                                            nuts in Vietnam are based on size,
-                                            color, and degree of rupture..
-                                            Tridge can provide two types of
-                                            cashew nuts for export: kernel and
-                                            processed nuts. With kernel cashew
-                                            nuts, there are various sizes
-                                            ranging from W180 to W500. For
-                                            processed nuts, salt-roasted cashew
-                                            is most popular. Moreover, Tridge
-                                            can provide organic cashew kernel,
-                                            which is gaining popularity in the
-                                            market. he cashew nuts in Vietnam
-                                            are based on size, color, and degree
-                                            of rupture. Cashew nuts are grown in
-                                            various regions in Vietnam,
-                                            including Binh Phuoc, Dak Nong, Dong
-                                            Nai, Binh Duong provinces.
-                                            Particularly, Binh Phuoc province is
-                                            known as the leading region for the
-                                            growth of cashew nuts, constituting
-                                            over 50% of the entire cashew nuts
-                                            production in Vietnam.{" "}
-                                          </p>
-                                        </div>
-                                      </main>
+                                          <div
+                                            className="information-box-right"
+                                            style={{ padding: "15px" }}
+                                          >
+                                            <div className="d-flex my-3">
+                                              <i
+                                                className="fa fa-exclamation-circle mt-1 px-1"
+                                                aria-hidden="true"
+                                              ></i>
+                                              <p>
+                                                Subject:
+                                                <span className="mx-2">
+                                                  {viewDispute.subject}
+                                                </span>
+                                              </p>
+                                            </div>
 
-                                      <div className="modal-footer">
-                                        <button
-                                          type="button"
-                                          className="btn btn-secondary"
-                                          data-bs-dismiss="modal"
-                                        >
-                                          Close
-                                        </button>
-                                        <button
-                                          type="button"
-                                          className="btn btn-success"
-                                          onClick={() =>
-                                            UpdateDispute(dispute.id)
-                                          }
-                                        >
-                                          Mark as Resolved
-                                        </button>
+                                            <div className="d-flex my-3">
+                                              <i
+                                                className="fa fa-pencil-square-o mt-1 px-1"
+                                                aria-hidden="true"
+                                              ></i>
+                                              Complaint:
+                                              <span className="mx-2">
+                                                {viewDispute.complaint}
+                                              </span>
+                                            </div>
+                                          </div>
+                                        </div>
+
+                                        <div className="modal-footer">
+                                          <button
+                                            type="button"
+                                            className="btn btn-secondary"
+                                            data-bs-dismiss="modal"
+                                          >
+                                            Close
+                                          </button>
+                                          <button
+                                            type="button"
+                                            className="btn btn-success"
+                                            onClick={() =>
+                                              UpdateDispute(dispute.id)
+                                            }
+                                          >
+                                            Mark as Resolved
+                                          </button>
+                                        </div>
                                       </div>
                                     </div>
-                                  </div>
+                                  )}
                                 </div>
                               </td>
                             </tr>

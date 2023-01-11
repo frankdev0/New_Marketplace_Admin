@@ -11,7 +11,7 @@ import { Store } from "react-notifications-component";
 
 const ResetPassword = () => {
   const [loading, setLoading] = useState(false);
-  const { userId, token } = useParams();
+
   console.log(token);
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
@@ -22,6 +22,10 @@ const ResetPassword = () => {
     password: "",
     confirmPassword: "",
   });
+  const { userID, token } = useParams();
+
+  console.log("my user Id", userID);
+  console.log("my TOKEN", token);
 
   const handlePasswordChange = (evnt) => {
     const passwordInputValue = evnt.target.value.trim();
@@ -96,13 +100,14 @@ const ResetPassword = () => {
       setConfirmPasswordError("Confirm password is not a match");
     }
     try {
-      const changePassword = {
-        password: passwordInput.password,
-      };
+      // const changePassword = {
+      //   password: passwordInput.password,
+      // };
+      console.log(passwordInput.password);
       const { data } = await axios.post("/auth/new-user-resetpassword", {
-        password: changePassword,
+        userID,
         token,
-        userID: userId,
+        password: passwordInput.password,
       });
       console.log(data);
       setPasswordInput({

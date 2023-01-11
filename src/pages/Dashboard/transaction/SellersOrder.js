@@ -16,7 +16,7 @@ const SellersOrder = () => {
   const ITEMS_PER_PAGE = 5;
   const [totalItems, setTotalItems] = useState(0);
 
-  const { activitySummary, user } = useContext(AppContext);
+  const { activitySummary, user, userLoading } = useContext(AppContext);
 
   const transactionData = useMemo(() => {
     let computedTransactions = transactions;
@@ -59,7 +59,7 @@ const SellersOrder = () => {
     getTransactions();
   }, []);
 
-  if (loading) {
+  if (userLoading) {
     return (
       <div
         className="spinner mx-auto"
@@ -128,9 +128,10 @@ const SellersOrder = () => {
                 {/* <p>Detailed transaction history is on the order page</p> */}
                 <div className="d-flex justify-content-between mt-4">
                   <h3>
-                    {activitySummary.total_delivered_orders +
-                      activitySummary.total_pending_orders +
-                      activitySummary.total_shipped_orders}
+                    {activitySummary &&
+                      activitySummary.total_delivered_orders +
+                        activitySummary.total_pending_orders +
+                        activitySummary.total_shipped_orders}
                   </h3>
                 </div>
               </div>

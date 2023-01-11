@@ -3,10 +3,14 @@ import { Iconly } from "react-iconly";
 import SellersSidebar from "../../dashboardComponents/SideBar";
 import { axios } from "../../../../components/baseUrl";
 import { AppContext } from "../../../../components/AppState";
+import { Link } from "react-router-dom";
+import dayjs from "dayjs";
 
 const SellersSubscription = () => {
-  const [subscription, setSubscriptions] = useState([]);
+  const [subscriptions, setSubscriptions] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [viewSubscription, setViewSubscription] = useState([]);
+  const [viewLoader, setViewLoader] = useState(false);
 
   const { user } = useContext(AppContext);
 
@@ -26,6 +30,34 @@ const SellersSubscription = () => {
   useEffect(() => {
     getSubscriptions();
   }, []);
+
+  const showSubscription = (subscriptionId) => {
+    setViewLoader(true);
+    axios.get(`/subscription/${subscriptionId}`).then((response) => {
+      setViewSubscription(response.data.data);
+      console.log(response.data.data);
+      setViewLoader(false);
+    });
+  };
+
+  // if (loading) {
+  //   return (
+  //     <div
+  //       className="spinner mx-auto"
+  //       align="center"
+  //       id="spinner"
+  //       style={{
+  //         position: "absolute",
+  //         top: "calc(50% - 60px)",
+  //         left: "calc(50% - 60px)",
+  //         justifyContent: "center",
+  //         alignItems: "center",
+  //         textAlign: "center",
+  //         margin: "auto",
+  //       }}
+  //     ></div>
+  //   );
+  // }
 
   return (
     <>
@@ -101,45 +133,188 @@ const SellersSubscription = () => {
                       <th scope="col">S/N</th>
                       <th scope="col">Sellers Name</th>
                       <th scope="col">Plan</th>
+                      <th scope="col">Duration</th>
+                      <th scope="col">Action</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>0123456543</td>
+                    {subscriptions &&
+                      subscriptions.map((subscription, index) => {
+                        return (
+                          <tr key={subscription.id}>
+                            <th scope="row">{index + 1}</th>
+                            <td>
+                              {subscription.User && subscription.User.firstName}{" "}
+                              {subscription.User && subscription.User.LastName}
+                            </td>
+                            <td>{subscription.plan}</td>
 
-                      <td>Paschal Ojinnaka</td>
-                      <td>Basic</td>
-                    </tr>
-                    <tr>
-                      <td>0123456543</td>
+                            <td>{subscription.duration}</td>
+                            <td>
+                              {" "}
+                              <Link
+                                to="/n"
+                                data-bs-toggle="modal"
+                                data-bs-target="#exampleModal"
+                                onClick={(e) =>
+                                  showSubscription(subscription.id)
+                                }
+                              >
+                                view
+                              </Link>
+                              <div
+                                className="modal fade"
+                                id="exampleModal"
+                                tabIndex="-1"
+                                aria-labelledby="exampleModalLabel"
+                                aria-hidden="true"
+                              >
+                                {viewLoader ? (
+                                  <div
+                                    className="spinner mx-auto"
+                                    align="center"
+                                    id="spinner"
+                                    style={{
+                                      position: "absolute",
+                                      top: "calc(50% - 60px)",
+                                      left: "calc(50% - 60px)",
+                                      justifyContent: "center",
+                                      alignItems: "center",
+                                      textAlign: "center",
+                                      margin: "auto",
+                                    }}
+                                  ></div>
+                                ) : (
+                                  <div
+                                    className="modal-dialog modal-lg"
+                                    style={{
+                                      backgroundColor: "#F5F5F5",
+                                    }}
+                                  >
+                                    <div
+                                      className="modal-content"
+                                      style={{
+                                        backgroundColor: "#F5F5F5",
+                                      }}
+                                    >
+                                      <div className="modal-header">
+                                        <h5
+                                          className="modal-title"
+                                          id="exampleModalLabel"
+                                        >
+                                          Sellers Subscription Details
+                                        </h5>
+                                        <button
+                                          type="button"
+                                          className="btn-close"
+                                          data-bs-dismiss="modal"
+                                          aria-label="Close"
+                                        ></button>
+                                      </div>
+                                      <div className="modal-body d-flex">
+                                        <div
+                                          className="information-box-left"
+                                          style={{ padding: "15px" }}
+                                        >
+                                          <div className="d-flex">
+                                            <h6>
+                                              Name:{" "}
+                                              {viewSubscription.User &&
+                                                viewSubscription.User
+                                                  .firstName}{" "}
+                                              {viewSubscription.User &&
+                                                viewSubscription.User.LastName}
+                                            </h6>
+                                          </div>
 
-                      <td>Victor Seller</td>
-                      <td>view</td>
-                    </tr>
-                    <tr>
-                      <td>0123456543</td>
+                                          <div className="d-flex my-3">
+                                            <i
+                                              className="fa fa-envelope-o mt-1 px-1"
+                                              aria-hidden="true"
+                                            ></i>
+                                            <div>
+                                              {viewSubscription.User &&
+                                                viewSubscription.User.email}
+                                            </div>
+                                          </div>
+                                          <div className="d-flex my-3">
+                                            <i
+                                              className="fa fa-phone mt-1 px-1"
+                                              aria-hidden="true"
+                                            ></i>
+                                            <div>
+                                              {viewSubscription.User &&
+                                                viewSubscription.User
+                                                  .phoneNumber}
+                                            </div>
+                                          </div>
+                                          <div className="d-flex my-3">
+                                            <i
+                                              className="fa fa-star mt-1 px-1"
+                                              aria-hidden="true"
+                                            ></i>
 
-                      <td>Erhun Abbe</td>
-                      <td>Premium</td>
-                    </tr>
-                    <tr>
-                      <td>0123456543</td>
+                                            <p> {viewSubscription.plan}</p>
+                                          </div>
+                                        </div>
 
-                      <td>Victor Seller</td>
-                      <td>Basic</td>
-                    </tr>
-                    <tr>
-                      <td>0123456543</td>
+                                        <div
+                                          className="information-box-right"
+                                          style={{ padding: "15px" }}
+                                        >
+                                          <div className="d-flex my-3">
+                                            <i
+                                              className="fa fa-calendar mt-1 px-1 mx-2"
+                                              aria-hidden="true"
+                                            ></i>
+                                            <p>
+                                              Start Date:
+                                              {dayjs(
+                                                viewSubscription.startDate
+                                              ).format("D MMMM YYYY")}
+                                            </p>
+                                          </div>
+                                          <div className="d-flex my-3">
+                                            <i
+                                              className="fa fa-calendar mt-1 px-1 mx-2"
+                                              aria-hidden="true"
+                                            ></i>
+                                            <div>
+                                              End Date:
+                                              {dayjs(
+                                                viewSubscription.endDate
+                                              ).format("D MMMM YYYY")}
+                                            </div>
+                                          </div>
+                                          <div className="d-flex my-3">
+                                            <i
+                                              className="fa fa-clock-o mt-1 px-1 mx-2"
+                                              aria-hidden="true"
+                                            ></i>
+                                            <div>
+                                              {viewSubscription.duration}
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
 
-                      <td>Paschal Ojinnaka</td>
-                      <td>Premium</td>
-                    </tr>
-                    <tr>
-                      <td>0123456543</td>
-
-                      <td>Damilola Anifowoshe</td>
-                      <td>Basic</td>
-                    </tr>
+                                      <div className="modal-footer">
+                                        <button
+                                          type="button"
+                                          className="btn btn-secondary"
+                                          data-bs-dismiss="modal"
+                                        >
+                                          Close
+                                        </button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
+                            </td>
+                          </tr>
+                        );
+                      })}
                   </tbody>
                 </table>
               </div>
