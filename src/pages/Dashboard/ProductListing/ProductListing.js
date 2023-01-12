@@ -193,13 +193,22 @@ const ProductListing = () => {
                               <td>0123456543</td>
                               <td>
                                 <div className="d-flex">
-                                  <div className="flex-shrink-0">
-                                    <img
-                                      className="table-product-img"
-                                      src=""
-                                      alt="..."
-                                    />
-                                  </div>
+                                  {/* {product.productImages &&
+                                    product.productImages.map((image) => {
+                                      return (
+                                        <div
+                                          className="flex-shrink-0"
+                                          key={image.id}
+                                        >
+                                          <img
+                                            className="table-product-img"
+                                            src={image.image}
+                                            alt="..."
+                                          />
+                                        </div>
+                                      );
+                                    })} */}
+
                                   <div className="flex-grow-1 ms-3">
                                     <p>{product.productName}</p>
                                   </div>

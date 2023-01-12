@@ -1,20 +1,14 @@
 import React, { useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Iconly } from "react-iconly";
 import "../../Dashboard/Dashboard.css";
 import "./Sidebar.css";
 import { axios } from "../../../components/baseUrl";
-import { ProtectedRoutes } from "../../../components/ProtectedRoutes";
 import swal from "sweetalert";
 import { AppContext } from "../../../components/AppState";
 
 const SellersSidebar = () => {
-  // const [open, setOpen] = useState(false);
-  // const [isOpen, setIsOpen] = useState(false);
-
-  const navigate = useNavigate();
-
-  // const { user, userLoading } = useContext(AppContext);
+  const { user } = useContext(AppContext);
 
   const handleLogout = async () => {
     try {
@@ -28,32 +22,12 @@ const SellersSidebar = () => {
             icon: "success",
             button: "ok",
           });
-          navigate("/login");
         }
       });
     } catch (error) {
       console.log(error);
     }
   };
-
-  // if (userLoading) {
-  //   return (
-  //     <div
-  //       className="spinner mx-auto"
-  //       align="center"
-  //       id="spinner"
-  //       style={{
-  //         position: "absolute",
-  //         top: "calc(50% - 60px)",
-  //         left: "calc(50% - 60px)",
-  //         justifyContent: "center",
-  //         alignItems: "center",
-  //         textAlign: "center",
-  //         margin: "auto",
-  //       }}
-  //     ></div>
-  //   );
-  // }
 
   return (
     <>
@@ -65,24 +39,13 @@ const SellersSidebar = () => {
         <div className="user-area">
           <div className="d-flex align-items-center">
             <div className="flex-shrink-0 user-area-art">
-              {/* {user.firstName && user.firstName.charAt(0).toUpperCase()} */}
+              {user.firstName && user.firstName.charAt(0).toUpperCase()}
             </div>
             <div className="flex-grow-1 ms-2">{/* <p>Erhun Abbe</p> */}</div>
           </div>
         </div>
 
         <h2 className="sidenav_title">Dashboard</h2>
-
-        {/* <div className="switch-wrap">
-          <div className="switch d-flex justify-content-between">
-            <div className="switch-lhs">
-              <Link to="/buyer/dashboard">Buy</Link>
-            </div>
-            <div className="switch-rhs">
-              <Link to="/seller/dashboard">Sell</Link>
-            </div>
-          </div>
-        </div> */}
 
         <ul className="sidenav__list">
           <Link className="sidenav-link" to="/overview">
@@ -105,101 +68,6 @@ const SellersSidebar = () => {
               Sellers
             </li>
           </Link>
-
-          {/* <div className={open ? "sidebar-item open" : "sidebar-item"}>
-            <div className="sidenav-link">
-              <li className="sidenav__list-item" onClick={() => setOpen(!open)}>
-                <Iconly className="list_icon" name="People" size="small" />
-                Buyers
-              </li>
-              <i
-                className="bi bi-caret-right-fill toggle-btn"
-                onClick={() => setOpen(!open)}
-              ></i>
-            </div>
-
-            <div className="sidebar-content">
-              <ul
-                className="nav flex-column mx-4"
-                style={{ textAlign: "left" }}
-              >
-                <li className="nav-item">
-                  <a className="nav-link sidenav__list-item" href="/buyers">
-                    All Buyers
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a
-                    className="nav-link sidenav__list-item"
-                    href="/testimonial"
-                  >
-                    Old mutual
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link sidenav__list-item" href="/traction">
-                    After
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div> */}
-
-          {/* <div className={isOpen ? "sidebar-item open" : "sidebar-item"}>
-            <div className="sidenav-link">
-              <li
-                className="sidenav__list-item"
-                onClick={() => setIsOpen(!isOpen)}
-              >
-                <Iconly className="list_icon" name="People" size="small" />
-                Sellers
-              </li>
-              <i
-                className="bi bi-caret-right-fill toggle-btn"
-                onClick={() => setIsOpen(!isOpen)}
-              ></i>
-            </div>
-
-            <div className="sidebar-content">
-              <ul
-                className="nav flex-column mx-4"
-                style={{ textAlign: "left" }}
-              >
-                <li className="nav-item">
-                  <a className="nav-link sidenav__list-item" href="/sellers">
-                    All Sellers
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a
-                    className="nav-link sidenav__list-item"
-                    href="/testimonial"
-                  >
-                    Old mutual Sellers
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link sidenav__list-item" href="/traction">
-                    After Sellers
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div> */}
-
-          {/* <Link className="sidenav-link" to="/buyers">
-            <li className="sidenav__list-item">
-              <Iconly className="list_icon" name="People" size="small" />
-              Buyers
-            </li>
-          </Link>
-          <Link className="sidenav-link" to="/sellers">
-            <li className="sidenav__list-item">
-              <Iconly className="list_icon" name="People" size="small" />
-              Sellers
-            </li>
-          </Link> */}
-
           <Link className="sidenav-link" to="/transactions">
             <li className="sidenav__list-item">
               <Iconly className="list_icon" name="Paper" size="small" />
@@ -225,19 +93,6 @@ const SellersSidebar = () => {
               Subscriptions
             </li>
           </Link>
-
-          {/* <Link className="sidenav-link" to="/seller/message-center">
-            <li className="sidenav__list-item">
-              <Iconly
-                className="list_icon position-relative"
-                name="Message"
-                set="light"
-                size="small"
-              />
-              Message Center
-              <span className="icon-notification position-absolute"></span>
-            </li>
-          </Link> */}
 
           <Link className="sidenav-link" to="/rfqs">
             <li className="sidenav__list-item">
@@ -267,7 +122,7 @@ const SellersSidebar = () => {
                 size="small"
                 style={{ marginRight: "15px" }}
               />
-              Logout
+              {user ? "Logout" : "Login"}
             </li>
           </Link>
         </ul>
@@ -276,4 +131,4 @@ const SellersSidebar = () => {
   );
 };
 
-export default ProtectedRoutes(SellersSidebar);
+export default SellersSidebar;

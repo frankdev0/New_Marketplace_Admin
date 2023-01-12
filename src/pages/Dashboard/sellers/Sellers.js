@@ -50,12 +50,13 @@ const Sellers = () => {
         console.log("my second user", user.role);
         axios.get("/auth/users?role=SELLER").then((res) => {
           setSellers(res.data.data);
+          setLoading(false);
           console.log("seller info", res.data.data);
         });
         axios.get("/dashboard/admin/activity-summary").then((response) => {
           setSummary(response.data.data);
-          console.log("all sellers summary", response.data.data);
           setLoading(false);
+          console.log("all sellers summary", response.data.data);
         });
       }
       if (user.role === "AFCTCA") {
@@ -63,6 +64,7 @@ const Sellers = () => {
           .get("/auth/users?role=SELLER&hearAboutUs=AFCTCA")
           .then((response) => {
             setSellers(response.data.data);
+            setLoading(false);
             console.log("after-Sellers", response.data.data);
           });
         axios
@@ -79,6 +81,7 @@ const Sellers = () => {
           .get("/auth/users?role=SELLER&hearAboutUs=OLD_MUTUAL")
           .then((response) => {
             setSellers(response.data.data);
+            setLoading(false);
             console.log("after-Sellers", response.data.data);
           });
         axios
@@ -87,8 +90,8 @@ const Sellers = () => {
           })
           .then((response) => {
             setSummary(response.data.data);
-            console.log("OLD_MUTUAL summary", response.data.data);
             setLoading(false);
+            console.log("OLD_MUTUAL summary", response.data.data);
           });
       }
     });
@@ -98,6 +101,7 @@ const Sellers = () => {
     if (e.target.value === "sellers") {
       await axios.get("/auth/users?role=SELLER").then((response) => {
         setSellers(response.data.data);
+        setLoading(false);
         console.log("buyers", response.data.data);
       });
     } else if (e.target.value === "after-sellers") {
@@ -105,6 +109,7 @@ const Sellers = () => {
         .get("/auth/users?role=SELLER&hearAboutUs=AFCTCA")
         .then((response) => {
           setSellers(response.data.data);
+          setLoading(false);
           console.log("after-Sellers", response.data.data);
         });
       await axios
@@ -121,6 +126,7 @@ const Sellers = () => {
         .get("/auth/users?role=SELLER&hearAboutUs=OLD_MUTUAL")
         .then((response) => {
           setSellers(response.data.data);
+          setLoading(false);
           console.log("oldMutual-Sellers", response.data.data);
         });
       await axios
@@ -129,8 +135,8 @@ const Sellers = () => {
         })
         .then((response) => {
           setSummary(response.data.data);
-          console.log("AFCTCA summary", response.data.data);
           setLoading(false);
+          console.log("AFCTCA summary", response.data.data);
         });
     }
   };
@@ -151,7 +157,7 @@ const Sellers = () => {
     }
   };
 
-  if (userLoading) {
+  if (userLoading || loading) {
     return (
       <div
         className="spinner mx-auto"

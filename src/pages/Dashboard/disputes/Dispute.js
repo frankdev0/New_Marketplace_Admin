@@ -14,7 +14,7 @@ const Dispute = () => {
   const [loading, setLoading] = useState(true);
   const [viewLoader, setViewLoader] = useState(false);
 
-  const { user, userLoading } = useContext(AppContext);
+  const { user } = useContext(AppContext);
 
   const navigate = useNavigate();
 
@@ -81,7 +81,7 @@ const Dispute = () => {
     });
   };
 
-  if (userLoading) {
+  if (loading) {
     return (
       <div
         className="spinner mx-auto"

@@ -5,10 +5,11 @@ import { axios } from "../../../../components/baseUrl";
 import { AppContext } from "../../../../components/AppState";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
+import { tabScrollButtonClasses } from "@mui/material";
 
 const SellersSubscription = () => {
   const [subscriptions, setSubscriptions] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(tabScrollButtonClasses);
   const [viewSubscription, setViewSubscription] = useState([]);
   const [viewLoader, setViewLoader] = useState(false);
 
@@ -19,11 +20,11 @@ const SellersSubscription = () => {
       axios.get("/subscription").then((response) => {
         setSubscriptions(response.data.data);
         console.log(response.data.data);
-        setLoading(true);
+        setLoading(false);
       });
     } catch (error) {
       console.log(error);
-      setLoading(true);
+      setLoading(false);
     }
   };
 
@@ -40,24 +41,24 @@ const SellersSubscription = () => {
     });
   };
 
-  // if (loading) {
-  //   return (
-  //     <div
-  //       className="spinner mx-auto"
-  //       align="center"
-  //       id="spinner"
-  //       style={{
-  //         position: "absolute",
-  //         top: "calc(50% - 60px)",
-  //         left: "calc(50% - 60px)",
-  //         justifyContent: "center",
-  //         alignItems: "center",
-  //         textAlign: "center",
-  //         margin: "auto",
-  //       }}
-  //     ></div>
-  //   );
-  // }
+  if (loading) {
+    return (
+      <div
+        className="spinner mx-auto"
+        align="center"
+        id="spinner"
+        style={{
+          position: "absolute",
+          top: "calc(50% - 60px)",
+          left: "calc(50% - 60px)",
+          justifyContent: "center",
+          alignItems: "center",
+          textAlign: "center",
+          margin: "auto",
+        }}
+      ></div>
+    );
+  }
 
   return (
     <>

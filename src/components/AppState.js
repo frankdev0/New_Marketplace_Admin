@@ -7,10 +7,9 @@ export const AppContext = createContext();
 const AppState = ({ children }) => {
   const [user, setUser] = useState("");
   const [userLoading, setUserLoading] = useState(true);
-  const [metrics, setMetrics] = useState("");
   const [activitySummary, setActivitySummary] = useState("");
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   useEffect(() => {
     axios
@@ -18,12 +17,10 @@ const AppState = ({ children }) => {
       .then((response) => {
         setActivitySummary(response.data.data);
         setUserLoading(false);
-        // console.log(response.data);
       })
       .catch((error) => {
         console.log(error);
         setUserLoading(false);
-        // navigate("/unauthorized");
       });
   }, []);
 
@@ -31,10 +28,8 @@ const AppState = ({ children }) => {
     user,
     userLoading,
     activitySummary,
-    metrics,
     setUser,
     setUserLoading,
-    setMetrics,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

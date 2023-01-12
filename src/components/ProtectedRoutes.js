@@ -42,23 +42,23 @@ export const ProtectedRoutes = (WrappedComponent, roles) => {
         });
     }, []);
 
-    // if (userLoading)
-    //   return (
-    //     <div
-    //       className="spinner mx-auto"
-    //       align="center"
-    //       id="spinner"
-    //       style={{
-    //         position: "absolute",
-    //         top: "calc(50% - 60px)",
-    //         left: "calc(50% - 60px)",
-    //         justifyContent: "center",
-    //         alignItems: "center",
-    //         textAlign: "center",
-    //         margin: "auto",
-    //       }}
-    //     ></div>
-    //   );
+    if (userLoading)
+      return (
+        <div
+          className="spinner mx-auto"
+          align="center"
+          id="spinner"
+          style={{
+            position: "absolute",
+            top: "calc(50% - 60px)",
+            left: "calc(50% - 60px)",
+            justifyContent: "center",
+            alignItems: "center",
+            textAlign: "center",
+            margin: "auto",
+          }}
+        ></div>
+      );
 
     if (verified) {
       return <WrappedComponent {...props} />;

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Iconly } from "react-iconly";
 import SellersSidebar from "../dashboardComponents/SideBar";
 import { axios } from "../../../components/baseUrl";
@@ -12,11 +12,14 @@ const SellersOrder = () => {
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
+  const [activitySummary, setActivitySummary] = useState("");
   const [search, setSearch] = useState("");
   const ITEMS_PER_PAGE = 5;
   const [totalItems, setTotalItems] = useState(0);
 
-  const { activitySummary, user, userLoading } = useContext(AppContext);
+  const { user } = useContext(AppContext);
+
+  const navigate = useNavigate();
 
   const transactionData = useMemo(() => {
     let computedTransactions = transactions;
@@ -52,6 +55,7 @@ const SellersOrder = () => {
     } catch (error) {
       console.log(error);
       setLoading(false);
+      navigate("/unauthorized");
     }
   };
 
@@ -59,7 +63,22 @@ const SellersOrder = () => {
     getTransactions();
   }, []);
 
-  if (userLoading) {
+  useEffect(() => {
+    axios
+      .get("/dashboard/admin/activity-summary")
+      .then((response) => {
+        setActivitySummary(response.data.data);
+        setLoading(false);
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+        navigate("/unauthorized");
+        setLoading(false);
+      });
+  }, []);
+
+  if (user.role === "SUPER_ADMIN" && loading) {
     return (
       <div
         className="spinner mx-auto"

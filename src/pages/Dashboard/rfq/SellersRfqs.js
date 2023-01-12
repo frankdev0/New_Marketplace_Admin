@@ -162,20 +162,7 @@ const SellersRfqs = () => {
                           return (
                             <tr key={rfq.id}>
                               <td scope="row">{index + 1}</td>
-                              <td>
-                                <div className="d-flex">
-                                  <div className="flex-shrink-0">
-                                    <img
-                                      className="table-product-img"
-                                      src=""
-                                      alt="..."
-                                    />
-                                  </div>
-                                  <div className="flex-grow-1 ms-3">
-                                    <p>{rfq.productName}</p>
-                                  </div>
-                                </div>
-                              </td>
+                              <td>{rfq.productName}</td>
                               <td>USD {rfq.targetPrice}</td>
                               <td>{rfq.termsOfTrade}</td>
                               <td>{rfq.paymentTerms}</td>
