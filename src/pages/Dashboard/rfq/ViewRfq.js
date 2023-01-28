@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Iconly } from "react-iconly";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import SellersSidebar from "../dashboardComponents/SideBar";
 import "./rfq.css";
 import roundLogo from "../../../assets/img/round-logo.png";

@@ -1,9 +1,10 @@
 import React, { useContext, useEffect, useMemo, useState } from "react";
-import { Iconly, User } from "react-iconly";
+import { Iconly } from "react-iconly";
 import { Link } from "react-router-dom";
 import { AppContext } from "../../../components/AppState";
 import { axios } from "../../../components/baseUrl";
 import PaginationComponent from "../../../components/PaginationComponent";
+import { ProtectedRoutes } from "../../../components/ProtectedRoutes";
 import Search from "../dashboardComponents/Search";
 import SellersSidebar from "../dashboardComponents/SideBar";
 
@@ -18,7 +19,7 @@ const Sellers = () => {
   const [totalItems, setTotalItems] = useState(0);
   const [summary, setSummary] = useState("");
 
-  const { user, userLoading } = useContext(AppContext);
+  const { user } = useContext(AppContext);
 
   const commentsData = useMemo(() => {
     let computedSellers = sellers;
@@ -136,7 +137,7 @@ const Sellers = () => {
         .then((response) => {
           setSummary(response.data.data);
           setLoading(false);
-          console.log("AFCTCA summary", response.data.data);
+          console.log("OLD_MUTUAL SUMMARY", response.data.data);
         });
     }
   };
@@ -157,7 +158,7 @@ const Sellers = () => {
     }
   };
 
-  if (userLoading || loading) {
+  if (loading) {
     return (
       <div
         className="spinner mx-auto"
@@ -221,10 +222,10 @@ const Sellers = () => {
             </div>
             <div className="overview-card">
               <div>
-                <h2>Total Pending Orders</h2>
+                <h2>Total Transaction Revenue</h2>
 
                 <div className="d-flex justify-content-between mt-4">
-                  <h3>{summary.total_pending_orders}</h3>
+                  <h3>{summary.total_transactions_revenue}</h3>
                 </div>
               </div>
             </div>
@@ -238,7 +239,10 @@ const Sellers = () => {
             </div>
           </div>
           <div className="my-2">
-            {user.role === "AFCTCA" && (
+            {(user.role === "WEBSITE_ADMIN" ||
+              user.role === "FINANCE" ||
+              user.role === "SOURCE_PRO_ADMIN" ||
+              user.role === "SUPER_ADMIN") && (
               <select
                 className="form-control"
                 onChange={handleSellers}
@@ -251,6 +255,17 @@ const Sellers = () => {
               </select>
             )}
 
+            {user.role === "OLD_MUTUAL" && (
+              <select
+                className="form-control"
+                onChange={handleSellers}
+                style={{ width: "10rem", borderRadius: "10px" }}
+              >
+                <option>Select Seller</option>
+                <option value="oldMutual-sellers">OldMutual Sellers</option>
+              </select>
+            )}
+
             {user.role === "AFCTCA" && (
               <select
                 className="form-control"
@@ -259,19 +274,6 @@ const Sellers = () => {
               >
                 <option>Select Seller</option>
 
-                <option value="after-sellers">After Sellers</option>
-              </select>
-            )}
-
-            {user.role === "SUPER_ADMIN" && (
-              <select
-                className="form-control"
-                onChange={handleSellers}
-                style={{ width: "10rem", borderRadius: "10px" }}
-              >
-                <option>Select Seller</option>
-                <option value="sellers">All Sellers</option>
-                <option value="oldMutual-sellers">OldMutual Sellers</option>
                 <option value="after-sellers">After Sellers</option>
               </select>
             )}
@@ -513,4 +515,4 @@ const Sellers = () => {
   );
 };
 
-export default Sellers;
+export default ProtectedRoutes(Sellers);

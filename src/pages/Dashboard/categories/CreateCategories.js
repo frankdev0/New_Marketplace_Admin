@@ -16,9 +16,12 @@ const CreateCategories = () => {
   };
 
   const handleSubmit = async (e) => {
+    console.log("category", category);
     try {
       e.preventDefault();
-      const { data } = await axios.post("/category", category);
+      const { data } = await axios.post("/category", {
+        categoryName: category,
+      });
       console.log("category created", data);
       setTimeout(() => {
         navigate(-1);

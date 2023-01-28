@@ -7,6 +7,7 @@ import { axios } from "../../../components/baseUrl";
 import { confirmAlert } from "react-confirm-alert"; // Import
 import "react-confirm-alert/src/react-confirm-alert.css";
 import { AppContext } from "../../../components/AppState";
+import { ProtectedRoutes } from "../../../components/ProtectedRoutes";
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);
@@ -14,7 +15,7 @@ const Categories = () => {
   const [viewLoader, setViewLoader] = useState(false);
   const [viewCategory, setViewCategory] = useState([]);
 
-  const { user } = useContext(AppContext);
+  const { user, activitySummary } = useContext(AppContext);
 
   const getCategory = async () => {
     try {
@@ -104,6 +105,35 @@ const Categories = () => {
         <SellersSidebar />
 
         <main className="main">
+          <h1 className="section-title">Activity Summary</h1>
+          <div className="main-overview">
+            {/* <div className="overview-card">
+              <div>
+                <h2>Total Buyers</h2>
+
+                <div className="d-flex justify-content-between mt-4">
+                  <h3>120</h3>
+                </div>
+              </div>
+            </div> */}
+            <div className="overview-card">
+              <div>
+                <h2>All Categories</h2>
+                <div className="d-flex justify-content-between mt-4">
+                  <h3>{activitySummary.total_categories}</h3>
+                </div>
+              </div>
+            </div>
+            <div className="overview-card">
+              <div>
+                <h2>Total Sub Categories</h2>
+                <div className="d-flex justify-content-between mt-4">
+                  <h3>{activitySummary.total_sub_categories}</h3>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <h1 className="section-title">All Categories</h1>
           <div className="main-overview">
             <div className="overview-card no-padding">
@@ -126,7 +156,7 @@ const Categories = () => {
                       categories.map((category, index) => {
                         return (
                           <tr key={category.id}>
-                            <td scope="row">{index + 1}</td>
+                            <td>{index + 1}</td>
 
                             <td className="text-center">{category.category}</td>
                             <td>
@@ -238,4 +268,4 @@ const Categories = () => {
   );
 };
 
-export default Categories;
+export default ProtectedRoutes(Categories);

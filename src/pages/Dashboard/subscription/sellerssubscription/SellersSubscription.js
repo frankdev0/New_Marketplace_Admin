@@ -5,11 +5,10 @@ import { axios } from "../../../../components/baseUrl";
 import { AppContext } from "../../../../components/AppState";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
-import { tabScrollButtonClasses } from "@mui/material";
 
 const SellersSubscription = () => {
   const [subscriptions, setSubscriptions] = useState([]);
-  const [loading, setLoading] = useState(tabScrollButtonClasses);
+  const [loading, setLoading] = useState(true);
   const [viewSubscription, setViewSubscription] = useState([]);
   const [viewLoader, setViewLoader] = useState(false);
 
@@ -41,7 +40,9 @@ const SellersSubscription = () => {
     });
   };
 
-  if (loading) {
+  console.log(user);
+
+  if (user.role === "SOURCE_PRO_ADMIN" && loading) {
     return (
       <div
         className="spinner mx-auto"

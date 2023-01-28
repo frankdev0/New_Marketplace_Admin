@@ -7,6 +7,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AppContext } from "../../../components/AppState";
 import dayjs from "dayjs";
+import { ProtectedRoutes } from "../../../components/ProtectedRoutes";
 
 const Dispute = () => {
   const [disputes, setDisputes] = useState([]);
@@ -14,7 +15,9 @@ const Dispute = () => {
   const [loading, setLoading] = useState(true);
   const [viewLoader, setViewLoader] = useState(false);
 
-  const { user } = useContext(AppContext);
+  const { user, activitySummary } = useContext(AppContext);
+
+  console.log("activitySummary from categories", activitySummary);
 
   const navigate = useNavigate();
 
@@ -154,7 +157,7 @@ const Dispute = () => {
                   <h2>Total Disputes</h2>
                   {/* <p>Detailed transaction history is on the order page</p> */}
                   <div className="d-flex justify-content-between mt-4">
-                    <h3>10</h3>
+                    <h3>{activitySummary.total_disputes}</h3>
                   </div>
                 </div>
               </div>
@@ -163,7 +166,7 @@ const Dispute = () => {
                   <h2>Total Resolved Disputes</h2>
                   {/* <p>Detailed transaction history is on the order page</p> */}
                   <div className="d-flex justify-content-between mt-4">
-                    <h3>22</h3>
+                    <h3>{activitySummary.total_resolved_disputes}</h3>
                   </div>
                 </div>
               </div>
@@ -172,7 +175,7 @@ const Dispute = () => {
                   <h2>Total Pending Disputes</h2>
                   {/* <p>Detailed transaction history is on the order page</p> */}
                   <div className="d-flex justify-content-between mt-4">
-                    <h3>5</h3>
+                    <h3>{activitySummary.total_pending_disputes}</h3>
                   </div>
                 </div>
               </div>
@@ -521,4 +524,4 @@ const Dispute = () => {
   );
 };
 
-export default Dispute;
+export default ProtectedRoutes(Dispute);

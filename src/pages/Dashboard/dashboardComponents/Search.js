@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Iconly } from "react-iconly";
 const Search = ({ onSearch }) => {
   const [search, setSearch] = useState("");

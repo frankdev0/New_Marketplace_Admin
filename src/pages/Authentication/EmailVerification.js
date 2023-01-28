@@ -12,12 +12,16 @@ export default function EmailVerification() {
         <section className="auth">
           <div className="auth-lhs">
             <div className="auth-lhs-header">
-              <img className="site-logo" src={SiteLogo} />
+              <img className="site-logo" src={SiteLogo} alt="tofa" />
             </div>
           </div>
           <div className="auth-rhs">
             <div className="auth-rhs-header d-flex justify-content-between">
-              <img className="site-logo mobile-only" src={SiteLogo} />
+              <img
+                className="site-logo mobile-only"
+                src={SiteLogo}
+                alt="tofa"
+              />
               <p>
                 <Link>
                   <Iconly

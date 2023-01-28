@@ -161,10 +161,12 @@ const ProductListing = () => {
               </div>
               <div className="overview-card">
                 <div>
-                  <h2>Total Pending Products</h2>
+                  <h2>Total Dispaproved Products</h2>
                   {/* <p>Detailed transaction history is on the order page</p> */}
                   <div className="d-flex justify-content-between mt-4">
-                    <h3>{activitySummary.total_number_of_pending_products}</h3>
+                    <h3>
+                      {activitySummary.total_number_of_disapproved_products}
+                    </h3>
                   </div>
                 </div>
               </div>

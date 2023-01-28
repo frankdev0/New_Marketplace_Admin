@@ -1,13 +1,10 @@
-import React, { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext } from "react";
 import { Iconly } from "react-iconly";
 import "./Dashboard.css";
 import SellersSidebar from "./dashboardComponents/SideBar";
 import { AppContext } from "../../components/AppState";
 
 const SellersDashboard = () => {
-  const [categories, setCotegeries] = useState("");
-
   const { user } = useContext(AppContext);
   return (
     <div>
@@ -54,7 +51,13 @@ const SellersDashboard = () => {
           className="main d-flex justify-content-center"
           style={{ padding: "100px" }}
         >
-          <h1>Welcome to Tofa's MarketPlace Admin</h1>
+          <div>
+            <h1>Welcome to Tofa's MarketPlace Admin</h1>
+            <div>
+              <h4>Click on the Link Below to Login</h4>
+              <a href="/login">Login to Market Place Admin</a>
+            </div>
+          </div>
         </main>
       </div>
     </div>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Iconly } from "react-iconly";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { axios } from "../../../components/baseUrl";
 import SellersSidebar from "../dashboardComponents/SideBar";
 import "./sellersorder.css";

@@ -161,7 +161,7 @@ const SellersRfqs = () => {
                         rfqData.map((rfq, index) => {
                           return (
                             <tr key={rfq.id}>
-                              <td scope="row">{index + 1}</td>
+                              <td>{index + 1}</td>
                               <td>{rfq.productName}</td>
                               <td>USD {rfq.targetPrice}</td>
                               <td>{rfq.termsOfTrade}</td>

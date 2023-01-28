@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Iconly } from "react-iconly";
-import { useNavigate } from "react-router-dom";
 import { AppContext } from "../../../components/AppState";
 import { axios } from "../../../components/baseUrl";
 import { ProtectedRoutes } from "../../../components/ProtectedRoutes";
@@ -10,7 +9,7 @@ const Overview = () => {
   const [activitySummary, setActivitySummary] = useState();
   const [loading, setLoading] = useState(true);
 
-  const { user, userLoading } = useContext(AppContext);
+  const { user } = useContext(AppContext);
   // const navigate = useNavigate();
 
   const getActivitySummary = async () => {

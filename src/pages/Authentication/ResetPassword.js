@@ -12,12 +12,11 @@ import { Store } from "react-notifications-component";
 const ResetPassword = () => {
   const [loading, setLoading] = useState(false);
 
-  console.log(token);
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
   const [linkExpire, setLinkExpire] = useState("");
   const [inputType, setInputType] = useState("password");
-  const [confirmInputType, setConfirmInputType] = useState("password");
+
   const [passwordInput, setPasswordInput] = useState({
     password: "",
     confirmPassword: "",
@@ -40,11 +39,7 @@ const ResetPassword = () => {
   const handlePasswordToggle = (e) => {
     inputType === "password" ? setInputType("text") : setInputType("password");
   };
-  const handleConfirmPasswordToggle = (e) => {
-    confirmInputType === "password"
-      ? setConfirmInputType("text")
-      : setConfirmInputType("password");
-  };
+
   const navigate = useNavigate();
   const handleValidation = (evnt) => {
     const passwordInputValue = evnt.target.value.trim();
@@ -136,6 +131,7 @@ const ResetPassword = () => {
       setLoading(false);
       console.log(error);
       setLinkExpire("Your token has expired");
+      alert(linkExpire);
     }
   };
 
@@ -146,12 +142,16 @@ const ResetPassword = () => {
           <ReactNotifications />
           <div className="auth-lhs">
             <div className="auth-lhs-header">
-              <img className="site-logo" src={SiteLogo} />
+              <img className="site-logo" src={SiteLogo} alt="tofa" />
             </div>
           </div>
           <div className="auth-rhs">
             <div className="auth-rhs-header d-flex justify-content-between">
-              <img className="site-logo mobile-only" src={SiteLogo} />
+              <img
+                className="site-logo mobile-only"
+                src={SiteLogo}
+                alt="tofa"
+              />
               <p>
                 <Link>
                   <Iconly

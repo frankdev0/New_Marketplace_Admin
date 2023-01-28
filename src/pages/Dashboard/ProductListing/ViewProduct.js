@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Iconly } from "react-iconly";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import SellersSidebar from "../dashboardComponents/SideBar";
 import peer from "../../../assets/img/pear.png";
-import box1 from "../../../assets/img/box1.png";
-import box2 from "../../../assets/img/box2.png";
-import box3 from "../../../assets/img/box3.png";
 import { axios } from "../../../components/baseUrl";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";

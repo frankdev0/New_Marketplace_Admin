@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Iconly } from "react-iconly";
 import "./Authentication.css";
 import SiteLogo from "../../assets/img/logo.png";
@@ -71,12 +71,16 @@ const ForgotPassword = () => {
           <ReactNotifications />
           <div className="auth-lhs">
             <div className="auth-lhs-header">
-              <img className="site-logo" src={SiteLogo} />
+              <img className="site-logo" src={SiteLogo} alt="tofa" />
             </div>
           </div>
           <div className="auth-rhs">
             <div className="auth-rhs-header d-flex justify-content-between">
-              <img className="site-logo mobile-only" src={SiteLogo} />
+              <img
+                className="site-logo mobile-only"
+                src={SiteLogo}
+                alt="tofa"
+              />
               <p>
                 <Link>
                   <Iconly

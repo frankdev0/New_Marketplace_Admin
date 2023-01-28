@@ -21,7 +21,7 @@ const Buyers = () => {
   const [summary, setSummary] = useState("");
   const [viewSummary, setViewSummary] = useState("");
 
-  const { user } = useContext(AppContext);
+  const { user, activitySummary } = useContext(AppContext);
 
   const commentsData = useMemo(() => {
     let computedBuyers = buyers;
@@ -152,7 +152,7 @@ const Buyers = () => {
                 <h2>Total Buyers</h2>
 
                 <div className="d-flex justify-content-between mt-4">
-                  <h3>120</h3>
+                  <h3>{activitySummary.total_buyers}</h3>
                 </div>
               </div>
             </div>

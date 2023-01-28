@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Iconly } from "react-iconly";
 import "./Authentication.css";
@@ -27,7 +27,7 @@ const Login = () => {
   useMemo(() => {
     (async () => {
       if (userId && token) {
-        const { data: data } = await axios.post("/auth/verify-email", {
+        const data = await axios.post("/auth/verify-email", {
           userId,
           token,
         });
@@ -105,7 +105,7 @@ const Login = () => {
           <ReactNotifications />
           <div className="auth-lhs">
             <div className="auth-lhs-header">
-              <img className="site-logo" src={SiteLogo} />
+              <img className="site-logo" src={SiteLogo} alt="tofa" />
             </div>
           </div>
           <div className="auth-rhs">
