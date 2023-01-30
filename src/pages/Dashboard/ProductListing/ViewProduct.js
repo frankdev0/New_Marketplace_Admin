@@ -2,14 +2,17 @@ import React, { useEffect, useState } from "react";
 import { Iconly } from "react-iconly";
 import { useNavigate, useParams } from "react-router-dom";
 import SellersSidebar from "../dashboardComponents/SideBar";
-import peer from "../../../assets/img/pear.png";
+// import peer from "../../../assets/img/pear.png";
 import { axios } from "../../../components/baseUrl";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import dayjs from "dayjs";
 
 const ViewProduct = () => {
   const [viewProduct, setViewProduct] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [currentImage, setCurrentImage] = useState();
+  const [productImage, setProductImage] = useState([]);
   const { productId } = useParams();
 
   const navigate = useNavigate();
@@ -18,9 +21,16 @@ const ViewProduct = () => {
     setLoading(true);
     axios.get(`/product/${productId}`).then((response) => {
       setViewProduct(response.data.data);
-      console.log(response.data.data);
+      setProductImage(response.data.data.productImages);
+      const mainImage = response.data.data.productImages[0].image;
+      setCurrentImage(mainImage);
+      console.log("my product", response.data.data);
       setLoading(false);
     });
+  };
+
+  const displayImageHandler = (imageIndex) => {
+    setCurrentImage(productImage[imageIndex].image);
   };
 
   useEffect(() => {
@@ -148,16 +158,20 @@ const ViewProduct = () => {
                 >
                   <div className="col-2" style={{ width: "250px" }}>
                     <img
-                      src={peer}
+                      src={currentImage}
                       alt="peer"
                       className="rectangle"
-                      style={{ width: "100%" }}
+                      style={{ width: "100%", objectFit: "cover" }}
                     />
                     <div className="d-flex mt-2 mx-auto other-images">
                       {viewProduct.productImages &&
-                        viewProduct.productImages.map((image) => {
+                        viewProduct.productImages.map((image, index) => {
                           return (
-                            <div className="box mx-1" key={image.id}>
+                            <div
+                              className="box mx-1 border border"
+                              key={image.id}
+                              onClick={(e) => displayImageHandler(index)}
+                            >
                               <img
                                 src={image.image}
                                 alt="box1"
@@ -166,26 +180,24 @@ const ViewProduct = () => {
                             </div>
                           );
                         })}
-
-                      {/* <div className="box">
-                        <img src={box1} alt="box1" className="box" />
-                      </div>
-                      <div className="box mx-1">
-                        <img src={box3} alt="box1" className="box mx-1" />
-                      </div>
-                      <div className="box">
-                        <img src={box1} alt="box1" className="box" />
-                      </div> */}
                     </div>
-                    Product Pic
                   </div>
 
                   <div
                     className="col-5 mx-auto"
                     style={{ width: "371px", height: "208px" }}
                   >
-                    <h6>Product Information</h6>
-                    <div className="product-info">
+                    <h6 className="my-3">Product Information</h6>
+                    <div className="product-info my-2 ">
+                      <div className="d-flex">
+                        <p className="mx-3">Seller's Name: </p>
+                        <p className="description-value">
+                          {viewProduct.createdBy &&
+                            viewProduct.createdBy.firstName}{" "}
+                          {viewProduct.createdBy &&
+                            viewProduct.createdBy.LastName}
+                        </p>
+                      </div>
                       <div className="d-flex">
                         <p className="mx-3">Product Name</p>
                         <p className="description-value">
@@ -228,7 +240,7 @@ const ViewProduct = () => {
                     className="col-5 mx-auto"
                     style={{ width: "371px", height: "208px" }}
                   >
-                    <h6>Available Specification</h6>
+                    <h6 className="my-3">Available Specification</h6>
                     <div className="product-info" style={{ textAlign: "left" }}>
                       <div className="d-flex">
                         <p className="mx-3">Size</p>
@@ -247,12 +259,12 @@ const ViewProduct = () => {
                       <div className="d-flex">
                         <p className="mx-3">Created At</p>
                         <p className="description-value">
-                          {viewProduct.createdAt}
+                          {dayjs(viewProduct.createdAt).format("D MMMM YYYY")}
                         </p>
                       </div>
                       <div className="d-flex">
                         <p className="mx-3">Product Status</p>
-                        <p className="description-value">
+                        <div className="description-value">
                           {viewProduct.productStatus === "PENDING" && (
                             <div className="text-warning rounded-pill">
                               PENDING
@@ -268,7 +280,7 @@ const ViewProduct = () => {
                               DECLINED
                             </div>
                           )}
-                        </p>
+                        </div>
                       </div>
                       <div className="d-flex">
                         <p className="mx-3">Category</p>

@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { AppContext } from "../../../components/AppState";
 import { axios } from "../../../components/baseUrl";
 import PaginationComponent from "../../../components/PaginationComponent";
-// import LeftNavBar from "../../../components/LeftNavBar";
 import { ProtectedRoutes } from "../../../components/ProtectedRoutes";
 import Search from "../../../components/Search";
 import SellersSidebar from "../dashboardComponents/SideBar";
@@ -15,6 +14,7 @@ const ProductListing = () => {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [noMatch, setNoMatch] = useState(false);
   const [totalItems, setTotalItems] = useState(0);
   const ITEMS_PER_PAGE = 5;
 
@@ -50,6 +50,14 @@ const ProductListing = () => {
             .includes(search.toLowerCase()) ||
           comment.status.toLowerCase().includes(search.toLowerCase())
       );
+      if (computedProducts.length < 1) {
+        setNoMatch(true);
+        setTotalItems(0);
+      } else if (computedProducts.length > 0) {
+        setNoMatch(false);
+      }
+    } else {
+      setNoMatch(false);
     }
 
     setTotalItems(computedProducts.length);
@@ -61,19 +69,6 @@ const ProductListing = () => {
       (currentPage - 1) * ITEMS_PER_PAGE + ITEMS_PER_PAGE
     );
   }, [products, currentPage, search]);
-
-  // const itemsPerPage = 5;
-
-  // useEffect(() => {
-  //   const endOffset = itemOffset + ITEMS_PER_PAGE;
-  //   setProducts(products.slice(itemOffset, endOffset));
-  //   setPageCount(Math.ceil(products.length / ITEMS_PER_PAGE));
-  // }, [itemOffset, ITEMS_PER_PAGE]);
-
-  // const handlePageClick = (event) => {
-  //   const newOffset = (event.selected * ITEMS_PER_PAGE) % products.length;
-  //   setItemOffset(newOffset);
-  // };
 
   if (loading) {
     return (
@@ -266,12 +261,23 @@ const ProductListing = () => {
                 </div>
               </div>
             </div>
-            <PaginationComponent
-              total={totalItems}
-              itemsPerPage={ITEMS_PER_PAGE}
-              currentPage={currentPage}
-              onPageChange={(page) => setCurrentPage(page)}
-            />
+
+            {noMatch === true ? (
+              <div className="empty-state">
+                <h4>No results found</h4>
+                <p>
+                  No order matched your criteria. Try searching for something
+                  else.
+                </p>
+              </div>
+            ) : (
+              <PaginationComponent
+                total={totalItems}
+                itemsPerPage={ITEMS_PER_PAGE}
+                currentPage={currentPage}
+                onPageChange={(page) => setCurrentPage(page)}
+              />
+            )}
           </main>
         </div>
       </div>

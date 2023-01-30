@@ -145,10 +145,9 @@ const Categories = () => {
                       <th scope="col" className="text-center">
                         Category Name
                       </th>
+                      <th className="text-center">Link</th>
 
-                      <th scope="col" className="text-center">
-                        Action
-                      </th>
+                      <th className="text-center">Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -159,29 +158,67 @@ const Categories = () => {
                             <td>{index + 1}</td>
 
                             <td className="text-center">{category.category}</td>
-                            <td>
-                              <div className="text-center">
-                                <button
-                                  className="btn btn-danger"
-                                  onClick={(e) => submit(category.id)}
-                                >
-                                  Delete
-                                </button>
-                                <Link
-                                  to={`/edit-category/${category.id}`}
-                                  className="btn btn-secondary mx-2 px-4"
-                                >
-                                  Edit
+                            <td className="text-center">
+                              <div className="sub-category-role">
+                                <Link to={`/sub-category/${category.id}`}>
+                                  create sub-category
                                 </Link>
-                                <button
-                                  onClick={(e) => showCategory(category.id)}
-                                  className="btn btn-dark px-4"
-                                  data-bs-toggle="modal"
-                                  data-bs-target="#exampleModal"
-                                >
-                                  View
-                                </button>
                               </div>
+                            </td>
+                            <td className="text-center">
+                              <div className="nav-item dropdown">
+                                <Link
+                                  className="nav-link main-nav-link "
+                                  align="center"
+                                  to="#"
+                                  id="navbarDropdown"
+                                  role="button"
+                                  data-bs-toggle="dropdown"
+                                  aria-expanded="false"
+                                >
+                                  <i
+                                    className="fa fa-chevron-down"
+                                    align="right"
+                                    aria-hidden="true"
+                                  ></i>
+                                </Link>
+                                <ul
+                                  className="dropdown-menu animate slideIn category-dropdown-item"
+                                  aria-labelledby="navbarDropdown"
+                                  style={{
+                                    width: "50px !important",
+                                    textAlign: "center",
+                                  }}
+                                >
+                                  <li>
+                                    <div
+                                      onClick={(e) => showCategory(category.id)}
+                                      className="dropdown-item"
+                                      data-bs-toggle="modal"
+                                      data-bs-target="#exampleModal"
+                                    >
+                                      View
+                                    </div>
+                                  </li>
+                                  <li>
+                                    <Link
+                                      to={`/edit-category/${category.id}`}
+                                      className=" dropdown-item"
+                                    >
+                                      Edit
+                                    </Link>
+                                  </li>
+                                  <li>
+                                    <div
+                                      className="dropdown-item text-danger"
+                                      onClick={(e) => submit(category.id)}
+                                    >
+                                      Delete
+                                    </div>
+                                  </li>
+                                </ul>
+                              </div>
+
                               <div
                                 className="modal fade p-relative"
                                 id="exampleModal"

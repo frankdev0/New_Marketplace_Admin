@@ -21,6 +21,9 @@ height: 40px;
 }
 
 .product-info{
+
+     width: 340px;
+height: 270px;
     border: 1px solid #DDDDDD;
     border-radius: 10px;
 }

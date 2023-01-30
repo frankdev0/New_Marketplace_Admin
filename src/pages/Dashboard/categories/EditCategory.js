@@ -3,15 +3,15 @@ import { Iconly } from "react-iconly";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { axios } from "../../../components/baseUrl";
 import SellersSidebar from "../dashboardComponents/SideBar";
-import "react-toastify/dist/ReactToastify.css";
-import { toast, ToastContainer } from "react-toastify";
+import { ReactNotifications } from "react-notifications-component";
+import "react-notifications-component/dist/theme.css";
+import { Store } from "react-notifications-component";
 
 const EditCategory = () => {
   const [category, setCategory] = useState("");
   const [id, setId] = useState(null);
-
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-
   const { categoryId } = useParams();
 
   const getCategory = async () => {
@@ -30,31 +30,57 @@ const EditCategory = () => {
   }, []);
 
   const handleUpdate = async (e) => {
+    setLoading(true);
     try {
       e.preventDefault();
       console.log(category);
       const { data } = await axios.patch(`/category/${id}`, {
         category: category,
       });
+      setLoading(false);
       console.log("category created", data);
       setTimeout(() => {
         navigate(-1);
       }, 2000);
-      toast.success("UPDATED SUCCESSFULLY", {
-        position: "top-right",
-        autoClose: 4000,
-        pauseHover: true,
-        draggable: true,
+      Store.addNotification({
+        title: "Successful!",
+        message: `Successfully Edited Category`,
+        type: "success",
+        insert: "top",
+        container: "top-right",
+        animationIn: ["animate__animated", "animate__fadeIn"],
+        animationOut: ["animate__animated", "animate__fadeOut"],
+        dismiss: {
+          duration: 3000,
+          onScreen: true,
+        },
+        isMobile: true,
+        breakpoint: 768,
       });
     } catch (error) {
-      console.log(error);
+      setLoading(false);
+      Store.addNotification({
+        title: "Failed",
+        message: `${error.response.data.errors[0].message}`,
+        type: "danger",
+        insert: "top",
+        container: "top-right",
+        animationIn: ["animate__animated", "animate__fadeIn"],
+        animationOut: ["animate__animated", "animate__fadeOut"],
+        dismiss: {
+          duration: 3000,
+          onScreen: true,
+        },
+        isMobile: true,
+        breakpoint: 768,
+      });
     }
   };
   return (
     <>
       <div>
         <div className="grid-container">
-          <ToastContainer />
+          <ReactNotifications />
           <header className="header">
             <div className="header__message">
               <h2>Create New Category</h2>
@@ -96,7 +122,17 @@ const EditCategory = () => {
                         value={category}
                       />
 
-                      <button className="btn btn-dark">Submit</button>
+                      {loading ? (
+                        <button type="submit" className="btn btn-dark">
+                          <span
+                            className="spinner-border spinner-border-sm"
+                            role="status"
+                            aria-hidden="true"
+                          ></span>
+                        </button>
+                      ) : (
+                        <button className="btn btn-dark">Submit</button>
+                      )}
                     </div>
                   </form>
                 </div>

@@ -3,12 +3,15 @@ import { Iconly } from "react-iconly";
 import { Link, useNavigate } from "react-router-dom";
 import { axios } from "../../../components/baseUrl";
 import SellersSidebar from "../dashboardComponents/SideBar";
-import "react-toastify/dist/ReactToastify.css";
-import { toast, ToastContainer } from "react-toastify";
+import { ReactNotifications } from "react-notifications-component";
+import "react-notifications-component/dist/theme.css";
+import { Store } from "react-notifications-component";
 
 const CreateCategories = () => {
   const [category, setCategory] = useState("");
-
+  const [image, setImage] = useState();
+  const [icon, setIcon] = useState();
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -16,31 +19,71 @@ const CreateCategories = () => {
   };
 
   const handleSubmit = async (e) => {
-    console.log("category", category);
+    setLoading(true);
     try {
+      const jsonData = {
+        categoryName: category.categoryName,
+      };
+      console.log("jsonData", jsonData);
+      const formData = new FormData();
+      for (const property in jsonData) {
+        formData.append(`${property}`, jsonData[property]);
+      }
+      console.log("image", image);
+      console.log("icon", icon);
+      formData.append("image", image);
+      formData.append("icon", icon);
+
       e.preventDefault();
-      const { data } = await axios.post("/category", {
-        categoryName: category,
+      const { data } = await axios.post("/category", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       });
+      setLoading(false);
       console.log("category created", data);
       setTimeout(() => {
-        navigate(-1);
+        navigate("/sub-category");
       }, 2000);
-      toast.success("SUCCESSFULLY CREATED CATEGORY", {
-        position: "top-right",
-        autoClose: 4000,
-        pauseHover: true,
-        draggable: true,
+      Store.addNotification({
+        title: "Successful!",
+        message: `successfully created Category`,
+        type: "success",
+        insert: "top",
+        container: "top-right",
+        animationIn: ["animate__animated", "animate__fadeIn"],
+        animationOut: ["animate__animated", "animate__fadeOut"],
+        dismiss: {
+          duration: 3000,
+          onScreen: true,
+        },
+        isMobile: true,
+        breakpoint: 768,
       });
     } catch (error) {
-      console.log(error);
+      setLoading(false);
+      Store.addNotification({
+        title: "Failed",
+        message: `${error.response.data.errors[0].message}`,
+        type: "danger",
+        insert: "top",
+        container: "top-right",
+        animationIn: ["animate__animated", "animate__fadeIn"],
+        animationOut: ["animate__animated", "animate__fadeOut"],
+        dismiss: {
+          duration: 3000,
+          onScreen: true,
+        },
+        isMobile: true,
+        breakpoint: 768,
+      });
     }
   };
   return (
     <>
       <div>
         <div className="grid-container">
-          <ToastContainer />
+          <ReactNotifications />
           <header className="header">
             <div className="header__message">
               <h2>Create New Category</h2>
@@ -95,11 +138,36 @@ const CreateCategories = () => {
                       <input
                         className="form-control my-4"
                         placeholder="Category Name"
-                        name="category"
+                        name="categoryName"
                         onChange={handleChange}
                       />
-
-                      <button className="btn btn-dark">Submit</button>
+                      <div>
+                        <input
+                          name="iamge"
+                          onChange={(e) => setImage(e.target.files[0])}
+                          type="file"
+                        />
+                      </div>
+                      <div>
+                        <input
+                          name="icon"
+                          onChange={(e) => setIcon(e.target.files[0])}
+                          type="file"
+                        />
+                      </div>
+                      {loading ? (
+                        <button type="submit" className="btn btn-dark">
+                          <span
+                            className="spinner-border spinner-border-sm"
+                            role="status"
+                            aria-hidden="true"
+                          ></span>
+                        </button>
+                      ) : (
+                        <button className="btn btn-dark" type="button">
+                          Submit
+                        </button>
+                      )}
                     </div>
                   </form>
                 </div>

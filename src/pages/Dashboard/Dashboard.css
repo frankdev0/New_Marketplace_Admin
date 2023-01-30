@@ -28,6 +28,10 @@ body {
     cursor: pointer;
     padding: 12px;
   }
+
+  .category-dropdown-item{
+    font-size: 0.8rem !important;
+  }
   
   .header {
     grid-area: header;
