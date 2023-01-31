@@ -6,18 +6,14 @@
 }
 
 .box{
-height: 40px;
-    width: 40px;
-    background-color: rgb(110, 130, 130);
+height: 55px;
+    width: 55px;
     margin: auto;
 }
 
 .other-images{
     display: flex;
-    align-content: center;
-    text-align: center;
-    justify-content: center;
-    align-items: center;
+    width: 100%;
 }
 
 .product-info{

@@ -56,6 +56,8 @@ function App() {
         <Route path="/create-category" element={<CreateCategories />} />
         <Route path="/edit-category/:categoryId" element={<EditCategory />} />
         <Route path="/sub-category/:categoryId" element={<SubCategory />} />
+        <Route path="/sub-category/" element={<SubCategory />} />
+
         <Route exact path="/rfqs" element={<SellersRfqs />} />
         <Route exact path="settings" element={<Settings />} />
         <Route path="/disputes" element={<Dispute />} />

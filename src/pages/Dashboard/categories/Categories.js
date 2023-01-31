@@ -8,6 +8,9 @@ import { confirmAlert } from "react-confirm-alert"; // Import
 import "react-confirm-alert/src/react-confirm-alert.css";
 import { AppContext } from "../../../components/AppState";
 import { ProtectedRoutes } from "../../../components/ProtectedRoutes";
+import { ReactNotifications } from "react-notifications-component";
+import "react-notifications-component/dist/theme.css";
+import { Store } from "react-notifications-component";
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);
@@ -31,10 +34,28 @@ const Categories = () => {
     }
   };
 
-  const handleDelete = (categoryId) => {
-    axios.delete(`/category/${categoryId}`).then(() => {
-      getCategory();
-    });
+  const handleDelete = async (categoryId) => {
+    try {
+      await axios.delete(`/category/${categoryId}`).then((response) => {
+        console.log(response);
+      });
+    } catch (error) {
+      Store.addNotification({
+        title: "Failed",
+        message: `${error.response.data.errors[0].message}`,
+        type: "danger",
+        insert: "top",
+        container: "top-right",
+        animationIn: ["animate__animated", "animate__fadeIn"],
+        animationOut: ["animate__animated", "animate__fadeOut"],
+        dismiss: {
+          duration: 3000,
+          onScreen: true,
+        },
+        isMobile: true,
+        breakpoint: 768,
+      });
+    }
   };
 
   const showCategory = (categoryId) => {
@@ -89,6 +110,7 @@ const Categories = () => {
   return (
     <div>
       <div className="grid-container">
+        <ReactNotifications />
         <header className="header">
           <div className="header__message">
             <h2>
@@ -258,7 +280,7 @@ const Categories = () => {
                                           aria-label="Close"
                                         ></button>
                                       </div>
-                                      <div className="modal-body">
+                                      <div className="modal-body d-flex mx-2">
                                         Category: {viewCategory.category}
                                       </div>
                                       <div className="modal-body d-flex mx-2">

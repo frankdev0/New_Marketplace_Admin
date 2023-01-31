@@ -125,7 +125,7 @@ const EditCategory = () => {
                       {loading ? (
                         <button type="submit" className="btn btn-dark">
                           <span
-                            className="spinner-border spinner-border-sm"
+                            className="spinner-border spinner-border-sm mx-4"
                             role="status"
                             aria-hidden="true"
                           ></span>

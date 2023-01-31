@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Iconly } from "react-iconly";
 import { useNavigate, useParams } from "react-router-dom";
 import SellersSidebar from "../dashboardComponents/SideBar";
 // import peer from "../../../assets/img/pear.png";
@@ -13,6 +12,8 @@ const ViewProduct = () => {
   const [loading, setLoading] = useState(true);
   const [currentImage, setCurrentImage] = useState();
   const [productImage, setProductImage] = useState([]);
+  const [productSpecification, setProductSpecification] = useState([]);
+  console.log("productSpecification", productSpecification);
   const { productId } = useParams();
 
   const navigate = useNavigate();
@@ -21,6 +22,8 @@ const ViewProduct = () => {
     setLoading(true);
     axios.get(`/product/${productId}`).then((response) => {
       setViewProduct(response.data.data);
+      const arr = Object.entries(response.data.data.productSpecification);
+      setProductSpecification(arr);
       setProductImage(response.data.data.productImages);
       const mainImage = response.data.data.productImages[0].image;
       setCurrentImage(mainImage);
@@ -105,34 +108,6 @@ const ViewProduct = () => {
             <div className="header__message">
               <h2>Product Details</h2>
             </div>
-            <div className="header__search">
-              <form>
-                <div className="custom__search">
-                  <Iconly
-                    name="Search"
-                    set="light"
-                    primaryColor="#5C5C5C"
-                    size="medium"
-                  />
-                  <input
-                    type="text"
-                    className="form-control custom-style"
-                    id=""
-                    placeholder="Search for orders, inquiries and more"
-                  />
-                </div>
-              </form>
-
-              <div className="notify-wrap position-relative">
-                <Iconly
-                  name="Notification"
-                  set="bulk"
-                  primaryColor="#282828"
-                  size="medium"
-                />
-                <span className="seller icon-notification position-absolute"></span>
-              </div>
-            </div>
           </header>
           <SellersSidebar />
           <main className="main">
@@ -163,12 +138,12 @@ const ViewProduct = () => {
                       className="rectangle"
                       style={{ width: "100%", objectFit: "cover" }}
                     />
-                    <div className="d-flex mt-2 mx-auto other-images">
+                    <div className="d-flex mt-2 other-images">
                       {viewProduct.productImages &&
                         viewProduct.productImages.map((image, index) => {
                           return (
                             <div
-                              className="box mx-1 border border"
+                              className="box mx-1"
                               key={image.id}
                               onClick={(e) => displayImageHandler(index)}
                             >
@@ -176,6 +151,7 @@ const ViewProduct = () => {
                                 src={image.image}
                                 alt="box1"
                                 className="box mx-1"
+                                style={{ width: "100%", objectFit: "cover" }}
                               />
                             </div>
                           );
@@ -187,7 +163,7 @@ const ViewProduct = () => {
                     className="col-5 mx-auto"
                     style={{ width: "371px", height: "208px" }}
                   >
-                    <h6 className="my-3">Product Information</h6>
+                    <h6>Product Information</h6>
                     <div className="product-info my-2 ">
                       <div className="d-flex">
                         <p className="mx-3">Seller's Name: </p>
@@ -199,35 +175,35 @@ const ViewProduct = () => {
                         </p>
                       </div>
                       <div className="d-flex">
-                        <p className="mx-3">Product Name</p>
+                        <p className="mx-3">Product Name:</p>
                         <p className="description-value">
                           {viewProduct.productName}
                         </p>
                       </div>
                       <div className="d-flex">
-                        <p className="mx-3">MOQ</p>
+                        <p className="mx-3">MOQ:</p>
                         <p className="description-value">100MT</p>
                       </div>
                       <div className="d-flex">
-                        <p className="mx-3">Country of Origin</p>
+                        <p className="mx-3">Country of Origin:</p>
                         <p className="description-value">
                           {viewProduct.countryOfOrigin}
                         </p>
                       </div>
                       <div className="d-flex">
-                        <p className="mx-3">Lead Time [Min]</p>
+                        <p className="mx-3">Lead Time [Min]:</p>
                         <p className="description-value">
-                          {viewProduct.minDuration}
+                          {viewProduct.minDuration} weeks
                         </p>
                       </div>
                       <div className="d-flex">
                         <p className="mx-3">Lead Time [Max]</p>
                         <p className="description-value">
-                          {viewProduct.maxDuration}
+                          {viewProduct.maxDuration} weeks
                         </p>
                       </div>
                       <div className="d-flex">
-                        <p className="mx-3">Supply Capacity</p>
+                        <p className="mx-3">Supply Capacity:</p>
                         <p className="description-value">
                           {viewProduct.supplyCapacity}{" "}
                           {viewProduct.unitForSupplyCapacity}
@@ -240,22 +216,16 @@ const ViewProduct = () => {
                     className="col-5 mx-auto"
                     style={{ width: "371px", height: "208px" }}
                   >
-                    <h6 className="my-3">Available Specification</h6>
+                    <h6>Available Specification</h6>
                     <div className="product-info" style={{ textAlign: "left" }}>
                       <div className="d-flex">
-                        <p className="mx-3">Size</p>
+                        <p className="mx-3">Product Specification</p>
                         <p className="description-value">
-                          {viewProduct.productSpecification &&
-                            viewProduct.productSpecification.size}
+                          {productSpecification[0][0]}:{" "}
+                          {productSpecification[0][1]}
                         </p>
                       </div>
-                      <div className="d-flex">
-                        <p className="mx-3">Color</p>
-                        <p className="description-value">
-                          {viewProduct.productSpecification &&
-                            viewProduct.productSpecification.color}
-                        </p>
-                      </div>
+
                       <div className="d-flex">
                         <p className="mx-3">Created At</p>
                         <p className="description-value">
@@ -282,13 +252,7 @@ const ViewProduct = () => {
                           )}
                         </div>
                       </div>
-                      <div className="d-flex">
-                        <p className="mx-3">Category</p>
-                        <p className="description-value">
-                          {viewProduct.parentCategory &&
-                            viewProduct.parentCategory.category}
-                        </p>
-                      </div>
+
                       <div className="d-flex">
                         <p className="mx-3">Sub-Category</p>
                         <p className="description-value">
