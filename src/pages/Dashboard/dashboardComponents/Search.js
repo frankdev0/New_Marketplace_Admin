@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Iconly } from "react-iconly";
 const Search = ({ onSearch }) => {
   const [search, setSearch] = useState("");
 
@@ -12,12 +11,7 @@ const Search = ({ onSearch }) => {
     <div>
       <form>
         <div className="custom__search">
-          <Iconly
-            name="Search"
-            set="light"
-            primaryColor="#5C5C5C"
-            size="medium"
-          />
+          <i className="fa fa-search" aria-hidden="true"></i>
           <input
             type="text"
             className="form-control custom-style"

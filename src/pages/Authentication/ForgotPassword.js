@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { Iconly } from "react-iconly";
 import "./Authentication.css";
 import SiteLogo from "../../assets/img/logo.png";
 import { axios } from "../../components/baseUrl.jsx";
@@ -81,17 +80,6 @@ const ForgotPassword = () => {
                 src={SiteLogo}
                 alt="tofa"
               />
-              <p>
-                <Link>
-                  <Iconly
-                    className="support-icon me-2"
-                    name="InfoCircle"
-                    set="light"
-                    size="medium"
-                  />
-                  Customer Support
-                </Link>
-              </p>
             </div>
             <div className="auth-rhs-content d-flex align-items-center">
               <div className="rhs-inner">

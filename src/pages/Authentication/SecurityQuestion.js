@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Iconly } from "react-iconly";
 import "./Authentication.css";
 import SiteLogo from "../../assets/img/logo.png";
 import { axios } from "../../components/baseUrl.jsx";
@@ -85,17 +84,6 @@ const SecurityQuestion = () => {
           <div className="auth-rhs">
             <div className="auth-rhs-header d-flex justify-content-between">
               <img className="site-logo mobile-only" src={SiteLogo} />
-              <p>
-                <Link>
-                  <Iconly
-                    className="support-icon me-2"
-                    name="InfoCircle"
-                    set="light"
-                    size="medium"
-                  />
-                  Customer Support
-                </Link>
-              </p>
             </div>
             <div className="auth-rhs-content d-flex align-items-center">
               <div className="rhs-inner">

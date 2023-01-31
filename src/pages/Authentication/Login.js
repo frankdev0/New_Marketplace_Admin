@@ -1,6 +1,5 @@
 import React, { useState, useMemo } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { Iconly } from "react-iconly";
 import "./Authentication.css";
 import { axios } from "../../components/baseUrl.jsx";
 import SiteLogo from "../../assets/img/logo.png";
@@ -161,21 +160,15 @@ const Login = () => {
                           onClick={handlePasswordToggle}
                         >
                           {inputType === "password" ? (
-                            <Iconly
-                              className="mt-1 pt-1"
-                              name="Hide"
-                              set="light"
-                              size="medium"
-                              color="#5C5C5C"
-                            />
+                            <i
+                              className="fa fa-eye-slash mt-1 pt-1"
+                              aria-hidden="true"
+                            ></i>
                           ) : (
-                            <Iconly
-                              className="mt-1 pt-1"
-                              name="Show"
-                              set="light"
-                              size="medium"
-                              color="#5C5C5C"
-                            />
+                            <i
+                              className="fa fa-eye mt-1 pt-1"
+                              aria-hidden="true"
+                            ></i>
                           )}
                         </span>
                       </div>

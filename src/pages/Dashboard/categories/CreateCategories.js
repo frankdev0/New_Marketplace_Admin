@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Iconly } from "react-iconly";
 import { Link, useNavigate } from "react-router-dom";
 import { axios } from "../../../components/baseUrl";
 import SellersSidebar from "../dashboardComponents/SideBar";
@@ -107,12 +106,13 @@ const CreateCategories = () => {
               </form> */}
 
               <div className="notify-wrap position-relative">
-                <Iconly
+                <i className="fa fa-bell" aria-hidden="true"></i>
+                {/* <Iconly
                   name="Notification"
                   set="bulk"
                   primaryColor="#282828"
                   size="medium"
-                />
+                /> */}
                 <span className="seller icon-notification position-absolute"></span>
               </div>
             </div>

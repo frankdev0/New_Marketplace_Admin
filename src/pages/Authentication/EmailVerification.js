@@ -1,7 +1,6 @@
 import React from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import SiteLogo from "../../assets/img/logo.png";
-import { Iconly } from "react-iconly";
 
 export default function EmailVerification() {
   const { email } = useParams();
@@ -22,17 +21,6 @@ export default function EmailVerification() {
                 src={SiteLogo}
                 alt="tofa"
               />
-              <p>
-                <Link>
-                  <Iconly
-                    className="support-icon me-2"
-                    name="InfoCircle"
-                    set="light"
-                    size="medium"
-                  />
-                  Customer Supports
-                </Link>
-              </p>
             </div>
             <div className="auth-rhs-content d-flex align-items-center">
               <div className="rhs-inner">

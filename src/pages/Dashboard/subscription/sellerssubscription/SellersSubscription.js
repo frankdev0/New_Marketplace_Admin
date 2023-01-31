@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Iconly } from "react-iconly";
 import SellersSidebar from "../../dashboardComponents/SideBar";
 import { axios } from "../../../../components/baseUrl";
 import { AppContext } from "../../../../components/AppState";
@@ -73,12 +72,7 @@ const SellersSubscription = () => {
           <div className="header__search">
             <form>
               <div className="custom__search">
-                <Iconly
-                  name="Search"
-                  set="light"
-                  primaryColor="#5C5C5C"
-                  size="medium"
-                />
+                <i className="fa fa-search" aria-hidden="true"></i>
                 <input
                   type="text"
                   className="form-control custom-style"
@@ -89,12 +83,7 @@ const SellersSubscription = () => {
             </form>
 
             <div className="notify-wrap position-relative">
-              <Iconly
-                name="Notification"
-                set="bulk"
-                primaryColor="#282828"
-                size="medium"
-              />
+              <i className="fa fa-bell" aria-hidden="true"></i>
               <span className="seller icon-notification position-absolute"></span>
             </div>
           </div>

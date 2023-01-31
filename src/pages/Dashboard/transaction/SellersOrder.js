@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Iconly } from "react-iconly";
 import SellersSidebar from "../dashboardComponents/SideBar";
 import { axios } from "../../../components/baseUrl";
 import { ProtectedRoutes } from "../../../components/ProtectedRoutes";
@@ -116,12 +115,7 @@ const SellersOrder = () => {
             />
 
             <div className="notify-wrap position-relative">
-              <Iconly
-                name="Notification"
-                set="bulk"
-                primaryColor="#282828"
-                size="medium"
-              />
+              <i className="fa fa-bell" aria-hidden="true"></i>
               <span className="seller icon-notification position-absolute"></span>
             </div>
           </div>

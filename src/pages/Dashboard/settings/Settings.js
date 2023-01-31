@@ -1,9 +1,7 @@
 import React, { useState } from "react";
-import { Iconly } from "react-iconly";
 import { Link } from "react-router-dom";
-
-import Avatar from "@mui/material/Avatar";
-import passport from "../../../assets/img/passport.jpg";
+// import Avatar from "@mui/material/Avatar";
+// import passport from "../../../assets/img/passport.jpg";
 import SellersSidebar from "../dashboardComponents/SideBar";
 import { axios } from "../../../components/baseUrl";
 import { ReactNotifications } from "react-notifications-component";
@@ -77,30 +75,8 @@ const Settings = () => {
               <h2>My Account</h2>
             </div>
             <div className="header__search">
-              <form onSubmit={handleSubmit}>
-                <div className="custom__search">
-                  <Iconly
-                    name="Search"
-                    set="light"
-                    primaryColor="#5C5C5C"
-                    size="medium"
-                  />
-                  <input
-                    type="text"
-                    className="form-control custom-style"
-                    id=""
-                    placeholder="Search for orders, inquiries and more"
-                  />
-                </div>
-              </form>
-
               <div className="notify-wrap position-relative">
-                <Iconly
-                  name="Notification"
-                  set="bulk"
-                  primaryColor="#282828"
-                  size="medium"
-                />
+                <i className="fa fa-bell" aria-hidden="true"></i>
                 <span className="seller icon-notification position-absolute"></span>
               </div>
             </div>
@@ -113,11 +89,11 @@ const Settings = () => {
               <div className="overview-card">
                 <div className="seller-profile-card">
                   <div className="seller-profile-pic">
-                    <Avatar
+                    {/* <Avatar
                       alt="Remy Sharp"
                       src={passport}
                       sx={{ width: 100, height: 100 }}
-                    />
+                    /> */}
                   </div>
                   <div className="seller-setting-profile">
                     <h4>Profile</h4>
