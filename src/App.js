@@ -25,6 +25,7 @@ import AppState from "./components/AppState";
 import SubCategory from "./pages/Dashboard/categories/SubCategory";
 import EditCategory from "./pages/Dashboard/categories/EditCategory";
 import Unauthorized from "./pages/Dashboard/unauthorized/Unauthorized";
+import PasswordReset from "./pages/Authentication/PasswordReset";
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
           path="/set-password/:userID/:token"
           element={<ResetPassword />}
         />
+        <Route path="/passwordreset/:token" element={<PasswordReset />} />
         <Route path="/login" element={<Login />} />
         <Route path="/login/:userId/:token" element={<Login />} />
 

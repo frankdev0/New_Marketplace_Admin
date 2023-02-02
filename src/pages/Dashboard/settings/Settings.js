@@ -213,6 +213,8 @@ const Settings = () => {
                             <option>FINANCE</option>
                             <option>WEBSITE_ADMIN</option>
                             <option>SOURCE_PRO_AGENT</option>
+                            <option>AFCTCA</option>
+                            <option>OLD_MUTUAL</option>
                           </select>
                           {/* <input
                             className="form-control"

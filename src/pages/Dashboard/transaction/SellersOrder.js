@@ -185,13 +185,13 @@ const SellersOrder = () => {
                             <th scope="row">{index + 1}</th>
                             <td>
                               <div className="d-flex">
-                                <div className="flex-shrink-0">
+                                {/* <div className="flex-shrink-0">
                                   <img
                                     className="table-product-img"
                                     src=""
                                     alt="..."
                                   />
-                                </div>
+                                </div> */}
                                 <div className="flex-grow-1 ms-3">
                                   <p>
                                     {transaction.product &&
@@ -211,7 +211,7 @@ const SellersOrder = () => {
                               )}
                               {transaction.status === "PROCESSING" && (
                                 <div className="text-primary rounded-pill ">
-                                  CONFIRMED
+                                  PROCESSING
                                 </div>
                               )}
                               {transaction.status === "SHIPPED" && (
@@ -258,4 +258,8 @@ const SellersOrder = () => {
   );
 };
 
-export default ProtectedRoutes(SellersOrder);
+export default ProtectedRoutes(SellersOrder, [
+  "SUPER_ADMIN",
+  "FINANCE",
+  "SOURCE_PRO_ADMIN",
+]);

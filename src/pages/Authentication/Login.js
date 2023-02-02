@@ -84,6 +84,23 @@ const Login = () => {
     } catch (err) {
       setLoading(false);
       localStorage.setItem("user", false);
+      if (!err.response.data.errors) {
+        Store.addNotification({
+          title: "Failed",
+          message: `Network Error, Please Try Again Later.`,
+          type: "danger",
+          insert: "top",
+          container: "top-right",
+          animationIn: ["animate__animated", "animate__fadeIn"],
+          animationOut: ["animate__animated", "animate__fadeOut"],
+          dismiss: {
+            duration: 3000,
+            onScreen: true,
+          },
+          isMobile: true,
+          breakpoint: 768,
+        });
+      }
       if (err.response.data.errors[0].field) {
         setError(
           err.response.data.errors.reduce(function (obj, err) {

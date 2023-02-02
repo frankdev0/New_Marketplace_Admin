@@ -90,7 +90,7 @@ const SecurityQuestion = () => {
                 <h2>Create Password</h2>
                 <div className="auth-account-wrap">
                   <form className="auth-form" onSubmit={handleSubmit}>
-                    <div class="mb-3">
+                    <div className="mb-3">
                       <label for="exampleInputEmail1" className="form-label">
                         Security Question
                       </label>
@@ -123,7 +123,7 @@ const SecurityQuestion = () => {
                         {/* <p className="text-danger">{formErrors.answer}</p> */}
                       </div>
                     </div>
-                    <div class="mb-3">
+                    <div className="mb-3">
                       <label for="exampleInputEmail1" className="form-label">
                         Confirm Password
                       </label>
@@ -162,7 +162,7 @@ const SecurityQuestion = () => {
                     {loading ? (
                       <button type="submit" className="btn btn-danger">
                         <span
-                          class="spinner-border spinner-border-sm"
+                          className="spinner-border spinner-border-sm"
                           role="status"
                           aria-hidden="true"
                         ></span>

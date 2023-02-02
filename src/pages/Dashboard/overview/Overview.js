@@ -60,7 +60,7 @@ const Overview = () => {
             <div className="header__search">
               <form>
                 <div className="custom__search">
-                  <i classNName="fa fa-search" aria-hidden="true"></i>
+                  <i className="fa fa-search" aria-hidden="true"></i>
                   <input
                     type="text"
                     className="form-control custom-style"
@@ -176,4 +176,8 @@ const Overview = () => {
   );
 };
 
-export default ProtectedRoutes(Overview, ["SOURCE_PRO_ADMIN", "SUPER_ADMIN"]);
+export default ProtectedRoutes(Overview, [
+  "SOURCE_PRO_ADMIN",
+  "FINANCE",
+  "SUPER_ADMIN",
+]);

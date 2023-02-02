@@ -74,12 +74,15 @@
 .order-status {
   display: flex;
   align-items: center;
-  justify-content: center;
-  max-width: 15%;
+  justify-content: flex-end;
+  max-width: fit-content;
   text-align: center;
   height: 36px;
   background: #ffffff;
+  color: #10f172;
+  padding: 5px;
   border-radius: 16px;
   box-shadow: 0px 4px 20px rgb(11 34 57 / 12%);
   margin-bottom: 10px;
+  margin-left: 1.3rem;
 }

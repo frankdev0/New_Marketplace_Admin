@@ -20,6 +20,7 @@ const ForgotPassword = () => {
       const forgotPassword = {
         email: email,
       };
+      console.log("forgotPassword", forgotPassword);
       const { data } = await axios.post(
         `/auth/forgot-password`,
         forgotPassword

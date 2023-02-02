@@ -158,7 +158,7 @@ const ResetPassword = () => {
                 <p>Set a new password below for your account</p>
                 <div className="auth-account-wrap">
                   <form onSubmit={handleSubmit} className="auth-form">
-                    <div class="mb-3">
+                    <div className="mb-3">
                       <label for="exampleInputPassword1" className="form-label">
                         New Password
                       </label>
@@ -190,7 +190,7 @@ const ResetPassword = () => {
                       </div>
                       <p className="error-message">{passwordError}</p>
                     </div>
-                    <div class="mb-3">
+                    <div className="mb-3">
                       <label for="exampleInputPassword1" className="form-label">
                         Confirm New Password
                       </label>
@@ -225,7 +225,7 @@ const ResetPassword = () => {
                     {loading ? (
                       <button type="submit" className="btn btn-danger">
                         <span
-                          class="spinner-border spinner-border-sm"
+                          className="spinner-border spinner-border-sm"
                           role="status"
                           aria-hidden="true"
                         ></span>
