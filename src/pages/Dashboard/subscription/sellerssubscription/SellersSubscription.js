@@ -41,7 +41,7 @@ const SellersSubscription = () => {
 
   console.log(user);
 
-  if (user.role === "SOURCE_PRO_ADMIN" && loading) {
+  if (loading) {
     return (
       <div
         className="spinner mx-auto"

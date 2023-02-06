@@ -12,6 +12,7 @@ const SellersRfqs = () => {
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState("");
+  const [noMatch, setNoMatch] = useState(false);
   const ITEMS_PER_PAGE = 5;
   const [totalItems, setTotalItems] = useState(0);
 
@@ -27,6 +28,14 @@ const SellersRfqs = () => {
           comment.productName.toLowerCase().includes(search.toLowerCase()) ||
           comment.termsOfTrade.toLowerCase().includes(search.toLowerCase())
       );
+      if (computedRfqs.length < 1) {
+        setNoMatch(true);
+        setTotalItems(0);
+      } else if (computedRfqs.length > 0) {
+        setNoMatch(false);
+      }
+    } else {
+      setNoMatch(false);
     }
 
     setTotalItems(computedRfqs.length);
@@ -37,7 +46,7 @@ const SellersRfqs = () => {
       (currentPage - 1) * ITEMS_PER_PAGE,
       (currentPage - 1) * ITEMS_PER_PAGE + ITEMS_PER_PAGE
     );
-  }, [rfqs, currentPage, search]);
+  }, [rfqs, currentPage, search, noMatch]);
 
   const getRfqs = async () => {
     try {
@@ -174,12 +183,22 @@ const SellersRfqs = () => {
                 </div>
               </div>
             </div>
-            <PaginationComponent
-              total={totalItems}
-              itemsPerPage={ITEMS_PER_PAGE}
-              currentPage={currentPage}
-              onPageChange={(page) => setCurrentPage(page)}
-            />
+            {noMatch === true ? (
+              <div className="empty-state">
+                <h4>No results found</h4>
+                <p>
+                  No product matched your criteria. Try searching for something
+                  else.
+                </p>
+              </div>
+            ) : (
+              <PaginationComponent
+                total={totalItems}
+                itemsPerPage={ITEMS_PER_PAGE}
+                currentPage={currentPage}
+                onPageChange={(page) => setCurrentPage(page)}
+              />
+            )}
           </main>
         </div>
       </div>
@@ -190,4 +209,5 @@ const SellersRfqs = () => {
 export default ProtectedRoutes(SellersRfqs, [
   "SUPER_ADMIN",
   "SOURCE_PRO_ADMIN",
+  "FINANCE",
 ]);

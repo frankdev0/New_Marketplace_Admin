@@ -1,7 +1,4 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-// import Avatar from "@mui/material/Avatar";
-// import passport from "../../../assets/img/passport.jpg";
 import SellersSidebar from "../dashboardComponents/SideBar";
 import { axios } from "../../../components/baseUrl";
 import { toast, ToastContainer } from "react-toastify";
@@ -53,7 +50,7 @@ const Settings = () => {
           <ToastContainer />
           <header className="header">
             <div className="header__message">
-              <h2>My Account</h2>
+              <h2>User</h2>
             </div>
             <div className="header__search">
               <div className="notify-wrap position-relative">
@@ -68,19 +65,8 @@ const Settings = () => {
           <main className="main">
             <div className="main-overview">
               <div className="overview-card">
-                <div className="seller-profile-card">
-                  <div className="seller-profile-pic">
-                    {/* <Avatar
-                      alt="Remy Sharp"
-                      src={passport}
-                      sx={{ width: 100, height: 100 }}
-                    /> */}
-                  </div>
-                  <div className="seller-setting-profile">
-                    <h4>Profile</h4>
-                    <p>Update your profile picture and personal details</p>
-                    <Link to="#">Update your profile</Link>
-                  </div>
+                <div>
+                  <h4>Create New User Role</h4>
                 </div>
 
                 <div className="seller-setting-form">

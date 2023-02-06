@@ -15,7 +15,7 @@ const ProductListing = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [noMatch, setNoMatch] = useState(false);
   const [totalItems, setTotalItems] = useState(0);
-  const ITEMS_PER_PAGE = 5;
+  const ITEMS_PER_PAGE = 10;
 
   const { user, activitySummary } = useContext(AppContext);
   console.log("this is my user", user);
@@ -39,15 +39,17 @@ const ProductListing = () => {
 
   const commentsData = useMemo(() => {
     let computedProducts = products;
+    console.log("computedProducts", computedProducts);
 
     if (search) {
       computedProducts = computedProducts.filter(
         (comment) =>
           comment.productName.toLowerCase().includes(search.toLowerCase()) ||
-          comment.createdBy.firstName
-            .toLowerCase()
-            .includes(search.toLowerCase()) ||
-          comment.status.toLowerCase().includes(search.toLowerCase())
+          (comment.createdBy &&
+            comment.createdBy.firstName
+              .toLowerCase()
+              .includes(search.toLowerCase())) ||
+          comment.productStatus.toLowerCase().includes(search.toLowerCase())
       );
       if (computedProducts.length < 1) {
         setNoMatch(true);
@@ -61,13 +63,11 @@ const ProductListing = () => {
 
     setTotalItems(computedProducts.length);
 
-    //currentPage Slice
-
     return computedProducts.slice(
       (currentPage - 1) * ITEMS_PER_PAGE,
       (currentPage - 1) * ITEMS_PER_PAGE + ITEMS_PER_PAGE
     );
-  }, [products, currentPage, search]);
+  }, [products, currentPage, search, noMatch]);
 
   if (loading) {
     return (
@@ -209,7 +209,7 @@ const ProductListing = () => {
                                   product.createdBy.LastName
                                 }`}
                               </td>
-                              {/* <td>{product.supplyCapacity}</td> */}
+
                               <td>
                                 {product.productStatus === "PENDING" && (
                                   <div className="text-warning rounded-pill">
@@ -227,11 +227,7 @@ const ProductListing = () => {
                                   </div>
                                 )}
                               </td>
-                              {/* <td>
-                                <div className="text-danger">
-                                  {product.productStatus}
-                                </div>
-                              </td> */}
+
                               <td>
                                 <Link to={`/view-product/${product.id}`}>
                                   view
@@ -255,7 +251,7 @@ const ProductListing = () => {
               <div className="empty-state">
                 <h4>No results found</h4>
                 <p>
-                  No order matched your criteria. Try searching for something
+                  No product matched your criteria. Try searching for something
                   else.
                 </p>
               </div>
@@ -274,4 +270,8 @@ const ProductListing = () => {
   );
 };
 
-export default ProtectedRoutes(ProductListing, ["SUPER_ADMIN", "BUYER"]);
+export default ProtectedRoutes(ProductListing, [
+  "SUPER_ADMIN",
+  "BUYER",
+  "FINANCE",
+]);

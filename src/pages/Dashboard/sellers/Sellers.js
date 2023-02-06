@@ -14,6 +14,7 @@ const Sellers = () => {
   const [viewLoader, setViewLoader] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState("");
+  const [noMatch, setNoMatch] = useState(false);
   const ITEMS_PER_PAGE = 5;
   const [totalItems, setTotalItems] = useState(0);
   const [summary, setSummary] = useState("");
@@ -30,6 +31,14 @@ const Sellers = () => {
           comment.firstName.toLowerCase().includes(search.toLowerCase()) ||
           comment.hearAboutUs.toLowerCase().includes(search.toLowerCase())
       );
+      if (computedSellers.length < 1) {
+        setNoMatch(true);
+        setTotalItems(0);
+      } else if (computedSellers.length > 0) {
+        setNoMatch(false);
+      }
+    } else {
+      setNoMatch(false);
     }
 
     setTotalItems(computedSellers.length);
@@ -40,13 +49,13 @@ const Sellers = () => {
       (currentPage - 1) * ITEMS_PER_PAGE,
       (currentPage - 1) * ITEMS_PER_PAGE + ITEMS_PER_PAGE
     );
-  }, [sellers, currentPage, search]);
+  }, [sellers, currentPage, search, noMatch]);
 
   useEffect(() => {
     axios.get("/auth/current-user").then((res) => {
       const user = res.data.currentUser;
       console.log("my first user", user.role);
-      if (user.role === "SUPER_ADMIN") {
+      if (user.role === "SUPER_ADMIN" || user.role === "FINANCE") {
         console.log("my second user", user.role);
         axios.get("/auth/users?role=SELLER").then((res) => {
           setSellers(res.data.data);
@@ -497,16 +506,26 @@ const Sellers = () => {
               </div>
             </div>
           </div>
-          <PaginationComponent
-            total={totalItems}
-            itemsPerPage={ITEMS_PER_PAGE}
-            currentPage={currentPage}
-            onPageChange={(page) => setCurrentPage(page)}
-          />
+          {noMatch === true ? (
+            <div className="empty-state">
+              <h4>No results found</h4>
+              <p>
+                No search matched your criteria. Try searching for something
+                else.
+              </p>
+            </div>
+          ) : (
+            <PaginationComponent
+              total={totalItems}
+              itemsPerPage={ITEMS_PER_PAGE}
+              currentPage={currentPage}
+              onPageChange={(page) => setCurrentPage(page)}
+            />
+          )}
         </main>
       </div>
     </>
   );
 };
 
-export default ProtectedRoutes(Sellers);
+export default ProtectedRoutes(Sellers, ["SUPER_ADMIN", "FINANCE"]);
