@@ -2,9 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { axios } from "../../../components/baseUrl";
 import SellersSidebar from "../dashboardComponents/SideBar";
-import { ReactNotifications } from "react-notifications-component";
-import "react-notifications-component/dist/theme.css";
-import { Store } from "react-notifications-component";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const SubCategory = () => {
   const [subCategory, setSubCategory] = useState("");
@@ -37,37 +36,19 @@ const SubCategory = () => {
       setTimeout(() => {
         navigate("/categories");
       }, 2000);
-      Store.addNotification({
-        title: "Successful!",
-        message: `successfully created Subcategory`,
-        type: "success",
-        insert: "top",
-        container: "top-right",
-        animationIn: ["animate__animated", "animate__fadeIn"],
-        animationOut: ["animate__animated", "animate__fadeOut"],
-        dismiss: {
-          duration: 3000,
-          onScreen: true,
-        },
-        isMobile: true,
-        breakpoint: 768,
+      toast.success("successfully created Subcategory", {
+        position: "top-right",
+        autoClose: 2000,
+        pauseHover: true,
+        draggable: true,
       });
     } catch (error) {
       setLoading(false);
-      Store.addNotification({
-        title: "Failed",
-        message: `${error.response.data.errors[0].message}`,
-        type: "danger",
-        insert: "top",
-        container: "top-right",
-        animationIn: ["animate__animated", "animate__fadeIn"],
-        animationOut: ["animate__animated", "animate__fadeOut"],
-        dismiss: {
-          duration: 3000,
-          onScreen: true,
-        },
-        isMobile: true,
-        breakpoint: 768,
+      toast.error(`${error.response.data.errors[0].message}`, {
+        position: "top-right",
+        autoClose: 4000,
+        pauseHover: true,
+        draggable: true,
       });
     }
   };
@@ -91,7 +72,7 @@ const SubCategory = () => {
     <>
       <div>
         <div className="grid-container">
-          <ReactNotifications />
+          <ToastContainer />
           <header className="header">
             <div className="header__message">
               <h2>Create New Category</h2>

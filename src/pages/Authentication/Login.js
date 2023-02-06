@@ -1,12 +1,11 @@
 import React, { useState, useMemo } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import "./Authentication.css";
-import { axios } from "../../components/baseUrl.jsx";
+import { axios } from "../../components/baseUrl";
 import SiteLogo from "../../assets/img/logo.png";
-import { ReactNotifications } from "react-notifications-component";
-import "react-notifications-component/dist/theme.css";
-import { Store } from "react-notifications-component";
 import swal from "sweetalert";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
   const [inputType, setInputType] = useState("password");
@@ -31,20 +30,11 @@ const Login = () => {
           token,
         });
         console.log("dataaa", data);
-        Store.addNotification({
-          title: "Success!",
-          message: "Your email has been successfully verified",
-          type: "success",
-          insert: "top",
-          container: "top-right",
-          animationIn: ["animate__animated", "animate__fadeIn"],
-          animationOut: ["animate__animated", "animate__fadeOut"],
-          dismiss: {
-            duration: 3000,
-            onScreen: true,
-          },
-          isMobile: true,
-          breakpoint: 768,
+        toast.success("Your email has been successfully verified", {
+          position: "top-right",
+          autoClose: 2000,
+          pauseHover: true,
+          draggable: true,
         });
       }
     })();
@@ -85,20 +75,11 @@ const Login = () => {
       setLoading(false);
       localStorage.setItem("user", false);
       if (!err.response.data.errors) {
-        Store.addNotification({
-          title: "Failed",
-          message: `Network Error, Please Try Again Later.`,
-          type: "danger",
-          insert: "top",
-          container: "top-right",
-          animationIn: ["animate__animated", "animate__fadeIn"],
-          animationOut: ["animate__animated", "animate__fadeOut"],
-          dismiss: {
-            duration: 3000,
-            onScreen: true,
-          },
-          isMobile: true,
-          breakpoint: 768,
+        toast.error("Network Error, Please Try Again Later.", {
+          position: "top-right",
+          autoClose: 4000,
+          pauseHover: true,
+          draggable: true,
         });
       }
       if (err.response.data.errors[0].field) {
@@ -117,8 +98,8 @@ const Login = () => {
   return (
     <>
       <div>
+        <ToastContainer />
         <section className="auth">
-          <ReactNotifications />
           <div className="auth-lhs">
             <div className="auth-lhs-header">
               <img className="site-logo" src={SiteLogo} alt="tofa" />

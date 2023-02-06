@@ -4,9 +4,8 @@ import { Link } from "react-router-dom";
 // import passport from "../../../assets/img/passport.jpg";
 import SellersSidebar from "../dashboardComponents/SideBar";
 import { axios } from "../../../components/baseUrl";
-import { ReactNotifications } from "react-notifications-component";
-import "react-notifications-component/dist/theme.css";
-import { Store } from "react-notifications-component";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Settings = () => {
   const [loading, setLoading] = useState(false);
@@ -29,39 +28,21 @@ const Settings = () => {
     console.log(userRole);
     try {
       const { data } = await axios.post("/auth/admin-register-user", userRole);
-      Store.addNotification({
-        title: "Successful!",
-        message: `A user has been created successfully`,
-        type: "success",
-        insert: "top",
-        container: "top-right",
-        animationIn: ["animate__animated", "animate__fadeIn"],
-        animationOut: ["animate__animated", "animate__fadeOut"],
-        dismiss: {
-          duration: 3000,
-          onScreen: true,
-        },
-        isMobile: true,
-        breakpoint: 768,
+      toast.success("A User has been created successfully", {
+        position: "top-right",
+        autoClose: 2000,
+        pauseHover: true,
+        draggable: true,
       });
       console.log(data);
     } catch (error) {
       setLoading(false);
       console.log(error);
-      Store.addNotification({
-        title: "Failed",
-        message: `${error.response.data.errors[0].message}`,
-        type: "danger",
-        insert: "top",
-        container: "top-right",
-        animationIn: ["animate__animated", "animate__fadeIn"],
-        animationOut: ["animate__animated", "animate__fadeOut"],
-        dismiss: {
-          duration: 3000,
-          onScreen: true,
-        },
-        isMobile: true,
-        breakpoint: 768,
+      toast.error(`${error.response.data.errors[0].message}`, {
+        position: "top-right",
+        autoClose: 4000,
+        pauseHover: true,
+        draggable: true,
       });
     }
   };
@@ -69,7 +50,7 @@ const Settings = () => {
     <>
       <div>
         <div className="grid-container">
-          <ReactNotifications />
+          <ToastContainer />
           <header className="header">
             <div className="header__message">
               <h2>My Account</h2>

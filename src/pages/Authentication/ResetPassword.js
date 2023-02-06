@@ -2,11 +2,9 @@ import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "./Authentication.css";
 import SiteLogo from "../../assets/img/logo.png";
-import { axios } from "../../components/baseUrl.jsx";
-
-import { ReactNotifications } from "react-notifications-component";
-import "react-notifications-component/dist/theme.css";
-import { Store } from "react-notifications-component";
+import { axios } from "../../components/baseUrl";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ResetPassword = () => {
   const [loading, setLoading] = useState(false);
@@ -21,9 +19,6 @@ const ResetPassword = () => {
     confirmPassword: "",
   });
   const { userID, token } = useParams();
-
-  console.log("my user Id", userID);
-  console.log("my TOKEN", token);
 
   const handlePasswordChange = (evnt) => {
     const passwordInputValue = evnt.target.value.trim();
@@ -108,20 +103,11 @@ const ResetPassword = () => {
         password: "",
         confirmPassword: "",
       });
-      Store.addNotification({
-        title: "Successful!",
-        message: `Your Password has been changed successfully`,
-        type: "success",
-        insert: "top",
-        container: "top-right",
-        animationIn: ["animate__animated", "animate__fadeIn"],
-        animationOut: ["animate__animated", "animate__fadeOut"],
-        dismiss: {
-          duration: 3000,
-          onScreen: true,
-        },
-        isMobile: true,
-        breakpoint: 768,
+      toast.success("Your Password has been changed successfully", {
+        position: "top-right",
+        autoClose: 2000,
+        pauseHover: true,
+        draggable: true,
       });
       setTimeout(() => {
         navigate(`/login`);
@@ -137,8 +123,8 @@ const ResetPassword = () => {
   return (
     <>
       <div>
+        <ToastContainer />
         <section className="auth">
-          <ReactNotifications />
           <div className="auth-lhs">
             <div className="auth-lhs-header">
               <img className="site-logo" src={SiteLogo} alt="tofa" />

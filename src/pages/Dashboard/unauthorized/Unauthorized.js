@@ -27,10 +27,10 @@ const Unauthorized = () => {
             <div className="unauthorized-image-container">
               <div className="unauthorized-image">
                 <div className="vector">
-                  <img src={vector} alt="..." />
+                  <img src={vector} alt="vector" />
                 </div>
                 <div className="square">
-                  <img src={square} alt="..." />
+                  <img src={square} alt="square" />
                   <div className="notfound">
                     {/* <h2>404</h2> */}
                     <p>UNAUTHORIZED</p>
@@ -39,16 +39,16 @@ const Unauthorized = () => {
 
                 <div className="unathorized-oval">
                   <div className="oval">
-                    <img src={oval} alt="..." />
+                    <img src={oval} alt="oval" />
                   </div>
                 </div>
               </div>
               <div className="hands">
                 <div className="hand2">
-                  <img src={hand2} alt="" />
+                  <img src={hand2} alt="hand" />
                 </div>
                 <div className="hand1">
-                  <img src={hand} alt="" />
+                  <img src={hand} alt="hand" />
                 </div>
               </div>
             </div>

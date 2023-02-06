@@ -8,9 +8,8 @@ import { confirmAlert } from "react-confirm-alert"; // Import
 import "react-confirm-alert/src/react-confirm-alert.css";
 import { AppContext } from "../../../components/AppState";
 import { ProtectedRoutes } from "../../../components/ProtectedRoutes";
-import { ReactNotifications } from "react-notifications-component";
-import "react-notifications-component/dist/theme.css";
-import { Store } from "react-notifications-component";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);
@@ -40,20 +39,11 @@ const Categories = () => {
         console.log(response);
       });
     } catch (error) {
-      Store.addNotification({
-        title: "Failed",
-        message: `${error.response.data.errors[0].message}`,
-        type: "danger",
-        insert: "top",
-        container: "top-right",
-        animationIn: ["animate__animated", "animate__fadeIn"],
-        animationOut: ["animate__animated", "animate__fadeOut"],
-        dismiss: {
-          duration: 3000,
-          onScreen: true,
-        },
-        isMobile: true,
-        breakpoint: 768,
+      toast.error(`${error.response.data.errors[0].message}`, {
+        position: "top-right",
+        autoClose: 4000,
+        pauseHover: true,
+        draggable: true,
       });
     }
   };
@@ -110,7 +100,7 @@ const Categories = () => {
   return (
     <div>
       <div className="grid-container">
-        <ReactNotifications />
+        <ToastContainer />
         <header className="header">
           <div className="header__message">
             <h2>

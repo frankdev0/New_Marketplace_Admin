@@ -2,10 +2,9 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Authentication.css";
 import SiteLogo from "../../assets/img/logo.png";
-import { axios } from "../../components/baseUrl.jsx";
-import { ReactNotifications } from "react-notifications-component";
-import "react-notifications-component/dist/theme.css";
-import { Store } from "react-notifications-component";
+import { axios } from "../../components/baseUrl";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const SecurityQuestion = () => {
   const navigate = useNavigate();
@@ -34,39 +33,36 @@ const SecurityQuestion = () => {
       );
       console.log(data);
       setEmail("");
-      Store.addNotification({
-        title: "Successful!",
-        message: `A password reset link has been sent to ${email}`,
-        type: "success",
-        insert: "top",
-        container: "top-right",
-        animationIn: ["animate__animated", "animate__fadeIn"],
-        animationOut: ["animate__animated", "animate__fadeOut"],
-        dismiss: {
-          duration: 5000,
-          onScreen: true,
-        },
-        isMobile: true,
-        breakpoint: 768,
+      toast.success(`A password reset link has been sent to ${email}`, {
+        position: "top-right",
+        autoClose: 2000,
+        pauseHover: true,
+        draggable: true,
       });
+      // Store.addNotification({
+      //   title: "Successful!",
+      //   message: `A password reset link has been sent to ${email}`,
+      //   type: "success",
+      //   insert: "top",
+      //   container: "top-right",
+      //   animationIn: ["animate__animated", "animate__fadeIn"],
+      //   animationOut: ["animate__animated", "animate__fadeOut"],
+      //   dismiss: {
+      //     duration: 5000,
+      //     onScreen: true,
+      //   },
+      //   isMobile: true,
+      //   breakpoint: 768,
+      // });
       setLoading(false);
     } catch (error) {
       setLoading(false);
       console.log(error);
-      Store.addNotification({
-        title: "Failed!",
-        message: "Try Again.",
-        type: "danger",
-        insert: "top",
-        container: "top-left",
-        animationIn: ["animate__animated", "animate__fadeIn"],
-        animationOut: ["animate__animated", "animate__fadeOut"],
-        dismiss: {
-          duration: 3000,
-          onScreen: true,
-        },
-        isMobile: true,
-        breakpoint: 768,
+      toast.error("Failed,Try Again Later.", {
+        position: "top-right",
+        autoClose: 4000,
+        pauseHover: true,
+        draggable: true,
       });
     }
   };
@@ -74,8 +70,8 @@ const SecurityQuestion = () => {
   return (
     <>
       <div>
+        <ToastContainer />
         <section className="auth">
-          <ReactNotifications />
           <div className="auth-lhs">
             <div className="auth-lhs-header">
               <img className="site-logo" src={SiteLogo} />
